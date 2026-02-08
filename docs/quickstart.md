@@ -19,17 +19,20 @@ Set `.env` values for Neo4j:
 - `NEO4J_USER` (example: `neo4j`)
 - `NEO4J_PASSWORD`
 
+Set Airflow admin credentials:
+
+- `AIRFLOW_ADMIN_USERNAME`
+- `AIRFLOW_ADMIN_PASSWORD`
+
 ## Start services
 
 ```bash
 docker compose up -d
 ```
 
-If Airflow uses a separate compose file:
+This single compose file starts Neo4j and Airflow together.
 
-```bash
-docker compose -f airflow/docker-compose.yaml up -d
-```
+Airflow UI: `http://localhost:8080`
 
 ## Run ingestion manually
 

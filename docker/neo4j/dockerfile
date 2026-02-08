@@ -1,56 +1,10 @@
-# Neo4j container with APOC and Graph Data Science plugins
 FROM neo4j:5.22.0
 
-# -------------------------------
-# Plugin versions (pin them)
-# -------------------------------
-ENV APOC_VERSION=5.12.0 \
-    GDS_VERSION=2.8.0
-
-# Replace these with official checksums from plugin releases
-ENV APOC_SHA256="REPLACE_WITH_OFFICIAL_APOC_SHA256" \
-    GDS_SHA256="REPLACE_WITH_OFFICIAL_GDS_SHA256"
-
-# -------------------------------
-# Install plugins
-# -------------------------------
-RUN apt-get update && apt-get install -y curl && \
-    mkdir -p /var/lib/neo4j/plugins && \
-    \
-    # Download APOC
-    curl -fSL \
-        https://github.com/neo4j/apoc/releases/download/${APOC_VERSION}/apoc-${APOC_VERSION}-core.jar \
-        -o /var/lib/neo4j/plugins/apoc.jar && \
-    echo "${APOC_SHA256}  /var/lib/neo4j/plugins/apoc.jar" | sha256sum -c - && \
-    \
-    # Download Graph Data Science
-    curl -fSL \
-        https://graphdatascience.ninja/neo4j-graph-data-science-${GDS_VERSION}.jar \
-        -o /var/lib/neo4j/plugins/graph-data-science.jar && \
-    echo "${GDS_SHA256}  /var/lib/neo4j/plugins/graph-data-science.jar" | sha256sum -c - && \
-    \
-    # Fix permissions
-    chown neo4j:neo4j /var/lib/neo4j/plugins/*.jar && \
-    \
-    # Cleanup
-    apt-get remove -y curl && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
-
-# -------------------------------
-# Expose ports
-# -------------------------------
 EXPOSE 7474 7687
 
-# -------------------------------
-# Auth configured at runtime
-# -------------------------------
-# Example:
-# docker run -e NEO4J_AUTH=neo4j/password ...
+# Runtime defaults (overridden by compose/.env)
+ENV NEO4J_USER=neo4j \
+    NEO4J_PASSWORD=test \
+    NEO4J_DATABASE=neo4j
 
-ENV NEO4J_AUTH=neo4j/test
-
-# -------------------------------
-# Start Neo4j
-# -------------------------------
-CMD ["neo4j", "console"]
+CMD ["sh", "-c", "export NEO4J_AUTH=\"${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-test}\"; export NEO4J_dbms_default__database=\"${NEO4J_DATABASE:-neo4j}\"; exec neo4j console"]
