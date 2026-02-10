@@ -67,7 +67,13 @@ docker compose up -d
 ### 4. Run ingestion manually
 
 ```bash
-uv run python etl/ingest_kegg.py
+uv run python etl/ingest_kegg_cli.py
+```
+
+Optional: write results to a JSON file.
+
+```bash
+uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
 ### 5. Start backend API (placeholder app)
