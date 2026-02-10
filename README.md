@@ -1,5 +1,7 @@
 # Metabolic Graph RAG
 
+[![CI](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml)
+
 Metabolic Graph RAG is a foundation for building a metabolic pathway knowledge graph in Neo4j, ingesting data from KEGG, and exposing graph-backed retrieval workflows for backend APIs and agent tooling.
 
 ## Goals
