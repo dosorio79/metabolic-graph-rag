@@ -1,10 +1,3 @@
 FROM neo4j:5.22.0
 
 EXPOSE 7474 7687
-
-# Runtime defaults (overridden by compose/.env)
-ENV NEO4J_USER=neo4j \
-    NEO4J_PASSWORD=test \
-    NEO4J_DATABASE=neo4j
-
-CMD ["sh", "-c", "export NEO4J_AUTH=\"${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-test}\"; export NEO4J_dbms_default__database=\"${NEO4J_DATABASE:-neo4j}\"; exec neo4j console"]

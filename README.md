@@ -51,9 +51,9 @@ cp .env.example .env
 
 Set at least:
 
-- `NEO4J_URI`
-- `NEO4J_USER`
-- `NEO4J_PASSWORD`
+- `APP_NEO4J_URI`
+- `APP_NEO4J_USER`
+- `APP_NEO4J_PASSWORD`
 
 ### 3. Start Neo4j
 
