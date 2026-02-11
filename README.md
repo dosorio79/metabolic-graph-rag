@@ -1,5 +1,7 @@
 # Metabolic Graph RAG
 
+[![CI](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml)
+
 Metabolic Graph RAG is a foundation for building a metabolic pathway knowledge graph in Neo4j, ingesting data from KEGG, and exposing graph-backed retrieval workflows for backend APIs and agent tooling.
 
 ## Goals
@@ -49,9 +51,9 @@ cp .env.example .env
 
 Set at least:
 
-- `NEO4J_URI`
-- `NEO4J_USER`
-- `NEO4J_PASSWORD`
+- `APP_NEO4J_URI`
+- `APP_NEO4J_USER`
+- `APP_NEO4J_PASSWORD`
 
 ### 3. Start Neo4j
 
@@ -65,7 +67,13 @@ docker compose up -d
 ### 4. Run ingestion manually
 
 ```bash
-uv run python etl/ingest_kegg.py
+uv run python etl/ingest_kegg_cli.py
+```
+
+Optional: write results to a JSON file.
+
+```bash
+uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
 ### 5. Start backend API (placeholder app)

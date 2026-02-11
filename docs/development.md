@@ -27,7 +27,8 @@
 
 ## Minimal Verification Checklist
 
-- `uv run python etl/ingest_kegg.py` succeeds.
+- `uv run python etl/ingest_kegg_cli.py` succeeds.
+- `uv run python scripts/test_neo4j_loader.py` succeeds.
 - Neo4j contains expected nodes/relationships.
 - Backend app starts without import/runtime errors.
 

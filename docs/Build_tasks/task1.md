@@ -129,7 +129,7 @@ At repo root:
 Run:
 
     docker run -d \
-      --name neo4j-metabolism \
+    --name neo4j-metabolism \
       -p 7474:7474 -p 7687:7687 \
       -e NEO4J_AUTH=neo4j/test \
       neo4j:latest
