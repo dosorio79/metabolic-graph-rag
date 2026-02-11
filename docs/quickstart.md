@@ -15,9 +15,16 @@ cp .env.example .env
 
 Set `.env` values for Neo4j:
 
-- `NEO4J_URI` (example: `bolt://localhost:7687`)
-- `NEO4J_USER` (example: `neo4j`)
-- `NEO4J_PASSWORD`
+Container settings:
+
+- `NEO4J_AUTH` (example: `neo4j/testtest`)
+- `NEO4J_dbms_default__database` (example: `neo4j`)
+
+App/client settings:
+
+- `APP_NEO4J_URI` (example: `bolt://localhost:7687`)
+- `APP_NEO4J_USER` (example: `neo4j`)
+- `APP_NEO4J_PASSWORD`
 
 Set Airflow admin credentials:
 
@@ -37,7 +44,19 @@ Airflow UI: `http://localhost:8080`
 ## Run ingestion manually
 
 ```bash
-uv run python etl/ingest_kegg.py
+uv run python etl/ingest_kegg_cli.py
+```
+
+Optional: write the raw reactions to disk.
+
+```bash
+uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
+```
+
+## Load reactions into Neo4j
+
+```bash
+uv run python scripts/test_neo4j_loader.py
 ```
 
 ## Verify graph data

@@ -46,9 +46,10 @@ KEGG API
 
 ## Data Model (Initial)
 
-- `Pathway` nodes
+- `Compound` nodes
 - `Reaction` nodes
 - Relationships:
-  - `(:Pathway)-[:HAS_REACTION]->(:Reaction)`
+  - `(:Compound)-[:CONSUMED_BY {coef}]->(:Reaction)`
+  - `(:Reaction)-[:PRODUCES {coef}]->(:Compound)`
 
 This can be extended later with compounds, enzymes, and gene mappings.

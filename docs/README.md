@@ -8,6 +8,7 @@ This directory contains practical guidance for building and evolving the project
 - `docs/quickstart.md`: Local setup and first execution path.
 - `docs/architecture.md`: Component boundaries and data flow.
 - `docs/development.md`: Day-to-day workflow and coding expectations.
+- `scripts/test_neo4j_loader.py`: Manual loader smoke test.
 
 ## Suggested Reading Order
 
