@@ -14,7 +14,9 @@ Graph model:
 from __future__ import annotations
 
 import os
-from typing import Any, Iterable
+from typing import Iterable
+
+from etl.models.kegg_types import RawReactionRecord
 
 from neo4j import GraphDatabase
 
@@ -40,14 +42,14 @@ def get_driver(
     return GraphDatabase.driver(uri, auth=(user, resolved_password))
 
 
-def load_reactions(driver, reactions: Iterable[dict[str, Any]]) -> None:
+def load_reactions(driver, reactions: Iterable[RawReactionRecord]) -> None:
     """Load parsed reactions into Neo4j."""
     with driver.session() as session:
         for reaction in reactions:
             session.execute_write(_load_single_reaction, reaction)
 
 
-def _load_single_reaction(tx, reaction: dict[str, Any]) -> None:
+def _load_single_reaction(tx, reaction: RawReactionRecord) -> None:
     """Load one reaction and its compounds."""
     reaction_id = reaction["reaction_id"]
     reversible = reaction.get("reversible", True)

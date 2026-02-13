@@ -1,6 +1,9 @@
 PYTHON := .venv/bin/python
 
-.PHONY: test
+.PHONY: test test-airflow
 
 test:
 	$(PYTHON) -m pytest
+
+test-airflow:
+	$(PYTHON) -m pytest tests/airflow
