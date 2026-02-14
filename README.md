@@ -58,10 +58,16 @@ Set at least:
 ### 3. Start Neo4j
 
 Use your preferred method (local Docker, compose, or managed instance).  
-If using Docker compose in this repo (also starts Airflow via the official image):
+If using Docker compose in this repo (Neo4j only):
+
+```bash
+docker compose up -d
+
+To start the archived Airflow stack (optional):
 
 ```bash
 docker compose -f orchestration/airflow/docker-compose.yml up -d
+```
 ```
 
 ### 4. Run ingestion manually

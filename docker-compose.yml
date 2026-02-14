@@ -1,0 +1,19 @@
+services:
+  neo4j:
+    build:
+      context: .
+      dockerfile: docker/neo4j/dockerfile
+    container_name: neo4j-metabolism
+    env_file:
+      - .env
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    restart: unless-stopped
+
+volumes:
+  neo4j_data:
+  neo4j_logs:

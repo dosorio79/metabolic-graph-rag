@@ -34,11 +34,17 @@ Set Airflow admin credentials (used by the Airflow Docker image on first boot):
 ## Start services
 
 ```bash
-docker compose -f orchestration/airflow/docker-compose.yml up -d
+docker compose up -d
 ```
 
-This single compose file starts Neo4j and Airflow together (Airflow runs from the
-official `apache/airflow` image). Airflow is archived under `orchestration/airflow/`.
+This compose file starts Neo4j only. Airflow is archived under
+`orchestration/airflow/` if you need it.
+
+To start Airflow (optional):
+
+```bash
+docker compose -f orchestration/airflow/docker-compose.yml up -d
+```
 
 Airflow UI: `http://localhost:8080`
 
