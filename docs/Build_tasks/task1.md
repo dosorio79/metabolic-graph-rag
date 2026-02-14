@@ -71,11 +71,11 @@ Dependencies installed via uv.
 
 Script:
 
-    etl/ingest_kegg.py
+    etl/ingest_kegg_cli.py
 
 Must run manually:
 
-    uv run python etl/ingest_kegg.py
+    uv run python etl/ingest_kegg_cli.py
 
 ---
 
@@ -217,7 +217,7 @@ Detailed metabolite parsing will be improved later.
 
 Run:
 
-    uv run python etl/ingest_kegg.py
+    uv run python etl/ingest_kegg_cli.py
 
 Check graph:
 
@@ -239,7 +239,7 @@ Minimal DAG:
     import subprocess
 
     def ingest():
-        subprocess.run(["python", "etl/ingest_kegg.py"])
+        subprocess.run(["python", "etl/ingest_kegg_cli.py"])
 
     with DAG(
         dag_id="kegg_ingestion",

@@ -26,7 +26,7 @@ App/client settings:
 - `APP_NEO4J_USER` (example: `neo4j`)
 - `APP_NEO4J_PASSWORD`
 
-Set Airflow admin credentials:
+Set Airflow admin credentials (used by the Airflow Docker image on first boot):
 
 - `AIRFLOW_ADMIN_USERNAME`
 - `AIRFLOW_ADMIN_PASSWORD`
@@ -37,7 +37,8 @@ Set Airflow admin credentials:
 docker compose up -d
 ```
 
-This single compose file starts Neo4j and Airflow together.
+This single compose file starts Neo4j and Airflow together (Airflow runs from the
+official `apache/airflow` image).
 
 Airflow UI: `http://localhost:8080`
 

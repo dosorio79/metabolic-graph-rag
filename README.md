@@ -33,7 +33,7 @@ metabolic-graph-rag/
 - `uv` for dependency and lockfile management
 - Neo4j as graph database
 - FastAPI + Uvicorn for backend API
-- Airflow for scheduled ingestion orchestration
+- Airflow (Docker image) for scheduled ingestion orchestration
 
 ## Quick Start
 
@@ -58,7 +58,7 @@ Set at least:
 ### 3. Start Neo4j
 
 Use your preferred method (local Docker, compose, or managed instance).  
-If using Docker compose in this repo:
+If using Docker compose in this repo (also starts Airflow via the official image):
 
 ```bash
 docker compose up -d
