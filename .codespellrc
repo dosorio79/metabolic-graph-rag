@@ -1,0 +1,2 @@
+[codespell]
+skip = uv.lock,./uv.lock,notebooks/*.ipynb,./notebooks/*.ipynb

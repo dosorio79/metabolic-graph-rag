@@ -16,3 +16,11 @@ dependencies = [
     "structlog<24",
     "uvicorn>=0.40.0",
 ]
+
+[dependency-groups]
+dev = [
+    "codespell>=2.4.1",
+]
+
+[tool.codespell]
+skip = "uv.lock,notebooks/*.ipynb"
