@@ -15,7 +15,7 @@ Metabolic Graph RAG is a foundation for building a metabolic pathway knowledge g
 
 ```text
 metabolic-graph-rag/
-├── airflow/            # DAGs and Airflow local config
+├── orchestration/      # Archived orchestration assets
 ├── etl/                # Fetch, normalize, and load pipeline code
 ├── graph/              # Neo4j client and graph query assets
 ├── backend/            # FastAPI application skeleton
@@ -61,7 +61,7 @@ Use your preferred method (local Docker, compose, or managed instance).
 If using Docker compose in this repo (also starts Airflow via the official image):
 
 ```bash
-docker compose up -d
+docker compose -f orchestration/airflow/docker-compose.yml up -d
 ```
 
 ### 4. Run ingestion manually

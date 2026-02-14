@@ -12,3 +12,5 @@ wheels/
 # Local environment and runtime artifacts
 .env
 airflow/logs/
+airflow/plugins/
+orchestration/airflow/logs/

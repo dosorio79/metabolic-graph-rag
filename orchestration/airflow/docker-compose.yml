@@ -1,28 +1,18 @@
 x-airflow-common: &airflow-common
-  build:
-    context: .
-    dockerfile: docker/airflow/Dockerfile
-  image: metabolic-graph-rag-airflow:3.0.0
+  image: apache/airflow:3.0.0
   env_file:
-    - .env
+    - ../../.env
   environment: &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
-    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: "http://airflow-apiserver:8080/execution"
     AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.session"
-    AIRFLOW__API_AUTH__JWT_SECRET: "${AIRFLOW_API_AUTH_JWT_SECRET:-change-me}"
-    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: "${AIRFLOW_SIMPLE_USERS:-admin:admin}"
-    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE: "/opt/airflow/simple_auth_manager_passwords.json"
-    APP_NEO4J_URI: "bolt://neo4j:7687"
-    NEO4J_URI: "bolt://neo4j:7687"
   volumes:
-    - ./airflow/dags:/opt/airflow/dags
-    - ./airflow/logs:/opt/airflow/logs
-    - ./airflow/plugins:/opt/airflow/plugins
-    - ./etl:/opt/airflow/etl
-    - ./airflow/simple_auth_manager_passwords.json:/opt/airflow/simple_auth_manager_passwords.json
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ../../etl:/opt/airflow/etl
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     postgres:
@@ -35,11 +25,11 @@ services:
   # ---------------------------
   neo4j:
     build:
-      context: .
+      context: ../..
       dockerfile: docker/neo4j/dockerfile
     container_name: neo4j-metabolism
     env_file:
-      - .env
+      - ../../.env
     ports:
       - "7474:7474"
       - "7687:7687"
@@ -75,15 +65,13 @@ services:
     command:
       - -c
       - |
-        mkdir -p /opt/airflow/logs/dag_processor
-        chown -R "${AIRFLOW_UID:-50000}:0" /opt/airflow/logs
-        chown "${AIRFLOW_UID:-50000}:0" /opt/airflow/simple_auth_manager_passwords.json
-        chmod 664 /opt/airflow/simple_auth_manager_passwords.json
-        airflow db migrate
         airflow version
     environment:
       <<: *airflow-common-env
       _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: ${AIRFLOW_ADMIN_USERNAME:-admin}
+      _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:-admin}
     user: "0:0"
     restart: "no"
 

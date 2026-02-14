@@ -40,9 +40,9 @@ KEGG API
 
 - Planning and tool wiring for agentic workflows.
 
-### `airflow/`
+### `orchestration/airflow/`
 
-- Scheduling and orchestration of ingestion jobs (Docker-only runtime).
+- Archived scheduling and orchestration assets (Docker-only runtime).
 
 ## Data Model (Initial)
 
