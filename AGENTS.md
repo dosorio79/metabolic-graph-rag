@@ -41,7 +41,7 @@ Deliver a reliable metabolic graph ingestion and retrieval platform with clear, 
 - `etl/fetch/`: only external-source fetching logic.
 - `etl/normalize/`: deterministic parsing/normalization.
 - `etl/load/`: graph persistence and Cypher execution.
-- `etl/ingest_kegg.py`: orchestration entrypoint for manual runs.
+- `etl/ingest_kegg_cli.py`: orchestration entrypoint for manual runs.
 
 ## Graph Conventions
 

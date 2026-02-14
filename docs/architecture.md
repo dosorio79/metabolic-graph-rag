@@ -42,7 +42,7 @@ KEGG API
 
 ### `airflow/`
 
-- Scheduling and orchestration of ingestion jobs.
+- Scheduling and orchestration of ingestion jobs (Docker-only runtime).
 
 ## Data Model (Initial)
 
