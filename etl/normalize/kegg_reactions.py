@@ -4,6 +4,7 @@ import re
 
 from etl.models.kegg_types import CompoundAmount, ParsedReactionFields
 from etl.normalize.kegg_enzymes import extract_kegg_enzymes
+from etl.normalize.name_utils import normalize_name
 
 
 def extract_kegg_reactions(text: str) -> list[str]:
@@ -29,7 +30,7 @@ def parse_reaction_entry(text: str) -> ParsedReactionFields:
         Parsed reaction fields with empty lists when data is missing.
     """
     equation = _extract_equation(text)
-    name = _extract_field(text, "NAME")
+    name = normalize_name(_extract_field(text, "NAME"))
     definition = _extract_field(text, "DEFINITION")
     enzymes = extract_kegg_enzymes(text)
 

@@ -8,6 +8,7 @@ from etl.fetch.kegg_api import fetch_kegg_data
 from etl.normalize.kegg_modules import extract_kegg_modules
 from etl.models.kegg_types import RawReactionRecord
 from etl.normalize.kegg_reactions import extract_kegg_reactions, parse_reaction_entry
+from etl.normalize.name_utils import normalize_name
 
 
 def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
@@ -91,4 +92,4 @@ def _extract_pathway_name(text: str) -> str | None:
             else:
                 break
 
-    return name or None
+    return normalize_name(name)

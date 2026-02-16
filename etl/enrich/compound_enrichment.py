@@ -10,6 +10,7 @@ import requests
 
 from etl.fetch.kegg_api import fetch_kegg_data
 from etl.models.kegg_types import RawReactionRecord
+from etl.normalize.name_utils import normalize_name
 
 
 def enrich_compound_names(
@@ -88,7 +89,7 @@ def extract_compound_name(entry: str) -> str | None:
 	if not name_line:
 		return None
 
-	return name_line.split(";", 1)[0].strip() or None
+	return normalize_name(name_line.split(";", 1)[0])
 
 
 def load_compound_cache(cache_path: str | Path | None) -> dict[str, str | None]:

@@ -17,29 +17,32 @@ Graph model:
 
 from __future__ import annotations
 
-import os
 from typing import Iterable
 
 from neo4j import GraphDatabase
 
 from etl.models.kegg_types import RawReactionRecord
+from etl.config import get_settings
 
 
 # ---------------------------------------------------------------------
 # Driver
 # ---------------------------------------------------------------------
 def get_driver(
-    uri: str = "bolt://localhost:7687",
-    user: str = "neo4j",
+    uri: str | None = None,
+    user: str | None = None,
     password: str | None = None,
 ):
     """Create a Neo4j driver."""
-    resolved_password = password or os.getenv("APP_NEO4J_PASSWORD")
+    settings = get_settings()
+    resolved_uri = uri or settings.neo4j_uri
+    resolved_user = user or settings.neo4j_user
+    resolved_password = password or settings.neo4j_password
     if not resolved_password:
         raise ValueError(
             "Neo4j password is required. Set APP_NEO4J_PASSWORD or pass password."
         )
-    return GraphDatabase.driver(uri, auth=(user, resolved_password))
+    return GraphDatabase.driver(resolved_uri, auth=(resolved_user, resolved_password))
 
 
 # ---------------------------------------------------------------------
