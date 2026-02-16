@@ -21,7 +21,7 @@ metabolic-graph-rag/
 ├── etl/                # Fetch, normalize, and load pipeline code
 ├── graph/              # Neo4j client and graph query assets
 ├── backend/            # FastAPI retrieval API
-├── rag/                # Retrieval and context assembly logic
+├── backend/app/rag/    # RAG runtime modules (query understanding, retrieval, context, LLM, pipeline)
 ├── agents/             # Planner and tool interfaces
 ├── embeddings/         # Embedding build scripts
 ├── data/               # Raw and normalized local artifacts
@@ -158,7 +158,7 @@ CI includes:
 - KEGG ingestion pipeline is available via CLI.
 - Graph retrieval endpoints are implemented in FastAPI.
 - Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
-- RAG-specific retrieval/ranking layers are next-stage work.
+- Task 3 RAG runtime scaffolding is under `backend/app/rag/`; implementation is in progress.
 
 ## License
 

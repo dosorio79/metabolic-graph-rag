@@ -4,7 +4,6 @@
 - products: list of {id, name, coef}
 - enzymes: list of EC numbers
 
-Deliverables:
 - reaction exists returns 200 with structured payload
 - reaction missing returns 404
 - coefficients are present and numeric
