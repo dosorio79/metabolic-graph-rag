@@ -106,6 +106,40 @@ Open interactive docs at `http://localhost:8000/docs`.
 - `GET /reactions/{reaction_id}`: reaction details, substrates/products, enzymes.
 - `GET /pathways/{pathway_id}`: pathway metadata, reactions, and summary counts.
 
+## Testing
+
+Run active tests (same filter as CI):
+
+```bash
+uv run pytest -m "not archived_airflow"
+```
+
+Or use Makefile shortcuts:
+
+```bash
+make test-active
+make test-backend
+make test-etl
+make test-airflow
+```
+
+Run backend-focused tests only:
+
+```bash
+uv run pytest tests/backend
+```
+
+Run archived Airflow tests separately (optional):
+
+```bash
+uv run pytest tests/airflow
+```
+
+CI includes:
+
+- Python test job excluding archived Airflow tests.
+- Docker smoke job that boots `neo4j` + `api`, waits for `/health`, and validates retrieval endpoint wiring.
+
 ## Documentation
 
 - Project docs index: `docs/README.md`
@@ -115,6 +149,7 @@ Open interactive docs at `http://localhost:8000/docs`.
 - Quickstart: `docs/quickstart.md`
 - Architecture: `docs/architecture.md`
 - Development workflow: `docs/development.md`
+- Testing guide: `docs/testing.md`
 
 ## Current Status
 

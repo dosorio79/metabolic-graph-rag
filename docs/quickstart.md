@@ -97,3 +97,23 @@ Expected behavior:
 - `/compounds/{compound_id}` returns consuming/producing reaction lists.
 - `/reactions/{reaction_id}` returns definition, equation, reversible flag, substrates/products, enzymes.
 - `/pathways/{pathway_id}` returns reactions plus `reaction_count`, `compound_count`, and `enzyme_count`.
+
+## Run tests
+
+Run active suite (same filter used in CI):
+
+```bash
+uv run pytest -m "not archived_airflow"
+```
+
+Run backend test suite only:
+
+```bash
+uv run pytest tests/backend
+```
+
+Run archived Airflow tests separately (optional):
+
+```bash
+uv run pytest tests/airflow
+```

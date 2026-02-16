@@ -159,6 +159,15 @@ Deliverables:
 - [x] OpenAPI docs available at /docs
 - [x] each endpoint has documented responses and path params
 
+### Automated test coverage
+Deliverables:
+- [x] backend route tests for `200` and `404` behavior
+- [x] backend query service tests with mocked Neo4j driver/session
+- [x] schema validation tests for response models
+- [x] OpenAPI contract tests for required paths and schemas
+- [x] CI test job runs `pytest -m "not archived_airflow"`
+- [x] CI Docker smoke job validates compose startup and endpoint wiring
+
 ### Graph correctness via API
 Run minimal checks (examples):
 - [x] /compounds/C00036 returns a name
@@ -184,6 +193,7 @@ Task 2 is complete when:
 - [x] queries are isolated in services layer
 - [x] schemas are defined and responses are consistent
 - [x] basic manual checks against a populated local graph pass
+- [x] automated tests and CI coverage are in place for retrieval API behavior
 - [ ] optional: Lovable frontend can call at least one endpoint
 
 ---

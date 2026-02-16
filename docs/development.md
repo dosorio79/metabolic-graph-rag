@@ -38,6 +38,28 @@
   uv run pytest tests/backend
   ```
 
+## Testing Workflow
+
+Use this sequence for routine changes:
+
+1. Run active suite:
+   ```bash
+   uv run pytest -m "not archived_airflow"
+   ```
+2. If backend behavior changed, run backend tests directly:
+   ```bash
+   uv run pytest tests/backend
+   ```
+3. If Airflow DAG logic changed, run archived Airflow tests explicitly:
+   ```bash
+   uv run pytest tests/airflow
+   ```
+
+CI mirrors this approach:
+
+- unit/integration test job excludes archived Airflow tests via marker filter
+- Docker smoke job validates compose startup and API wiring (`neo4j` + `api`)
+
 ## Documentation Discipline
 
 When adding features:
@@ -45,4 +67,5 @@ When adding features:
 - Update `README.md` if usage changes.
 - Update docs in `docs/` if architecture/workflow changes.
 - Update `docs/openapi.yaml` for API contract changes.
+- Update `docs/testing.md` when test scope/commands/CI behavior changes.
 - Add task notes in `docs/Build_tasks/` for milestone-specific instructions.

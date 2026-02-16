@@ -1,12 +1,24 @@
 PYTHON := .venv/bin/python
+PYTHONPATH_ROOT := PYTHONPATH=.
 
-.PHONY: test test-airflow prefect-server prefect-deploy prefect-worker flow reset reset-flow
+.PHONY: test test-active test-ci test-backend test-etl test-airflow prefect-server prefect-deploy prefect-worker flow reset reset-flow
 
 test:
-	$(PYTHON) -m pytest
+	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest
+
+test-active:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest -m "not archived_airflow"
+
+test-ci: test-active
+
+test-backend:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest tests/backend
+
+test-etl:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest tests/etl
 
 test-airflow:
-	$(PYTHON) -m pytest tests/airflow
+	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest tests/airflow
 
 prefect-server:
 	uv run prefect server start
