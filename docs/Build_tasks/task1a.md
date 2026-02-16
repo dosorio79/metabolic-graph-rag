@@ -44,7 +44,8 @@ Target structure:
 project/
 ├── etl/
 ├── graph/
-├── flows/
+├── orchestration/
+│   ├── prefect/
 ├── orchestration/
 │   └── airflow/
 │       ├── dags/
@@ -226,7 +227,7 @@ relationships.
 ### 5. Prefect ingestion flow
 Create:
 
-flows/ingestion_flow.py
+orchestration/prefect/ingestion_flow.py
 
 Flow runs ingestion → enrichment → loading.
 

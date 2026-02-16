@@ -15,7 +15,7 @@ Metabolic Graph RAG is a foundation for building a metabolic pathway knowledge g
 
 ```text
 metabolic-graph-rag/
-├── orchestration/      # Archived orchestration assets
+├── orchestration/      # Orchestration assets (Prefect + archived Airflow)
 ├── etl/                # Fetch, normalize, and load pipeline code
 ├── graph/              # Neo4j client and graph query assets
 ├── backend/            # FastAPI application skeleton
