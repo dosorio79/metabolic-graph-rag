@@ -44,11 +44,28 @@ def load_graph_task(reactions: list[RawReactionRecord]) -> None:
         driver.close()
 
 
+@task(persist_result=True)
+def ingest_stats(reactions: list[RawReactionRecord]) -> dict[str, int]:
+    """Persist basic ingestion stats for observability."""
+    compound_ids: set[str] = set()
+    for reaction in reactions:
+        for compound in reaction.get("substrates", []):
+            compound_ids.add(compound["id"])
+        for compound in reaction.get("products", []):
+            compound_ids.add(compound["id"])
+
+    return {
+        "reactions": len(reactions),
+        "compounds": len(compound_ids),
+    }
+
+
 @flow(name="kegg_pathway_ingestion")
 def ingestion_flow(pathway_id: str = "hsa00010") -> None:
     """Run ingestion -> enrichment -> loading for a single pathway."""
     raw_reactions = ingest_pathway_task(pathway_id)
     enriched_reactions = enrich_entities_task(raw_reactions)
+    ingest_stats(enriched_reactions)
     load_graph_task(enriched_reactions)
 
 
