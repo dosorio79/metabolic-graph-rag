@@ -6,8 +6,6 @@ import argparse
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
 	sys.path.insert(0, str(REPO_ROOT))
@@ -28,7 +26,6 @@ def _apply_schema(driver, schema_path: Path) -> None:
 
 
 def reset_graph(*, apply_schema: bool, schema_path: Path) -> None:
-	load_dotenv()
 	from etl.load.neo4j_loader import get_driver
 
 	driver = get_driver()

@@ -5,15 +5,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
-
 from prefect import flow, task
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
-
-load_dotenv(REPO_ROOT / ".env")
 
 from etl.enrich.compound_enrichment import enrich_compound_names
 from etl.load.neo4j_loader import get_driver, load_reactions
