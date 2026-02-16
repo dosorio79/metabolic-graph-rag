@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 
-from etl.load.neo4j_loader import get_driver
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+	sys.path.insert(0, str(REPO_ROOT))
+
 
 
 def _apply_schema(driver, schema_path: Path) -> None:
@@ -25,20 +29,15 @@ def _apply_schema(driver, schema_path: Path) -> None:
 
 def reset_graph(*, apply_schema: bool, schema_path: Path) -> None:
 	load_dotenv()
+	from etl.load.neo4j_loader import get_driver
+
 	driver = get_driver()
 	try:
 		with driver.session() as session:
-			result = session.run(
-				"""
-				MATCH (n)
-				WITH collect(n) AS nodes, count(n) AS total
-				UNWIND nodes AS n
-				DETACH DELETE n
-				RETURN total
-				"""
-			)
-			deleted = result.single()
-			count = deleted["total"] if deleted else 0
+			count_result = session.run("MATCH (n) RETURN count(n) AS total")
+			count_record = count_result.single()
+			count = count_record["total"] if count_record else 0
+			session.run("MATCH (n) DETACH DELETE n")
 			print(f"Deleted nodes: {count}")
 		if apply_schema:
 			_apply_schema(driver, schema_path)
