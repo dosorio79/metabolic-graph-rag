@@ -3,10 +3,13 @@ from __future__ import annotations
 import importlib.util
 import sys
 from types import ModuleType
+import pytest
 
 
 _active_dag = None
 from pathlib import Path
+
+pytestmark = pytest.mark.archived_airflow
 
 
 def _install_airflow_stubs() -> None:
@@ -55,7 +58,7 @@ def _install_airflow_stubs() -> None:
 
 def _load_dag_module():
     _install_airflow_stubs()
-    dag_path = Path(__file__).resolve().parents[2] / "airflow" / "dags" / "kegg_ingestion.py"
+    dag_path = Path(__file__).resolve().parents[2] / "orchestration" / "airflow" / "dags" / "kegg_ingestion.py"
     spec = importlib.util.spec_from_file_location("kegg_ingestion_dag", dag_path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Unable to load DAG module from {dag_path}")
