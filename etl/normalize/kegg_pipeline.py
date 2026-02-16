@@ -46,6 +46,7 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
 
     # Fetch each reaction entry and parse into structured records.
     parsed_reactions: list[RawReactionRecord] = []
+    skipped_reactions: list[str] = []
 
     for reaction_id in sorted(all_reactions):
         reaction_text = fetch_kegg_data("get", reaction_id, session=session)
@@ -53,6 +54,7 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
         parsed = parse_reaction_entry(reaction_text)
 
         if not parsed["equation"] or not parsed["substrates"] or not parsed["products"]:
+            skipped_reactions.append(reaction_id)
             continue
 
         parsed_record: RawReactionRecord = {
@@ -63,6 +65,10 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
         }
         parsed_reactions.append(parsed_record)
 
+    missing_count = len(skipped_reactions)
+    print(f"Missing reactions: {missing_count}")
+    if skipped_reactions:
+        print(f"Skipped: {', '.join(sorted(skipped_reactions))}")
     print(f"Parsed reactions: {len(parsed_reactions)}")
 
     return parsed_reactions
