@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from typing import Any, Mapping
 
 
 AIRFLOW_HOME = Path(__file__).resolve().parents[1]
@@ -29,14 +30,16 @@ def _write_log(message: str) -> None:
 		handle.write(f"{timestamp} {message}\n")
 
 
-def _resolve_pathway_id(context: dict[str, object]) -> str:
+def _resolve_pathway_id(context: Mapping[str, Any]) -> str:
 	"""Resolve the pathway id from DAG params or dag_run conf."""
-	params = context.get("params", {}) if isinstance(context.get("params"), dict) else {}
-	dag_run = context.get("dag_run")
+	params = context.get("params")
+	params_dict: dict[str, Any] = params if isinstance(params, dict) else {}
+	dag_run: Any = context.get("dag_run")
 
-	pathway_id = params.get("pathway_id", "hsa00010")
-	if dag_run and dag_run.conf and "pathway_id" in dag_run.conf:
-		pathway_id = dag_run.conf["pathway_id"]
+	pathway_id = params_dict.get("pathway_id", "hsa00010")
+	conf = getattr(dag_run, "conf", None)
+	if isinstance(conf, dict) and "pathway_id" in conf:
+		pathway_id = conf["pathway_id"]
 	return pathway_id
 
 
