@@ -4,11 +4,15 @@ Loads parsed KEGG reactions into a metabolic graph.
 
 Graph model:
 
-(:Compound {id})
-(:Reaction {id, reversible})
+(:Pathway {id, name})
+(:Reaction {id, reversible, name, definition})
+(:Compound {id, name})
+(:Enzyme {ec})
 
+(:Pathway)-[:HAS_REACTION]->(:Reaction)
 (:Compound)-[:CONSUMED_BY {coef}]->(:Reaction)
 (:Reaction)-[:PRODUCES {coef}]->(:Compound)
+(:Reaction)-[:CATALYZED_BY]->(:Enzyme)
 """
 
 from __future__ import annotations
@@ -16,64 +20,81 @@ from __future__ import annotations
 import os
 from typing import Iterable
 
-from etl.models.kegg_types import RawReactionRecord
-
 from neo4j import GraphDatabase
 
+from etl.models.kegg_types import RawReactionRecord
 
+
+# ---------------------------------------------------------------------
+# Driver
+# ---------------------------------------------------------------------
 def get_driver(
     uri: str = "bolt://localhost:7687",
     user: str = "neo4j",
     password: str | None = None,
 ):
-    """Create a Neo4j driver.
-
-    Args:
-        uri: Bolt URI for the Neo4j instance.
-        user: Neo4j username.
-        password: Neo4j password (falls back to APP_NEO4J_PASSWORD env var).
-
-    Raises:
-        ValueError: If no password is provided.
-    """
+    """Create a Neo4j driver."""
     resolved_password = password or os.getenv("APP_NEO4J_PASSWORD")
     if not resolved_password:
-        raise ValueError("Neo4j password is required. Set APP_NEO4J_PASSWORD or pass password.")
+        raise ValueError(
+            "Neo4j password is required. Set APP_NEO4J_PASSWORD or pass password."
+        )
     return GraphDatabase.driver(uri, auth=(user, resolved_password))
 
 
+# ---------------------------------------------------------------------
+# Public loader entry
+# ---------------------------------------------------------------------
 def load_reactions(driver, reactions: Iterable[RawReactionRecord]) -> None:
     """Load parsed reactions into Neo4j."""
     with driver.session() as session:
+        seen: set[str] = set()
+
         for reaction in reactions:
+            reaction_id = reaction.get("reaction_id")
+            if not reaction_id or reaction_id in seen:
+                continue
+
+            seen.add(reaction_id)
             session.execute_write(_load_single_reaction, reaction)
 
 
+# ---------------------------------------------------------------------
+# Reaction loader
+# ---------------------------------------------------------------------
 def _load_single_reaction(tx, reaction: RawReactionRecord) -> None:
     """Load one reaction and its compounds."""
+
     reaction_id = reaction["reaction_id"]
     pathway_id = reaction.get("pathway_id")
     pathway_name = reaction.get("pathway_name")
+
     reversible = reaction.get("reversible", True)
     name = reaction.get("name")
     definition = reaction.get("definition")
 
+    # --------------------------
+    # Pathway
+    # --------------------------
     if pathway_id:
         tx.run(
             """
             MERGE (p:Pathway {id: $pid})
-            SET p.name = $pname
+            SET p.name = coalesce($pname, p.name)
             """,
             pid=pathway_id,
             pname=pathway_name,
         )
 
+    # --------------------------
+    # Reaction
+    # --------------------------
     tx.run(
         """
         MERGE (r:Reaction {id: $rid})
-        SET r.reversible = $reversible
-        SET r.name = $name
-        SET r.definition = $definition
+        SET r.reversible = $reversible,
+            r.name = coalesce($name, r.name),
+            r.definition = coalesce($definition, r.definition)
         """,
         rid=reaction_id,
         reversible=reversible,
@@ -81,45 +102,68 @@ def _load_single_reaction(tx, reaction: RawReactionRecord) -> None:
         definition=definition,
     )
 
+    # --------------------------
+    # Pathway relation
+    # --------------------------
     if pathway_id:
         tx.run(
             """
-            MERGE (p:Pathway {id: $pid})
-            MERGE (p)-[:HAS_REACTION]->(r:Reaction {id: $rid})
+            MATCH (p:Pathway {id: $pid})
+            MATCH (r:Reaction {id: $rid})
+            MERGE (p)-[:HAS_REACTION]->(r)
             """,
             pid=pathway_id,
             rid=reaction_id,
         )
 
+    # --------------------------
+    # Substrates
+    # --------------------------
     for compound in reaction.get("substrates", []):
         tx.run(
             """
             MERGE (c:Compound {id: $cid})
-            MERGE (c)-[rel:CONSUMED_BY]->(r:Reaction {id: $rid})
+            SET c.name = coalesce($name, c.name)
+            WITH c
+            MATCH (r:Reaction {id: $rid})
+            MERGE (c)-[rel:CONSUMED_BY]->(r)
             SET rel.coef = $coef
             """,
             cid=compound["id"],
+            name=compound.get("name"),
             rid=reaction_id,
             coef=compound.get("coef", 1),
         )
 
+    # --------------------------
+    # Products
+    # --------------------------
     for compound in reaction.get("products", []):
         tx.run(
             """
             MERGE (c:Compound {id: $cid})
-            MERGE (r:Reaction {id: $rid})-[rel:PRODUCES]->(c)
+            SET c.name = coalesce($name, c.name)
+            WITH c
+            MATCH (r:Reaction {id: $rid})
+            MERGE (r)-[rel:PRODUCES]->(c)
             SET rel.coef = $coef
             """,
             cid=compound["id"],
+            name=compound.get("name"),
             rid=reaction_id,
             coef=compound.get("coef", 1),
         )
 
+    # --------------------------
+    # Enzymes
+    # --------------------------
     for enzyme_id in reaction.get("enzymes", []):
         tx.run(
             """
             MERGE (e:Enzyme {ec: $ec})
-            MERGE (r:Reaction {id: $rid})-[:CATALYZED_BY]->(e)
+            WITH e
+            MATCH (r:Reaction {id: $rid})
+            MERGE (r)-[:CATALYZED_BY]->(e)
             """,
             ec=enzyme_id,
             rid=reaction_id,
