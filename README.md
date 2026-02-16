@@ -1,6 +1,8 @@
 # Metabolic Graph RAG
 
 [![CI](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/dosorio79/metabolic-graph-rag)](https://github.com/dosorio79/metabolic-graph-rag/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Metabolic Graph RAG builds a metabolic pathway knowledge graph in Neo4j, ingests data from KEGG, and exposes graph-backed retrieval endpoints for backend and RAG workflows.
 
@@ -157,3 +159,8 @@ CI includes:
 - Graph retrieval endpoints are implemented in FastAPI.
 - Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
 - RAG-specific retrieval/ranking layers are next-stage work.
+
+## License
+
+This project is licensed under the MIT License.
+See `LICENSE` for full terms.
