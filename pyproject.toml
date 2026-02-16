@@ -9,6 +9,7 @@ dependencies = [
     "fastapi>=0.128.5",
     "neo4j>=6.1.0",
     "pandas>=3.0.0",
+    "prefect>=2.20.25",
     "pydantic>=2.12.5",
     "pytest>=8.4.2",
     "python-dotenv>=1.2.1",

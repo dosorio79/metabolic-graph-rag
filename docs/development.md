@@ -16,12 +16,13 @@
 - Keep ETL steps separated by stage (`fetch`, `normalize`, `load`).
 - Keep graph connection handling centralized.
 - Keep API handlers thin and move logic to services.
+- Keep Cypher in `backend/app/services/graph_queries.py`, not in route handlers.
 
 ## Recommended Task Order
 
 1. Implement reliable ETL ingestion path.
 2. Validate graph schema and queries.
-3. Add backend graph read endpoints.
+3. Maintain backend graph read endpoints.
 4. Add retrieval/context builder logic.
 5. Add agent tool integrations.
 
@@ -31,6 +32,33 @@
 - `uv run python scripts/test_neo4j_loader.py` succeeds.
 - Neo4j contains expected nodes/relationships.
 - Backend app starts without import/runtime errors.
+- Retrieval endpoints return expected shapes for known IDs.
+- Run backend tests:
+  ```bash
+  uv run pytest tests/backend
+  ```
+
+## Testing Workflow
+
+Use this sequence for routine changes:
+
+1. Run active suite:
+   ```bash
+   uv run pytest -m "not archived_airflow"
+   ```
+2. If backend behavior changed, run backend tests directly:
+   ```bash
+   uv run pytest tests/backend
+   ```
+3. If Airflow DAG logic changed, run archived Airflow tests explicitly:
+   ```bash
+   uv run pytest tests/airflow
+   ```
+
+CI mirrors this approach:
+
+- unit/integration test job excludes archived Airflow tests via marker filter
+- Docker smoke job validates compose startup and API wiring (`neo4j` + `api`)
 
 ## Documentation Discipline
 
@@ -38,4 +66,6 @@ When adding features:
 
 - Update `README.md` if usage changes.
 - Update docs in `docs/` if architecture/workflow changes.
+- Update `docs/openapi.yaml` for API contract changes.
+- Update `docs/testing.md` when test scope/commands/CI behavior changes.
 - Add task notes in `docs/Build_tasks/` for milestone-specific instructions.

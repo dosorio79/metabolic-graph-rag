@@ -29,4 +29,45 @@ jobs:
         run: uv sync --frozen
 
       - name: Run tests
-        run: uv run pytest
+        run: uv run pytest -m "not archived_airflow"
+
+  docker-smoke:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare env file
+        run: cp .env.example .env
+
+      - name: Build and start API stack
+        run: docker compose up -d --build neo4j api
+
+      - name: Wait for API and Neo4j to be healthy
+        run: |
+          for i in {1..60}; do
+            BODY="$(curl -fsS http://localhost:8000/health || true)"
+            if echo "$BODY" | grep -q '"neo4j_status":{"status":"ok"}'; then
+              echo "Health check passed: $BODY"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Health check did not reach neo4j_status=ok in time"
+          docker compose logs --tail=200 api neo4j
+          exit 1
+
+      - name: Validate retrieval endpoint wiring
+        run: |
+          STATUS="$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8000/compounds/C00036)"
+          if [ "$STATUS" != "200" ] && [ "$STATUS" != "404" ]; then
+            echo "Unexpected /compounds/C00036 status: $STATUS"
+            docker compose logs --tail=200 api neo4j
+            exit 1
+          fi
+          echo "/compounds/C00036 returned expected status: $STATUS"
+
+      - name: Tear down
+        if: always()
+        run: docker compose down -v

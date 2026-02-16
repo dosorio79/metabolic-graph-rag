@@ -4,6 +4,7 @@ import re
 
 from etl.models.kegg_types import CompoundAmount, ParsedReactionFields
 from etl.normalize.kegg_enzymes import extract_kegg_enzymes
+from etl.normalize.name_utils import normalize_name
 
 
 def extract_kegg_reactions(text: str) -> list[str]:
@@ -29,6 +30,8 @@ def parse_reaction_entry(text: str) -> ParsedReactionFields:
         Parsed reaction fields with empty lists when data is missing.
     """
     equation = _extract_equation(text)
+    name = normalize_name(_extract_field(text, "NAME"))
+    definition = _extract_field(text, "DEFINITION")
     enzymes = extract_kegg_enzymes(text)
 
     if not equation:
@@ -38,6 +41,8 @@ def parse_reaction_entry(text: str) -> ParsedReactionFields:
             "substrates": [],
             "products": [],
             "enzymes": enzymes,
+            "name": name,
+            "definition": definition,
         }
 
     reversible, substrates, products = _parse_equation(equation)
@@ -48,6 +53,8 @@ def parse_reaction_entry(text: str) -> ParsedReactionFields:
         "substrates": substrates,
         "products": products,
         "enzymes": sorted(set(enzymes)),
+        "name": name,
+        "definition": definition,
     }
 
 
@@ -69,6 +76,26 @@ def _extract_equation(text: str) -> str | None:
                 capture_equation = False
 
     return equation or None
+
+
+def _extract_field(text: str, field_name: str) -> str | None:
+    """Extract a single-line KEGG field with continuation lines."""
+    value = ""
+    capture = False
+
+    for line in text.splitlines():
+        if line.startswith(field_name):
+            capture = True
+            value = line.replace(field_name, "", 1).strip()
+            continue
+
+        if capture:
+            if line.startswith(" "):
+                value += " " + line.strip()
+            else:
+                break
+
+    return value or None
 
 
 def _parse_equation(equation: str) -> tuple[bool, list[CompoundAmount], list[CompoundAmount]]:

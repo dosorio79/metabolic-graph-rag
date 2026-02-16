@@ -1,0 +1,15 @@
+CREATE CONSTRAINT pathway_id_unique IF NOT EXISTS
+FOR (p:Pathway)
+REQUIRE p.id IS UNIQUE;
+
+CREATE CONSTRAINT reaction_id_unique IF NOT EXISTS
+FOR (r:Reaction)
+REQUIRE r.id IS UNIQUE;
+
+CREATE CONSTRAINT compound_id_unique IF NOT EXISTS
+FOR (c:Compound)
+REQUIRE c.id IS UNIQUE;
+
+CREATE CONSTRAINT enzyme_ec_unique IF NOT EXISTS
+FOR (e:Enzyme)
+REQUIRE e.ec IS UNIQUE;

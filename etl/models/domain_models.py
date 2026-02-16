@@ -25,6 +25,8 @@ class Reaction:
 
     id: str
     equation: str | None = None
+    name: str | None = None
+    definition: str | None = None
     substrates: list[str] = field(default_factory=list)
     products: list[str] = field(default_factory=list)
     enzymes: list[str] = field(default_factory=list)

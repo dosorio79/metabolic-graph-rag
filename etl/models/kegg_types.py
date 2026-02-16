@@ -20,9 +20,13 @@ class ParsedReactionFields(TypedDict):
     substrates: list[CompoundAmount]
     products: list[CompoundAmount]
     enzymes: list[str]
+    name: str | None
+    definition: str | None
 
 
 class RawReactionRecord(ParsedReactionFields):
     """Raw reaction fields plus the KEGG reaction identifier."""
 
     reaction_id: str
+    pathway_id: str
+    pathway_name: str | None

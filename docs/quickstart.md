@@ -37,8 +37,14 @@ Set Airflow admin credentials (used by the Airflow Docker image on first boot):
 docker compose up -d
 ```
 
-This single compose file starts Neo4j and Airflow together (Airflow runs from the
-official `apache/airflow` image).
+This compose file starts Neo4j only. Airflow is archived under
+`orchestration/airflow/` if you need it.
+
+To start Airflow (optional):
+
+```bash
+docker compose -f orchestration/airflow/docker-compose.yml up -d
+```
 
 Airflow UI: `http://localhost:8080`
 
@@ -68,8 +74,46 @@ Use Neo4j Browser at `http://localhost:7474` and run a basic query:
 MATCH (n) RETURN labels(n), count(*) LIMIT 10;
 ```
 
-## Run backend (skeleton)
+## Run backend API
 
 ```bash
 uv run uvicorn backend.app.main:app --reload
+```
+
+Open Swagger UI at `http://localhost:8000/docs`.
+
+## Verify retrieval endpoints
+
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/compounds/C00036
+curl http://localhost:8000/reactions/R00209
+curl http://localhost:8000/pathways/hsa00010
+```
+
+Expected behavior:
+
+- `/health` returns API and Neo4j status objects.
+- `/compounds/{compound_id}` returns consuming/producing reaction lists.
+- `/reactions/{reaction_id}` returns definition, equation, reversible flag, substrates/products, enzymes.
+- `/pathways/{pathway_id}` returns reactions plus `reaction_count`, `compound_count`, and `enzyme_count`.
+
+## Run tests
+
+Run active suite (same filter used in CI):
+
+```bash
+uv run pytest -m "not archived_airflow"
+```
+
+Run backend test suite only:
+
+```bash
+uv run pytest tests/backend
+```
+
+Run archived Airflow tests separately (optional):
+
+```bash
+uv run pytest tests/airflow
 ```

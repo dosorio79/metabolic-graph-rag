@@ -1,38 +1,4 @@
-x-airflow-common: &airflow-common
-  build:
-    context: .
-    dockerfile: docker/airflow/Dockerfile
-  image: metabolic-graph-rag-airflow:3.0.0
-  env_file:
-    - .env
-  environment: &airflow-common-env
-    AIRFLOW__CORE__EXECUTOR: LocalExecutor
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
-    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
-    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: "http://airflow-apiserver:8080/execution"
-    AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.session"
-    AIRFLOW__API_AUTH__JWT_SECRET: "${AIRFLOW_API_AUTH_JWT_SECRET:-change-me}"
-    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: "${AIRFLOW_SIMPLE_USERS:-admin:admin}"
-    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE: "/opt/airflow/simple_auth_manager_passwords.json"
-    APP_NEO4J_URI: "bolt://neo4j:7687"
-    NEO4J_URI: "bolt://neo4j:7687"
-  volumes:
-    - ./airflow/dags:/opt/airflow/dags
-    - ./airflow/logs:/opt/airflow/logs
-    - ./airflow/plugins:/opt/airflow/plugins
-    - ./etl:/opt/airflow/etl
-    - ./airflow/simple_auth_manager_passwords.json:/opt/airflow/simple_auth_manager_passwords.json
-  user: "${AIRFLOW_UID:-50000}:0"
-  depends_on:
-    postgres:
-      condition: service_healthy
-
 services:
-
-  # ---------------------------
-  # Neo4j database
-  # ---------------------------
   neo4j:
     build:
       context: .
@@ -47,82 +13,21 @@ services:
       - neo4j_data:/data
       - neo4j_logs:/logs
     restart: unless-stopped
-
-  # ---------------------------
-  # Airflow metadata DB
-  # ---------------------------
-  postgres:
-    image: postgres:15
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: metabolic-api
+    depends_on:
+      - neo4j
     environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
-    volumes:
-      - postgres_db_volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "airflow"]
-      interval: 10s
-      retries: 5
-      start_period: 5s
-    restart: unless-stopped
-
-  # ---------------------------
-  # Airflow initialization (v3)
-  # ---------------------------
-  airflow-init:
-    <<: *airflow-common
-    entrypoint: /bin/bash
-    command:
-      - -c
-      - |
-        mkdir -p /opt/airflow/logs/dag_processor
-        chown -R "${AIRFLOW_UID:-50000}:0" /opt/airflow/logs
-        chown "${AIRFLOW_UID:-50000}:0" /opt/airflow/simple_auth_manager_passwords.json
-        chmod 664 /opt/airflow/simple_auth_manager_passwords.json
-        airflow db migrate
-        airflow version
-    environment:
-      <<: *airflow-common-env
-      _AIRFLOW_DB_MIGRATE: "true"
-    user: "0:0"
-    restart: "no"
-
-  # ---------------------------
-  # Airflow API server (v3)
-  # ---------------------------
-  airflow-apiserver:
-    <<: *airflow-common
-    command: api-server
+      APP_NEO4J_URI: bolt://neo4j:7687
+      APP_NEO4J_USER: ${APP_NEO4J_USER}
+      APP_NEO4J_PASSWORD: ${APP_NEO4J_PASSWORD}
     ports:
-      - "8080:8080"
-    depends_on:
-      airflow-init:
-        condition: service_completed_successfully
-    restart: unless-stopped
-
-  # ---------------------------
-  # Airflow scheduler
-  # ---------------------------
-  airflow-scheduler:
-    <<: *airflow-common
-    command: scheduler
-    depends_on:
-      airflow-init:
-        condition: service_completed_successfully
-    restart: unless-stopped
-
-  # ---------------------------
-  # Airflow DAG processor (v3)
-  # ---------------------------
-  airflow-dag-processor:
-    <<: *airflow-common
-    command: dag-processor
-    depends_on:
-      airflow-init:
-        condition: service_completed_successfully
+      - "8000:8000"
     restart: unless-stopped
 
 volumes:
   neo4j_data:
   neo4j_logs:
-  postgres_db_volume:

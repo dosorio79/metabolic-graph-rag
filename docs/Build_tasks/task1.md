@@ -93,7 +93,7 @@ Graph contains:
 
 DAG file:
 
-    airflow/dags/kegg_ingestion.py
+    orchestration/airflow/dags/kegg_ingestion.py
 
 And appears in Airflow UI.
 
@@ -229,7 +229,7 @@ Check graph:
 
 Create:
 
-    airflow/dags/kegg_ingestion.py
+    orchestration/airflow/dags/kegg_ingestion.py
 
 Minimal DAG:
 

@@ -3,34 +3,32 @@
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
-load_dotenv(REPO_ROOT / ".env")
 
+from etl.config import get_settings
 from etl.load.neo4j_loader import get_driver, load_reactions
 from etl.normalize.kegg_pipeline import ingest_pathway
 
 
 def _parse_args() -> argparse.Namespace:
+    settings = get_settings()
     parser = argparse.ArgumentParser(description="Load KEGG reactions into Neo4j")
     parser.add_argument("pathway_id", nargs="?", default="hsa00010")
     parser.add_argument(
         "--uri",
-        default=os.getenv("APP_NEO4J_URI", os.getenv("NEO4J_URI", "bolt://localhost:7687")),
+        default=settings.neo4j_uri,
     )
     parser.add_argument(
         "--user",
-        default=os.getenv("APP_NEO4J_USER", os.getenv("NEO4J_USER", "neo4j")),
+        default=settings.neo4j_user,
     )
     parser.add_argument(
         "--password",
-        default=os.getenv("APP_NEO4J_PASSWORD", os.getenv("NEO4J_PASSWORD", "testtest")),
+        default=settings.neo4j_password,
     )
     return parser.parse_args()
 
