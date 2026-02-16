@@ -52,16 +52,44 @@ def load_reactions(driver, reactions: Iterable[RawReactionRecord]) -> None:
 def _load_single_reaction(tx, reaction: RawReactionRecord) -> None:
     """Load one reaction and its compounds."""
     reaction_id = reaction["reaction_id"]
+    pathway_id = reaction.get("pathway_id")
+    pathway_name = reaction.get("pathway_name")
     reversible = reaction.get("reversible", True)
+    name = reaction.get("name")
+    definition = reaction.get("definition")
+
+    if pathway_id:
+        tx.run(
+            """
+            MERGE (p:Pathway {id: $pid})
+            SET p.name = $pname
+            """,
+            pid=pathway_id,
+            pname=pathway_name,
+        )
 
     tx.run(
         """
         MERGE (r:Reaction {id: $rid})
         SET r.reversible = $reversible
+        SET r.name = $name
+        SET r.definition = $definition
         """,
         rid=reaction_id,
         reversible=reversible,
+        name=name,
+        definition=definition,
     )
+
+    if pathway_id:
+        tx.run(
+            """
+            MERGE (p:Pathway {id: $pid})
+            MERGE (p)-[:HAS_REACTION]->(r:Reaction {id: $rid})
+            """,
+            pid=pathway_id,
+            rid=reaction_id,
+        )
 
     for compound in reaction.get("substrates", []):
         tx.run(
@@ -85,4 +113,14 @@ def _load_single_reaction(tx, reaction: RawReactionRecord) -> None:
             cid=compound["id"],
             rid=reaction_id,
             coef=compound.get("coef", 1),
+        )
+
+    for enzyme_id in reaction.get("enzymes", []):
+        tx.run(
+            """
+            MERGE (e:Enzyme {ec: $ec})
+            MERGE (r:Reaction {id: $rid})-[:CATALYZED_BY]->(e)
+            """,
+            ec=enzyme_id,
+            rid=reaction_id,
         )

@@ -20,6 +20,8 @@ def build_parsed_reactions(raw_reactions: list[RawReactionRecord]) -> list[Parse
     for raw in raw_reactions:
         reaction_id = raw["reaction_id"]
         equation = raw.get("equation")
+        name = raw.get("name")
+        definition = raw.get("definition")
         substrates = _extract_compound_ids(raw.get("substrates", []))
         products = _extract_compound_ids(raw.get("products", []))
         enzymes = list(raw.get("enzymes", []))
@@ -27,6 +29,8 @@ def build_parsed_reactions(raw_reactions: list[RawReactionRecord]) -> list[Parse
         reaction = Reaction(
             id=reaction_id,
             equation=equation,
+            name=name,
+            definition=definition,
             substrates=substrates,
             products=products,
             enzymes=enzymes,

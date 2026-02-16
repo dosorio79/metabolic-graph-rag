@@ -30,6 +30,7 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
     print(f"\nFetching pathway: {pathway_id}")
     pathway_text = fetch_kegg_data("get", pathway_id, session=session)
 
+    pathway_name = _extract_pathway_name(pathway_text)
     modules = extract_kegg_modules(pathway_text)
     print(f"Modules discovered: {len(modules)}")
 
@@ -56,6 +57,8 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
 
         parsed_record: RawReactionRecord = {
             "reaction_id": reaction_id,
+            "pathway_id": pathway_id,
+            "pathway_name": pathway_name,
             **parsed,
         }
         parsed_reactions.append(parsed_record)
@@ -63,3 +66,23 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
     print(f"Parsed reactions: {len(parsed_reactions)}")
 
     return parsed_reactions
+
+
+def _extract_pathway_name(text: str) -> str | None:
+    """Extract the pathway NAME field from a KEGG pathway entry."""
+    name = ""
+    capture = False
+
+    for line in text.splitlines():
+        if line.startswith("NAME"):
+            capture = True
+            name = line.replace("NAME", "", 1).strip()
+            continue
+
+        if capture:
+            if line.startswith(" "):
+                name += " " + line.strip()
+            else:
+                break
+
+    return name or None
