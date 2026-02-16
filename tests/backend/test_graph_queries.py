@@ -58,6 +58,9 @@ def test_fetch_compound_returns_none_when_missing(monkeypatch):
     payload = graph_queries.fetch_compound("C404")
 
     assert payload is None
+    assert "MATCH (c:Compound {id: $compound_id})" in captures[0]["query"]
+    assert "CONSUMED_BY" in captures[0]["query"]
+    assert "PRODUCES" in captures[0]["query"]
     assert captures[0]["params"] == {"compound_id": "C404"}
     assert driver.closed is True
 
@@ -88,6 +91,9 @@ def test_fetch_reaction_normalizes_name_definition_and_equation(monkeypatch):
     assert payload["equation"] == "A + B => C"
     assert payload["substrates"][0]["name"] == "A"
     assert payload["products"][0]["name"] == "C"
+    assert "MATCH (r:Reaction {id: $reaction_id})" in captures[0]["query"]
+    assert "CONSUMED_BY" in captures[0]["query"]
+    assert "CATALYZED_BY" in captures[0]["query"]
     assert captures[0]["params"] == {"reaction_id": "R00209"}
     assert driver.closed is True
 
@@ -114,5 +120,8 @@ def test_fetch_pathway_returns_counts(monkeypatch):
     assert payload["reaction_count"] == 1
     assert payload["compound_count"] == 2
     assert payload["enzyme_count"] == 3
+    assert "MATCH (p:Pathway {id: $pathway_id})" in captures[0]["query"]
+    assert "HAS_REACTION" in captures[0]["query"]
+    assert "CATALYZED_BY" in captures[0]["query"]
     assert captures[0]["params"] == {"pathway_id": "hsa00010"}
     assert driver.closed is True

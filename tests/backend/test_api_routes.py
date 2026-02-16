@@ -40,6 +40,22 @@ def test_compound_route_returns_404(monkeypatch):
     assert response.json() == {"detail": "Compound not found"}
 
 
+def test_compound_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch):
+    captured: dict[str, str] = {}
+
+    def fake_fetch(compound_id: str):
+        captured["compound_id"] = compound_id
+        return None
+
+    monkeypatch.setattr("backend.app.api.routes.compounds.fetch_compound", fake_fetch)
+
+    response = client.get("/compounds/%20%20")
+
+    assert response.status_code == 404
+    assert captured["compound_id"] == ""
+    assert response.json() == {"detail": "Compound not found"}
+
+
 def test_reaction_route_returns_200(monkeypatch):
     monkeypatch.setattr(
         "backend.app.api.routes.reactions.fetch_reaction",
@@ -73,6 +89,22 @@ def test_reaction_route_returns_404(monkeypatch):
     assert response.json() == {"detail": "Reaction not found"}
 
 
+def test_reaction_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch):
+    captured: dict[str, str] = {}
+
+    def fake_fetch(reaction_id: str):
+        captured["reaction_id"] = reaction_id
+        return None
+
+    monkeypatch.setattr("backend.app.api.routes.reactions.fetch_reaction", fake_fetch)
+
+    response = client.get("/reactions/%20%20")
+
+    assert response.status_code == 404
+    assert captured["reaction_id"] == ""
+    assert response.json() == {"detail": "Reaction not found"}
+
+
 def test_pathway_route_returns_200(monkeypatch):
     monkeypatch.setattr(
         "backend.app.api.routes.pathways.fetch_pathway",
@@ -100,6 +132,22 @@ def test_pathway_route_returns_404(monkeypatch):
     response = client.get("/pathways/missing")
 
     assert response.status_code == 404
+    assert response.json() == {"detail": "Pathway not found"}
+
+
+def test_pathway_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch):
+    captured: dict[str, str] = {}
+
+    def fake_fetch(pathway_id: str):
+        captured["pathway_id"] = pathway_id
+        return None
+
+    monkeypatch.setattr("backend.app.api.routes.pathways.fetch_pathway", fake_fetch)
+
+    response = client.get("/pathways/%20%20")
+
+    assert response.status_code == 404
+    assert captured["pathway_id"] == ""
     assert response.json() == {"detail": "Pathway not found"}
 
 
