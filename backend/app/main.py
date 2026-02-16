@@ -14,3 +14,4 @@ app.include_router(health.router, tags=["health"])
 app.include_router(compounds.router, tags=["compounds"], prefix="/compounds")
 app.include_router(reactions.router, tags=["reactions"], prefix="/reactions")
 app.include_router(pathways.router, tags=["pathways"], prefix="/pathways")
+

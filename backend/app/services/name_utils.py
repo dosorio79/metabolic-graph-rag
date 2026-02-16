@@ -11,10 +11,11 @@ def normalize_name(value: str | None) -> str | None:
 
 
 def normalize_name_fields(value):
+    normalize_keys = {"name", "definition", "equation"}
     if isinstance(value, dict):
         normalized: dict = {}
         for key, item in value.items():
-            if key == "name" or key.endswith("_name"):
+            if key in normalize_keys or key.endswith("_name"):
                 normalized[key] = normalize_name(item if isinstance(item, str) else None)
             else:
                 normalized[key] = normalize_name_fields(item)

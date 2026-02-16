@@ -13,6 +13,20 @@ services:
       - neo4j_data:/data
       - neo4j_logs:/logs
     restart: unless-stopped
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: metabolic-api
+    depends_on:
+      - neo4j
+    environment:
+      APP_NEO4J_URI: bolt://neo4j:7687
+      APP_NEO4J_USER: ${APP_NEO4J_USER}
+      APP_NEO4J_PASSWORD: ${APP_NEO4J_PASSWORD}
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
 
 volumes:
   neo4j_data:

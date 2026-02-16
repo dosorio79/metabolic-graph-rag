@@ -1,33 +1,29 @@
-"""Reaction retrieval endpoint skeleton."""
+"""Reaction retrieval endpoint.
+- reaction id, name, definition, reversible, equation
+- substrates: list of {id, name, coef}
+- products: list of {id, name, coef}
+- enzymes: list of EC numbers
 
-from fastapi import APIRouter
+Deliverables:
+- reaction exists returns 200 with structured payload
+- reaction missing returns 404
+- coefficients are present and numeric
+"""
 
-from backend.app.services.name_utils import normalize_name
+from fastapi import APIRouter, HTTPException
+
+from backend.app.schemas.graph import ReactionResponse
+from backend.app.services.graph_queries import fetch_reaction
 
 
 router = APIRouter()
 
 # Reaction retrieval endpoint
-@router.get("/{reaction_id}")
-async def get_reaction(reaction_id: str):
+@router.get("/{reaction_id}", response_model=ReactionResponse)
+async def get_reaction(reaction_id: str) -> ReactionResponse:
     """Retrieve a reaction by its ID."""
-    # Placeholder response - replace with actual retrieval logic
-    return {
-        "reaction_id": reaction_id,
-        "name": normalize_name("Example Reaction"),
-        "definition": "This is a placeholder reaction. Replace with actual data.",
-        "reversible": True,
-        "pathway": {"pathway_id": "P1", "name": normalize_name("Example Pathway")},
-        "compounds": [
-            {
-                "compound_id": "C1",
-                "name": normalize_name("Compound 1"),
-                "role": "substrate",
-            },
-            {
-                "compound_id": "C2",
-                "name": normalize_name("Compound 2"),
-                "role": "product",
-            },
-        ],
-    }
+    normalized_id = reaction_id.strip()
+    payload = fetch_reaction(normalized_id)
+    if not payload:
+        raise HTTPException(status_code=404, detail="Reaction not found")
+    return ReactionResponse(**payload)

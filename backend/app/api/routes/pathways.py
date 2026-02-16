@@ -1,23 +1,26 @@
-"""Pathway retrieval endpoint skeleton."""
+"""Pathway retrieval endpoint.
+- pathway id, name
+- reactions in pathway (id + optional name)
+- optionally: summary counts (reactions, compounds, enzymes)
 
-from fastapi import APIRouter
+- pathway exists returns 200
+- pathway missing returns 404
+- payload includes reaction list ordered deterministically (e.g., by id)
+"""
 
-from backend.app.services.name_utils import normalize_name
+from fastapi import APIRouter, HTTPException
 
+from backend.app.schemas.graph import PathwayResponse
+from backend.app.services.graph_queries import fetch_pathway
 
 router = APIRouter()
 
 # Pathway retrieval endpoint
-@router.get("/{pathway_id}")
-async def get_pathway(pathway_id: str):
+@router.get("/{pathway_id}", response_model=PathwayResponse)
+async def get_pathway(pathway_id: str) -> PathwayResponse:
     """Retrieve a pathway by its ID."""
-    # Placeholder response - replace with actual retrieval logic
-    return {
-        "pathway_id": pathway_id,
-        "name": normalize_name("Example Pathway"),
-        "description": "This is a placeholder pathway. Replace with actual data.",
-        "reactions": [
-            {"reaction_id": "R1", "name": normalize_name("Reaction 1")},
-            {"reaction_id": "R2", "name": normalize_name("Reaction 2")},
-        ],
-    }
+    normalized_id = pathway_id.strip()
+    payload = fetch_pathway(normalized_id)
+    if not payload:
+        raise HTTPException(status_code=404, detail="Pathway not found")
+    return PathwayResponse(**payload)

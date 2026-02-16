@@ -1,0 +1,273 @@
+openapi: 3.0.3
+info:
+  title: Metabolic Graph Retrieval API
+  description: |
+    Retrieval API exposing metabolic graph data stored in Neo4j.
+    This API provides graph lookup endpoints without LLM or RAG logic.
+
+    Architecture:
+      Neo4j -> FastAPI -> Retrieval API -> Frontend
+  version: "0.1.0"
+
+servers:
+  - url: http://localhost:8000
+    description: Local development
+
+tags:
+  - name: health
+    description: Service health and connectivity
+  - name: compounds
+    description: Compound graph retrieval
+  - name: reactions
+    description: Reaction retrieval
+  - name: pathways
+    description: Pathway retrieval
+
+paths:
+  /health:
+    get:
+      tags: [health]
+      summary: Health check
+      description: Checks API status and Neo4j connectivity.
+      responses:
+        "200":
+          description: Service health status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /compounds/{compound_id}:
+    get:
+      tags: [compounds]
+      summary: Get compound details
+      description: |
+        Returns compound information along with reactions
+        consuming or producing it.
+      parameters:
+        - name: compound_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: C00036
+      responses:
+        "200":
+          description: Compound found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompoundResponse"
+        "404":
+          description: Compound not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /reactions/{reaction_id}:
+    get:
+      tags: [reactions]
+      summary: Get reaction details
+      description: |
+        Returns reaction equation, compounds,
+        enzymes and directionality.
+      parameters:
+        - name: reaction_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: R00209
+      responses:
+        "200":
+          description: Reaction found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReactionResponse"
+        "404":
+          description: Reaction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /pathways/{pathway_id}:
+    get:
+      tags: [pathways]
+      summary: Get pathway details
+      description: |
+        Returns pathway metadata and reactions belonging to it.
+      parameters:
+        - name: pathway_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: hsa00010
+      responses:
+        "200":
+          description: Pathway found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PathwayResponse"
+        "404":
+          description: Pathway not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        detail:
+          type: string
+          nullable: true
+      required:
+        - status
+
+    HealthResponse:
+      type: object
+      properties:
+        api_status:
+          $ref: "#/components/schemas/ServiceStatus"
+        neo4j_status:
+          $ref: "#/components/schemas/ServiceStatus"
+      required:
+        - api_status
+        - neo4j_status
+
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Compound not found
+      required:
+        - detail
+
+    CompoundAmountSummary:
+      type: object
+      properties:
+        compound_id:
+          type: string
+          example: C00036
+        name:
+          type: string
+          nullable: true
+          example: Oxaloacetate
+        coef:
+          type: number
+          example: 1
+      required:
+        - compound_id
+        - coef
+
+    ReactionSummary:
+      type: object
+      properties:
+        reaction_id:
+          type: string
+          example: R00209
+        name:
+          type: string
+          nullable: true
+      required:
+        - reaction_id
+
+    CompoundResponse:
+      type: object
+      properties:
+        compound_id:
+          type: string
+          example: C00036
+        name:
+          type: string
+          nullable: true
+          example: Oxaloacetate
+        consuming_reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionSummary"
+        producing_reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionSummary"
+      required:
+        - compound_id
+        - consuming_reactions
+        - producing_reactions
+
+    ReactionResponse:
+      type: object
+      properties:
+        reaction_id:
+          type: string
+          example: R00209
+        name:
+          type: string
+          nullable: true
+        definition:
+          type: string
+          nullable: true
+        equation:
+          type: string
+          nullable: true
+        reversible:
+          type: boolean
+        substrates:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompoundAmountSummary"
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/CompoundAmountSummary"
+        enzymes:
+          type: array
+          items:
+            type: string
+            example: 1.2.1.104
+      required:
+        - reaction_id
+        - reversible
+        - substrates
+        - products
+        - enzymes
+
+    PathwayResponse:
+      type: object
+      properties:
+        pathway_id:
+          type: string
+          example: hsa00010
+        name:
+          type: string
+          nullable: true
+        reactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReactionSummary"
+        reaction_count:
+          type: integer
+          example: 29
+        compound_count:
+          type: integer
+          example: 42
+        enzyme_count:
+          type: integer
+          example: 12
+      required:
+        - pathway_id
+        - reactions
+        - reaction_count
+        - compound_count
+        - enzyme_count
