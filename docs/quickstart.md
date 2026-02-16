@@ -74,8 +74,26 @@ Use Neo4j Browser at `http://localhost:7474` and run a basic query:
 MATCH (n) RETURN labels(n), count(*) LIMIT 10;
 ```
 
-## Run backend (skeleton)
+## Run backend API
 
 ```bash
 uv run uvicorn backend.app.main:app --reload
 ```
+
+Open Swagger UI at `http://localhost:8000/docs`.
+
+## Verify retrieval endpoints
+
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/compounds/C00036
+curl http://localhost:8000/reactions/R00209
+curl http://localhost:8000/pathways/hsa00010
+```
+
+Expected behavior:
+
+- `/health` returns API and Neo4j status objects.
+- `/compounds/{compound_id}` returns consuming/producing reaction lists.
+- `/reactions/{reaction_id}` returns definition, equation, reversible flag, substrates/products, enzymes.
+- `/pathways/{pathway_id}` returns reactions plus `reaction_count`, `compound_count`, and `enzyme_count`.

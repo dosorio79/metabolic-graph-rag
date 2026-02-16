@@ -2,14 +2,14 @@
 
 [![CI](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/dosorio79/metabolic-graph-rag/actions/workflows/ci.yml)
 
-Metabolic Graph RAG is a foundation for building a metabolic pathway knowledge graph in Neo4j, ingesting data from KEGG, and exposing graph-backed retrieval workflows for backend APIs and agent tooling.
+Metabolic Graph RAG builds a metabolic pathway knowledge graph in Neo4j, ingests data from KEGG, and exposes graph-backed retrieval endpoints for backend and RAG workflows.
 
 ## Goals
 
 - Ingest pathway and reaction data from KEGG.
 - Normalize and load entities into Neo4j.
-- Support query-driven retrieval for RAG pipelines.
-- Provide a backend-ready structure for API and agent integration.
+- Expose graph retrieval endpoints for compounds, reactions, and pathways.
+- Support query-driven retrieval for future RAG pipelines.
 
 ## Project Layout
 
@@ -18,7 +18,7 @@ metabolic-graph-rag/
 ├── orchestration/      # Orchestration assets (Prefect + archived Airflow)
 ├── etl/                # Fetch, normalize, and load pipeline code
 ├── graph/              # Neo4j client and graph query assets
-├── backend/            # FastAPI application skeleton
+├── backend/            # FastAPI retrieval API
 ├── rag/                # Retrieval and context assembly logic
 ├── agents/             # Planner and tool interfaces
 ├── embeddings/         # Embedding build scripts
@@ -57,17 +57,17 @@ Set at least:
 
 ### 3. Start Neo4j
 
-Use your preferred method (local Docker, compose, or managed instance).  
+Use your preferred method (local Docker, compose, or managed instance).
 If using Docker compose in this repo (Neo4j only):
 
 ```bash
 docker compose up -d
+```
 
 To start the archived Airflow stack (optional):
 
 ```bash
 docker compose -f orchestration/airflow/docker-compose.yml up -d
-```
 ```
 
 ### 4. Run ingestion manually
@@ -82,21 +82,43 @@ Optional: write results to a JSON file.
 uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
-### 5. Start backend API (placeholder app)
+### 5. Start backend API
 
 ```bash
 uv run uvicorn backend.app.main:app --reload
 ```
 
+### 6. Test retrieval endpoints
+
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/compounds/C00036
+curl http://localhost:8000/reactions/R00209
+curl http://localhost:8000/pathways/hsa00010
+```
+
+Open interactive docs at `http://localhost:8000/docs`.
+
+## API Endpoints
+
+- `GET /health`: API + Neo4j connectivity status.
+- `GET /compounds/{compound_id}`: compound with consuming/producing reactions.
+- `GET /reactions/{reaction_id}`: reaction details, substrates/products, enzymes.
+- `GET /pathways/{pathway_id}`: pathway metadata, reactions, and summary counts.
+
 ## Documentation
 
 - Project docs index: `docs/README.md`
-- Task brief: `docs/Build_tasks/task1.md`
+- OpenAPI spec: `docs/openapi.yaml`
+- Task 1 brief: `docs/Build_tasks/task1.md`
+- Task 2 brief: `docs/Build_tasks/task2.md`
 - Quickstart: `docs/quickstart.md`
 - Architecture: `docs/architecture.md`
 - Development workflow: `docs/development.md`
 
 ## Current Status
 
-This repository is scaffolded for iterative implementation.  
-Most modules are placeholders and should be implemented step by step from the docs build tasks.
+- KEGG ingestion pipeline is available via CLI.
+- Graph retrieval endpoints are implemented in FastAPI.
+- Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
+- RAG-specific retrieval/ranking layers are next-stage work.

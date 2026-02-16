@@ -1,33 +1,30 @@
-"""Compound retrieval endpoint skeleton."""
+"""Compound retrieval endpoint
+Returns:
+- compound id, name
+- reactions that CONSUME it
+- reactions that PRODUCE it
 
-from fastapi import APIRouter
+- compound exists returns 200 with structured payload
+- compound missing returns 404 with clear message
+- payload includes both consuming and producing reaction lists
 
-from backend.app.services.name_utils import normalize_name
+"""
+
+from fastapi import APIRouter, HTTPException
+
+from backend.app.schemas.graph import CompoundResponse
+from backend.app.services.graph_queries import fetch_compound
 
 
 router = APIRouter()
 
 # Compound retrieval endpoint
-@router.get("/{compound_id}")
-async def get_compound(compound_id: str):
+@router.get("/{compound_id}", response_model=CompoundResponse)
+async def get_compound(compound_id: str) -> CompoundResponse:
     """Retrieve a compound by its ID."""
-    # Placeholder response - replace with actual retrieval logic
-    return {
-        "compound_id": compound_id,
-        "name": normalize_name("Example Compound"),
-        "formula": "C6H12O6",
-        "mass": 180.16,
-        "reactions": [
-            {
-                "reaction_id": "R1",
-                "name": normalize_name("Reaction 1"),
-                "role": "substrate",
-            },
-            {
-                "reaction_id": "R2",
-                "name": normalize_name("Reaction 2"),
-                "role": "product",
-            },
-        ],
-    }
-    
+    normalized_id = compound_id.strip()
+    payload = fetch_compound(normalized_id)
+    if not payload:
+        raise HTTPException(status_code=404, detail="Compound not found")
+    return CompoundResponse(**payload)
+
