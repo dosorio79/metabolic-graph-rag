@@ -245,27 +245,27 @@ and apply before ingestion.
 ## Deliverables Checklist
 
 ### Pipeline
-- [ ] Compound names enriched
-- [ ] Reaction metadata stored
-- [ ] Enzyme nodes normalized
-- [ ] Pathway nodes created
+- [x] Compound names enriched
+- [x] Reaction metadata stored
+- [x] Enzyme nodes normalized
+- [x] Pathway nodes created
 
 ### Graph
-- [ ] Compounds readable in Neo4j
-- [ ] Reaction nodes enriched
-- [ ] Enzymes linked correctly
-- [ ] Pathways linked correctly
+- [x] Compounds readable in Neo4j
+- [x] Reaction nodes enriched
+- [x] Enzymes linked correctly
+- [x] Pathways linked correctly
 
 ### Prefect
-- [ ] Flow executes ingestion pipeline
-- [ ] Pipeline independent from Airflow
+- [x] Flow executes ingestion pipeline
+- [x] Pipeline independent from Airflow
 
 ### Schema
-- [ ] Graph constraints defined and applied
+- [x] Graph constraints defined and applied
 
 ### Repository
-- [ ] orchestration folder created
-- [ ] airflow moved under orchestration/
+- [x] orchestration folder created
+- [x] airflow moved under orchestration/
 
 ---
 
