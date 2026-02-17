@@ -133,3 +133,93 @@ def fetch_pathway(pathway_id: str) -> dict | None:
 			return normalize_response_names(payload)
 	finally:
 		driver.close()
+
+
+def fetch_enzyme(enzyme_ec: str) -> dict | None:
+	query = """
+	MATCH (e:Enzyme {ec: $enzyme_ec})
+	CALL {
+		WITH e
+		MATCH (r:Reaction)-[:CATALYZED_BY]->(e)
+		WITH r
+		ORDER BY r.id
+		RETURN collect({reaction_id: r.id, name: r.name}) AS reactions
+	}
+	RETURN e.ec AS enzyme_ec, reactions
+	"""
+	driver = create_driver()
+	try:
+		with driver.session() as session:
+			record = session.run(query, enzyme_ec=enzyme_ec).single()
+			if not record:
+				return None
+			payload = record.data()
+			return normalize_response_names(payload)
+	finally:
+		driver.close()
+
+
+def lookup_compound_id_by_name(compound_name: str) -> str | None:
+	query = """
+	MATCH (c:Compound)
+	WITH c, toLower(c.name) AS lower_name, toLower($compound_name) AS query_name
+	WHERE lower_name = query_name OR lower_name CONTAINS query_name
+	RETURN c.id AS id,
+		   CASE WHEN lower_name = query_name THEN 0 ELSE 1 END AS rank,
+		   size(lower_name) AS name_len
+	ORDER BY rank, name_len, c.id
+	LIMIT 1
+	"""
+	driver = create_driver()
+	try:
+		with driver.session() as session:
+			record = session.run(query, compound_name=compound_name).single()
+			if not record:
+				return None
+			return record["id"]
+	finally:
+		driver.close()
+
+
+def lookup_reaction_id_by_name(reaction_name: str) -> str | None:
+	query = """
+	MATCH (r:Reaction)
+	WITH r, toLower(r.name) AS lower_name, toLower($reaction_name) AS query_name
+	WHERE lower_name = query_name OR lower_name CONTAINS query_name
+	RETURN r.id AS id,
+		   CASE WHEN lower_name = query_name THEN 0 ELSE 1 END AS rank,
+		   size(lower_name) AS name_len
+	ORDER BY rank, name_len, r.id
+	LIMIT 1
+	"""
+	driver = create_driver()
+	try:
+		with driver.session() as session:
+			record = session.run(query, reaction_name=reaction_name).single()
+			if not record:
+				return None
+			return record["id"]
+	finally:
+		driver.close()
+
+
+def lookup_pathway_id_by_name(pathway_name: str) -> str | None:
+	query = """
+	MATCH (p:Pathway)
+	WITH p, toLower(p.name) AS lower_name, toLower($pathway_name) AS query_name
+	WHERE lower_name = query_name OR lower_name CONTAINS query_name
+	RETURN p.id AS id,
+		   CASE WHEN lower_name = query_name THEN 0 ELSE 1 END AS rank,
+		   size(lower_name) AS name_len
+	ORDER BY rank, name_len, p.id
+	LIMIT 1
+	"""
+	driver = create_driver()
+	try:
+		with driver.session() as session:
+			record = session.run(query, pathway_name=pathway_name).single()
+			if not record:
+				return None
+			return record["id"]
+	finally:
+		driver.close()
