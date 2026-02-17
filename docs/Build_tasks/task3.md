@@ -202,28 +202,28 @@ This allows frontend integration later.
 ## Deliverables Checklist
 
 ### Retriever
-- [ ] Intent classification logic
-- [ ] Entity extraction
-- [ ] Intent-to-query mapping
+- [x] Intent classification logic
+- [x] Entity extraction
+- [x] Intent-to-query mapping
 
 ### Graph Retrieval
-- [ ] Compound retrieval implemented
-- [ ] Reaction retrieval implemented
-- [ ] Pathway retrieval implemented
+- [x] Compound retrieval implemented
+- [x] Reaction retrieval implemented
+- [x] Pathway retrieval implemented
 
 ### Context Builder
-- [ ] Context summarization logic
-- [ ] Reaction listing formatting
-- [ ] Enzyme inclusion
+- [x] Context summarization logic
+- [x] Reaction listing formatting
+- [x] Enzyme inclusion
 
 ### LLM Integration
-- [ ] LLM client wrapper
-- [ ] Prompt template defined
-- [ ] Context injection working
+- [x] LLM client wrapper
+- [x] Prompt template defined
+- [x] Context injection working
 
 ### API
-- [ ] /rag/query endpoint implemented
-- [ ] Structured response schema
+- [x] /rag/query endpoint implemented
+- [x] Structured response schema
 
 ### Testing
 - [ ] Manual question validation
