@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi.testclient import TestClient
 
 from backend.app.main import app
+from backend.app.schemas.rag import RAGInterpretation, RAGResponse, RAGTrace
 
 
 client = TestClient(app)
@@ -176,3 +177,42 @@ def test_health_route_error(monkeypatch):
         "api_status": {"status": "ok"},
         "neo4j_status": {"status": "error", "detail": "db down"},
     }
+
+
+def test_rag_query_route_returns_200(monkeypatch):
+    captured: dict[str, str] = {}
+
+    def fake_run_rag_pipeline(request):
+        captured["question"] = request.question
+        return RAGResponse(
+            answer="Pyruvate is produced by reaction R1.",
+            interpretation=RAGInterpretation(
+                entity_type="compound",
+                entity_id="C00022",
+                entity_name="pyruvate",
+                intent="producers",
+                confidence=0.9,
+            ),
+            context="Metabolic Graph Context",
+            reactions=[{"reaction_id": "R1", "name": "Reaction 1"}],
+            compounds=[{"compound_id": "C00022", "name": "Pyruvate"}],
+            enzymes=["1.2.3.4"],
+            trace=RAGTrace(reaction_ids=["R1"], compound_ids=["C00022"], enzyme_ecs=["1.2.3.4"]),
+        )
+
+    monkeypatch.setattr("backend.app.api.routes.rag.run_rag_pipeline", fake_run_rag_pipeline)
+
+    response = client.post("/rag/query", json={"question": " How is pyruvate produced? "})
+
+    assert response.status_code == 200
+    assert captured["question"] == "How is pyruvate produced?"
+    payload = response.json()
+    assert payload["answer"] == "Pyruvate is produced by reaction R1."
+    assert payload["interpretation"]["entity_type"] == "compound"
+    assert payload["reactions"][0]["reaction_id"] == "R1"
+
+
+def test_rag_query_route_rejects_empty_question():
+    response = client.post("/rag/query", json={"question": "   "})
+
+    assert response.status_code == 422

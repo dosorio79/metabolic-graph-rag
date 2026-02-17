@@ -19,11 +19,14 @@ def test_openapi_contains_required_paths_and_schemas():
     assert "/compounds/{compound_id}" in paths
     assert "/reactions/{reaction_id}" in paths
     assert "/pathways/{pathway_id}" in paths
+    assert "/rag/query" in paths
 
     schemas = doc["components"]["schemas"]
     assert "CompoundResponse" in schemas
     assert "ReactionResponse" in schemas
     assert "PathwayResponse" in schemas
+    assert "RAGRequest" in schemas
+    assert "RAGResponse" in schemas
 
 
 def test_openapi_reaction_response_has_required_fields():
