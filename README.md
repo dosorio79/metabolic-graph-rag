@@ -57,6 +57,19 @@ Set at least:
 - `APP_NEO4J_USER`
 - `APP_NEO4J_PASSWORD`
 
+Optional:
+
+- `APP_RAG_CONTEXT_MAX_REACTIONS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_COMPOUNDS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_ENZYMES` (default: `12`)
+- `APP_LLM_API_BASE` (default: `https://api.openai.com/v1`)
+- `APP_LLM_API_KEY`
+- `APP_LLM_MODEL` (default: `gpt-4o-mini`)
+- `APP_LLM_TEMPERATURE` (default: `0.2`)
+- `APP_LLM_MAX_TOKENS` (default: `400`)
+- `APP_LLM_TIMEOUT_SECONDS` (default: `30`)
+- `AIRFLOW_ADMIN_USERNAME` / `AIRFLOW_ADMIN_PASSWORD` (if using archived Airflow compose)
+
 ### 3. Start Neo4j
 
 Use your preferred method (local Docker, compose, or managed instance).
@@ -87,7 +100,7 @@ uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.jso
 ### 5. Start backend API
 
 ```bash
-uv run uvicorn backend.app.main:app --reload
+uv run python -m backend.app.main
 ```
 
 ### 6. Test retrieval endpoints
@@ -158,7 +171,7 @@ CI includes:
 - KEGG ingestion pipeline is available via CLI.
 - Graph retrieval endpoints are implemented in FastAPI.
 - Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
-- Task 3 RAG runtime scaffolding is under `backend/app/rag/`; implementation is in progress.
+- Task 3 RAG runtime modules are implemented under `backend/app/rag/` (query understanding, retriever, context builder, LLM client, pipeline).
 
 ## License
 

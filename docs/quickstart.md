@@ -26,6 +26,21 @@ App/client settings:
 - `APP_NEO4J_USER` (example: `neo4j`)
 - `APP_NEO4J_PASSWORD`
 
+Optional RAG context limits:
+
+- `APP_RAG_CONTEXT_MAX_REACTIONS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_COMPOUNDS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_ENZYMES` (default: `12`)
+
+Optional LLM settings (OpenAI-compatible):
+
+- `APP_LLM_API_BASE` (default: `https://api.openai.com/v1`)
+- `APP_LLM_API_KEY`
+- `APP_LLM_MODEL` (default: `gpt-4o-mini`)
+- `APP_LLM_TEMPERATURE` (default: `0.2`)
+- `APP_LLM_MAX_TOKENS` (default: `400`)
+- `APP_LLM_TIMEOUT_SECONDS` (default: `30`)
+
 Set Airflow admin credentials (used by the Airflow Docker image on first boot):
 
 - `AIRFLOW_ADMIN_USERNAME`
@@ -77,7 +92,7 @@ MATCH (n) RETURN labels(n), count(*) LIMIT 10;
 ## Run backend API
 
 ```bash
-uv run uvicorn backend.app.main:app --reload
+uv run python -m backend.app.main
 ```
 
 Open Swagger UI at `http://localhost:8000/docs`.
