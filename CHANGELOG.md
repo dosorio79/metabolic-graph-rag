@@ -6,6 +6,8 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-18
+
 ### Added
 - Prefect batch ingestion flow (`kegg_batch_pathway_ingestion`) with per-pathway success/failure reporting.
 - Make targets for batch flow execution and deployment (`flow-batch`, `prefect-deploy-batch`, `prefect-deploy-all`).
@@ -43,7 +45,8 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 ### Changed
 - Repository hygiene updates: stop tracking `.env` and ignore runtime artifacts.
 
-[Unreleased]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/dosorio79/metabolic-graph-rag/releases/tag/v0.1.1
