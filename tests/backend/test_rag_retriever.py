@@ -104,3 +104,25 @@ def test_retrieve_graph_context_unknown_returns_empty():
     assert result.reactions == []
     assert result.compounds == []
     assert result.enzymes == []
+
+
+def test_retrieve_graph_context_pathway_alias_map_to_hsa(monkeypatch):
+    def fake_fetch_pathway(pathway_id: str):
+        if pathway_id == "map00010":
+            return None
+        if pathway_id == "hsa00010":
+            return {
+                "pathway_id": "hsa00010",
+                "reactions": [{"reaction_id": "R00001", "name": "rxn1"}],
+            }
+        return None
+
+    monkeypatch.setattr(retriever.graph_queries, "fetch_pathway", fake_fetch_pathway)
+
+    result = retriever.retrieve_graph_context(
+        RAGInterpretation(entity_type="pathway", entity_id="map00010", intent="summary", confidence=0.9)
+    )
+
+    assert result.resolved_entity_id == "hsa00010"
+    assert [item.reaction_id for item in result.reactions] == ["R00001"]
+    assert result.trace.pathway_ids == ["hsa00010"]

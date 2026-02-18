@@ -57,6 +57,8 @@ def _collect_enzymes_from_reactions(reactions: list[RAGReactionSummary]) -> list
 def _resolve_entity_id(interpretation: RAGInterpretation) -> str | None:
     """Resolve entity id from interpretation, falling back to name lookups."""
     if interpretation.entity_id:
+        if interpretation.entity_type == "pathway":
+            return _resolve_pathway_alias(interpretation.entity_id)
         return interpretation.entity_id
     if not interpretation.entity_name:
         return None
@@ -67,10 +69,27 @@ def _resolve_entity_id(interpretation: RAGInterpretation) -> str | None:
     if interpretation.entity_type == "reaction":
         return graph_queries.lookup_reaction_id_by_name(interpretation.entity_name)
     if interpretation.entity_type == "pathway":
-        return graph_queries.lookup_pathway_id_by_name(interpretation.entity_name)
+        matched_pathway = graph_queries.lookup_pathway_id_by_name(interpretation.entity_name)
+        if not matched_pathway:
+            return None
+        return _resolve_pathway_alias(matched_pathway)
     if interpretation.entity_type == "enzyme":
         return interpretation.entity_name
     return None
+
+
+def _resolve_pathway_alias(pathway_id: str) -> str:
+    """Map generic KEGG ids to organism-specific pathways when possible.
+
+    Example: `map00010` -> `hsa00010` if only human pathways are loaded.
+    """
+    if graph_queries.fetch_pathway(pathway_id):
+        return pathway_id
+    if pathway_id.startswith("map") and len(pathway_id) == 8:
+        organism_specific = f"hsa{pathway_id[3:]}"
+        if graph_queries.fetch_pathway(organism_specific):
+            return organism_specific
+    return pathway_id
 
 
 def _select_compound_reactions(compound_payload: dict[str, Any], intent: str) -> list[RAGReactionSummary]:
@@ -129,6 +148,17 @@ def _handle_pathway(interpretation: RAGInterpretation, resolved_entity_id: str) 
     return result
 
 
+def _handle_pathway_with_payload(
+    interpretation: RAGInterpretation,
+    resolved_entity_id: str,
+    pathway: dict[str, Any],
+) -> RetrieverOutput:
+    """Build pathway retrieval payload from pre-fetched pathway data."""
+    result = _empty_retrieval(interpretation, resolved_entity_id)
+    result.reactions = _dedupe_reactions(pathway.get("reactions", []))
+    return result
+
+
 def _handle_enzyme(interpretation: RAGInterpretation, resolved_entity_id: str) -> RetrieverOutput:
     """Retrieve enzyme-centric context (enzyme EC + catalyzed reactions)."""
     result = _empty_retrieval(interpretation, resolved_entity_id)
@@ -169,6 +199,18 @@ def retrieve_graph_context(interpretation: RAGInterpretation) -> RetrieverOutput
     if not resolved_entity_id:
         return _empty_retrieval(interpretation, resolved_entity_id)
 
+    # Pathway alias resolution may already have fetched the pathway payload.
+    pathway_payload: dict[str, Any] | None = None
+    if interpretation.entity_type == "pathway":
+        pathway_payload = graph_queries.fetch_pathway(resolved_entity_id)
+        if not pathway_payload and resolved_entity_id.startswith("map") and len(resolved_entity_id) == 8:
+            hsa_id = f"hsa{resolved_entity_id[3:]}"
+            pathway_payload = graph_queries.fetch_pathway(hsa_id)
+            if pathway_payload:
+                resolved_entity_id = hsa_id
+        if not pathway_payload:
+            return _empty_retrieval(interpretation, resolved_entity_id)
+
     # Dispatch keeps each entity-type retrieval path isolated and readable.
     handlers: dict[str, Callable[[RAGInterpretation, str], RetrieverOutput]] = {
         "compound": _handle_compound,
@@ -180,7 +222,10 @@ def retrieve_graph_context(interpretation: RAGInterpretation) -> RetrieverOutput
     if not handler:
         return _empty_retrieval(interpretation, resolved_entity_id)
 
-    result = handler(interpretation, resolved_entity_id)
+    if interpretation.entity_type == "pathway" and pathway_payload is not None:
+        result = _handle_pathway_with_payload(interpretation, resolved_entity_id, pathway_payload)
+    else:
+        result = handler(interpretation, resolved_entity_id)
     # Trace is always recomputed from the normalized payload to avoid stale IDs.
     trace = _build_trace(
         interpretation=interpretation,

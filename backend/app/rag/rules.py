@@ -23,7 +23,9 @@ RULES = QueryRules(
         "consumers": (
             "consume",
             "consumed",
+            "use",
             "uses",
+            "using",
             "used by",
             "utilize",
             "degrade",
@@ -65,10 +67,16 @@ RULES = QueryRules(
             r"\bhow is (?P<name>[a-z0-9][a-z0-9 -]*[a-z0-9]) (?:produced|generated|made|synthesized)\b"
         ),
         re.compile(
+            r"\b(?:produce|produces|produced|generate|generates|generated|make|makes|made|synthesize|synthesizes|synthesized|form|forms) (?P<name>[a-z0-9][a-z0-9 -]*[a-z0-9])\b"
+        ),
+        re.compile(
             r"\b(?:consume|consumes|consumed|use|uses|used|utilize|utilizes|degrade|degrades|catabolize|catabolizes|break down) (?P<name>[a-z0-9][a-z0-9 -]*[a-z0-9])\b"
         ),
         re.compile(
             r"\b(?:act on|acts on|catalyze|catalyzes|catalyse|catalyses) (?P<name>[a-z0-9][a-z0-9 -]*[a-z0-9])\b"
+        ),
+        re.compile(
+            r"\b(?:what is|describe|overview of|summary of|tell me about) (?P<name>[a-z0-9][a-z0-9 -]*[a-z0-9])\b"
         ),
         re.compile(r"\b(?:of|for|on|in|about) (?P<name>[a-z0-9][a-z0-9 -]*[a-z0-9])\??$"),
     ),

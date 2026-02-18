@@ -33,6 +33,18 @@ from backend.app.rag.utils import format_classification_debug
             "Tell me about compound C00022",
             {"intent": "summary", "entity_type": "compound", "entity_id": "C00022"},
         ),
+        (
+            "Which reactions use C00031?",
+            {"intent": "consumers", "entity_type": "compound", "entity_id": "C00031"},
+        ),
+        (
+            "Which enzymes produce glucose?",
+            {"intent": "producers", "entity_type": "compound", "entity_name": "glucose"},
+        ),
+        (
+            "What is glycolysis pathway?",
+            {"intent": "summary", "entity_type": "pathway", "entity_name": "glycolysis"},
+        ),
     ],
 )
 def test_classify_question_core_cases(question, expected):
