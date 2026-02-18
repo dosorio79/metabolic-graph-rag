@@ -97,6 +97,15 @@ Optional: write results to a JSON file.
 uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
+Optional Prefect orchestration (single + batch):
+
+```bash
+make prefect-server
+make prefect-worker
+make prefect-deploy-all
+uv run prefect deployment run 'kegg_batch_pathway_ingestion/local-batch' --params '{"pathway_ids":["map00010","map00020","map00030","map00051","map00052","map00260","map00280","map00500","map00620","map00630","map00640","map00650"]}'
+```
+
 ### 5. Start backend API
 
 ```bash
@@ -158,6 +167,7 @@ CI includes:
 ## Documentation
 
 - Project docs index: `docs/README.md`
+- Changelog: `CHANGELOG.md`
 - OpenAPI spec: `docs/openapi.yaml`
 - Task 1 brief: `docs/Build_tasks/task1.md`
 - Task 2 brief: `docs/Build_tasks/task2.md`

@@ -75,6 +75,38 @@ Optional: write the raw reactions to disk.
 uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
+## Run ingestion with Prefect (single + batch)
+
+Start Prefect server and worker in separate terminals:
+
+```bash
+make prefect-server
+make prefect-worker
+```
+
+Create deployments:
+
+```bash
+make prefect-deploy-all
+```
+
+Run single-flow ingestion:
+
+```bash
+uv run prefect deployment run 'kegg_pathway_ingestion/local' --params '{"pathway_id":"hsa00010"}'
+```
+
+Run batch ingestion:
+
+```bash
+uv run prefect deployment run 'kegg_batch_pathway_ingestion/local-batch' --params '{"pathway_ids":["map00010","map00020","map00030","map00051","map00052","map00260","map00280","map00500","map00620","map00630","map00640","map00650"]}'
+```
+
+Notes:
+
+- Batch flow accepts `pathway_ids` as a list or string and normalizes input.
+- ETL unions reaction ids from module entries, pathway text, and `link/rn` endpoint to improve pathway coverage.
+
 ## Load reactions into Neo4j
 
 ```bash

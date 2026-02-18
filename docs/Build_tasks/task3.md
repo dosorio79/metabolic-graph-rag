@@ -226,8 +226,21 @@ This allows frontend integration later.
 - [x] Structured response schema
 
 ### Testing
-- [ ] Manual question validation
-- [ ] Graph grounding verified
+- [x] Manual question validation
+- [x] Graph grounding verified
+
+Manual validation notes (notebook-based):
+
+- Dataset: `notebooks/test_question_validation.ipynb`
+- Intent accuracy: `96%`
+- Entity type accuracy: `96%`
+- Grounding pass rate: `88%`
+- Overall pass rate: `84%`
+
+Known limitations:
+
+- A small subset of edge-case prompts remains sensitive to current graph coverage.
+- Input validation failures (for empty questions) are expected and tracked separately from retrieval quality.
 
 ---
 
