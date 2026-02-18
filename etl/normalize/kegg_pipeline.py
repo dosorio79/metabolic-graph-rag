@@ -43,6 +43,14 @@ def ingest_pathway(pathway_id: str) -> list[RawReactionRecord]:
         reactions = extract_kegg_reactions(module_text)
         all_reactions.update(reactions)
 
+    # Module sections can be incomplete for organism-specific pathways.
+    # Always union direct pathway reaction references to maximize coverage.
+    all_reactions.update(extract_kegg_reactions(pathway_text))
+    # KEGG pathway entries often omit explicit R-ids; the pathway->reaction
+    # link endpoint is a more reliable source of reaction membership.
+    pathway_links_text = fetch_kegg_data("link/rn", pathway_id, session=session)
+    all_reactions.update(extract_kegg_reactions(pathway_links_text))
+
     print(f"Total reactions collected: {len(all_reactions)}")
 
     # Fetch each reaction entry and parse into structured records.

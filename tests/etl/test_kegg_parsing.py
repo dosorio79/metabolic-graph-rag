@@ -148,3 +148,61 @@ def test_ingest_pathway_skips_missing_products(monkeypatch):
 
     assert len(reactions) == 1
     assert reactions[0]["reaction_id"] == "R00001"
+
+
+def test_ingest_pathway_falls_back_to_pathway_reactions_when_no_modules(monkeypatch):
+    def fake_fetch(endpoint: str, entries: str, **_kwargs: object) -> str:
+        if entries == "path:demo":
+            return "REACTION    R00003 R00004\n"
+        if entries == "R00003":
+            return "EQUATION    C00010 <=> C00011\n"
+        if entries == "R00004":
+            return "EQUATION    C00012 => C00013\n"
+        return ""
+
+    monkeypatch.setattr("etl.normalize.kegg_pipeline.fetch_kegg_data", fake_fetch)
+
+    reactions = ingest_pathway("path:demo")
+
+    assert len(reactions) == 2
+    assert [item["reaction_id"] for item in reactions] == ["R00003", "R00004"]
+
+
+def test_ingest_pathway_unions_module_and_pathway_reactions(monkeypatch):
+    def fake_fetch(endpoint: str, entries: str, **_kwargs: object) -> str:
+        if entries == "path:demo":
+            return "MODULE      M00001\nREACTION    R00002\n"
+        if entries == "M00001":
+            return "REACTION    R00001\n"
+        if entries == "R00001":
+            return "EQUATION    C00001 <=> C00002\n"
+        if entries == "R00002":
+            return "EQUATION    C00003 => C00004\n"
+        return ""
+
+    monkeypatch.setattr("etl.normalize.kegg_pipeline.fetch_kegg_data", fake_fetch)
+
+    reactions = ingest_pathway("path:demo")
+
+    assert [item["reaction_id"] for item in reactions] == ["R00001", "R00002"]
+
+
+def test_ingest_pathway_collects_reactions_from_link_endpoint(monkeypatch):
+    def fake_fetch(endpoint: str, entries: str, **_kwargs: object) -> str:
+        if endpoint == "get" and entries == "path:demo":
+            return "MODULE      M00001\n"
+        if endpoint == "get" and entries == "M00001":
+            return ""
+        if endpoint == "link/rn" and entries == "path:demo":
+            return "path:path:demo\\trn:R12345\\npath:path:demo\\trn:R12346\\n"
+        if endpoint == "get" and entries == "R12345":
+            return "EQUATION    C00001 <=> C00002\n"
+        if endpoint == "get" and entries == "R12346":
+            return "EQUATION    C00003 => C00004\n"
+        return ""
+
+    monkeypatch.setattr("etl.normalize.kegg_pipeline.fetch_kegg_data", fake_fetch)
+
+    reactions = ingest_pathway("path:demo")
+
+    assert [item["reaction_id"] for item in reactions] == ["R12345", "R12346"]
