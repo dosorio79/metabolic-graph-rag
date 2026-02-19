@@ -6,6 +6,12 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-02-19
+
+### Fixed
+- API Docker image now installs `openai`, resolving startup failure in Docker smoke tests (`ModuleNotFoundError: openai`).
+- Quoted package constraints in `backend/Dockerfile` install command for safer shell parsing in CI builds.
+
 ## [0.4.0] - 2026-02-18
 
 ### Added
@@ -45,7 +51,8 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 ### Changed
 - Repository hygiene updates: stop tracking `.env` and ignore runtime artifacts.
 
-[Unreleased]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/dosorio79/metabolic-graph-rag/compare/v0.1.1...v0.2.0

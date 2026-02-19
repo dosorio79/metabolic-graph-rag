@@ -1,6 +1,6 @@
 [project]
 name = "metabolic-graph-rag"
-version = "0.4.0"
+version = "0.4.1"
 description = "Metabolic graph ingestion and retrieval platform built on KEGG, Neo4j, and FastAPI."
 readme = "README.md"
 requires-python = ">=3.12"
