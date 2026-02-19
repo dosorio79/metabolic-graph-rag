@@ -29,6 +29,7 @@
 ## Minimal Verification Checklist
 
 - `uv run python etl/ingest_kegg_cli.py` succeeds.
+- `make flow-batch` (or Prefect batch deployment run) succeeds for multi-pathway ingestion.
 - `uv run python scripts/test_neo4j_loader.py` succeeds.
 - Neo4j contains expected nodes/relationships.
 - Backend app starts without import/runtime errors.
@@ -59,6 +60,12 @@ CI mirrors this approach:
 
 - unit/integration test job excludes archived Airflow tests via marker filter
 - Docker smoke job validates compose startup and API wiring (`neo4j` + `api`)
+
+Useful orchestration shortcuts:
+
+- `make prefect-server`
+- `make prefect-worker`
+- `make prefect-deploy-all`
 
 ## Documentation Discipline
 

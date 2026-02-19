@@ -1,0 +1,8 @@
+Context:
+{context}
+
+Question:
+{question}
+
+Provide a concise explanation strictly grounded in the context.
+If the context does not contain enough information, explain what is missing.

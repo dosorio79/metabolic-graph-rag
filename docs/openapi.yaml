@@ -7,7 +7,7 @@ info:
 
     Architecture:
       Neo4j -> FastAPI -> Retrieval API -> Frontend
-  version: "0.1.0"
+  version: "0.4.1"
 
 servers:
   - url: http://localhost:8000

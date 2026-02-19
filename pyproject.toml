@@ -1,6 +1,6 @@
 [project]
 name = "metabolic-graph-rag"
-version = "0.3.0"
+version = "0.4.1"
 description = "Metabolic graph ingestion and retrieval platform built on KEGG, Neo4j, and FastAPI."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -8,6 +8,7 @@ dependencies = [
     "apache-airflow>=2.9.0",
     "fastapi>=0.128.5",
     "neo4j>=6.1.0",
+    "openai>=2.21.0",
     "pandas>=3.0.0",
     "prefect>=2.20.25",
     "pydantic>=2.12.5",

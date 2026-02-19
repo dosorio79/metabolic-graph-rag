@@ -21,7 +21,7 @@ metabolic-graph-rag/
 ├── etl/                # Fetch, normalize, and load pipeline code
 ├── graph/              # Neo4j client and graph query assets
 ├── backend/            # FastAPI retrieval API
-├── rag/                # Retrieval and context assembly logic
+├── backend/app/rag/    # RAG runtime modules (query understanding, retrieval, context, LLM, pipeline)
 ├── agents/             # Planner and tool interfaces
 ├── embeddings/         # Embedding build scripts
 ├── data/               # Raw and normalized local artifacts
@@ -57,6 +57,19 @@ Set at least:
 - `APP_NEO4J_USER`
 - `APP_NEO4J_PASSWORD`
 
+Optional:
+
+- `APP_RAG_CONTEXT_MAX_REACTIONS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_COMPOUNDS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_ENZYMES` (default: `12`)
+- `APP_LLM_API_BASE` (default: `https://api.openai.com/v1`)
+- `APP_LLM_API_KEY`
+- `APP_LLM_MODEL` (default: `gpt-4o-mini`)
+- `APP_LLM_TEMPERATURE` (default: `0.2`)
+- `APP_LLM_MAX_TOKENS` (default: `400`)
+- `APP_LLM_TIMEOUT_SECONDS` (default: `30`)
+- `AIRFLOW_ADMIN_USERNAME` / `AIRFLOW_ADMIN_PASSWORD` (if using archived Airflow compose)
+
 ### 3. Start Neo4j
 
 Use your preferred method (local Docker, compose, or managed instance).
@@ -84,10 +97,19 @@ Optional: write results to a JSON file.
 uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
+Optional Prefect orchestration (single + batch):
+
+```bash
+make prefect-server
+make prefect-worker
+make prefect-deploy-all
+uv run prefect deployment run 'kegg_batch_pathway_ingestion/local-batch' --params '{"pathway_ids":["map00010","map00020","map00030","map00051","map00052","map00260","map00280","map00500","map00620","map00630","map00640","map00650"]}'
+```
+
 ### 5. Start backend API
 
 ```bash
-uv run uvicorn backend.app.main:app --reload
+uv run python -m backend.app.main
 ```
 
 ### 6. Test retrieval endpoints
@@ -145,6 +167,7 @@ CI includes:
 ## Documentation
 
 - Project docs index: `docs/README.md`
+- Changelog: `CHANGELOG.md`
 - OpenAPI spec: `docs/openapi.yaml`
 - Task 1 brief: `docs/Build_tasks/task1.md`
 - Task 2 brief: `docs/Build_tasks/task2.md`
@@ -158,7 +181,7 @@ CI includes:
 - KEGG ingestion pipeline is available via CLI.
 - Graph retrieval endpoints are implemented in FastAPI.
 - Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
-- RAG-specific retrieval/ranking layers are next-stage work.
+- Task 3 RAG runtime modules are implemented under `backend/app/rag/` (query understanding, retriever, context builder, LLM client, pipeline).
 
 ## License
 

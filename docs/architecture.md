@@ -32,11 +32,7 @@ KEGG API
 - Route handlers in `backend/app/api/routes/`.
 - Query service layer in `backend/app/services/graph_queries.py`.
 - Typed response models in `backend/app/schemas/graph.py`.
-
-### `rag/`
-
-- Retrieval logic over graph results.
-- Context builder for downstream generation.
+- RAG runtime package in `backend/app/rag/` (query understanding, retriever, context builder, LLM client, pipeline).
 
 ### `agents/`
 

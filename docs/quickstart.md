@@ -26,6 +26,21 @@ App/client settings:
 - `APP_NEO4J_USER` (example: `neo4j`)
 - `APP_NEO4J_PASSWORD`
 
+Optional RAG context limits:
+
+- `APP_RAG_CONTEXT_MAX_REACTIONS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_COMPOUNDS` (default: `8`)
+- `APP_RAG_CONTEXT_MAX_ENZYMES` (default: `12`)
+
+Optional LLM settings (OpenAI-compatible):
+
+- `APP_LLM_API_BASE` (default: `https://api.openai.com/v1`)
+- `APP_LLM_API_KEY`
+- `APP_LLM_MODEL` (default: `gpt-4o-mini`)
+- `APP_LLM_TEMPERATURE` (default: `0.2`)
+- `APP_LLM_MAX_TOKENS` (default: `400`)
+- `APP_LLM_TIMEOUT_SECONDS` (default: `30`)
+
 Set Airflow admin credentials (used by the Airflow Docker image on first boot):
 
 - `AIRFLOW_ADMIN_USERNAME`
@@ -60,6 +75,38 @@ Optional: write the raw reactions to disk.
 uv run python etl/ingest_kegg_cli.py --output data/normalized/kegg_reactions.json
 ```
 
+## Run ingestion with Prefect (single + batch)
+
+Start Prefect server and worker in separate terminals:
+
+```bash
+make prefect-server
+make prefect-worker
+```
+
+Create deployments:
+
+```bash
+make prefect-deploy-all
+```
+
+Run single-flow ingestion:
+
+```bash
+uv run prefect deployment run 'kegg_pathway_ingestion/local' --params '{"pathway_id":"hsa00010"}'
+```
+
+Run batch ingestion:
+
+```bash
+uv run prefect deployment run 'kegg_batch_pathway_ingestion/local-batch' --params '{"pathway_ids":["map00010","map00020","map00030","map00051","map00052","map00260","map00280","map00500","map00620","map00630","map00640","map00650"]}'
+```
+
+Notes:
+
+- Batch flow accepts `pathway_ids` as a list or string and normalizes input.
+- ETL unions reaction ids from module entries, pathway text, and `link/rn` endpoint to improve pathway coverage.
+
 ## Load reactions into Neo4j
 
 ```bash
@@ -77,7 +124,7 @@ MATCH (n) RETURN labels(n), count(*) LIMIT 10;
 ## Run backend API
 
 ```bash
-uv run uvicorn backend.app.main:app --reload
+uv run python -m backend.app.main
 ```
 
 Open Swagger UI at `http://localhost:8000/docs`.
