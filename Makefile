@@ -1,7 +1,7 @@
 PYTHON := .venv/bin/python
 PYTHONPATH_ROOT := PYTHONPATH=.
 
-.PHONY: test test-active test-ci test-backend test-etl test-airflow prefect-server prefect-deploy prefect-deploy-batch prefect-deploy-all prefect-worker flow flow-batch reset reset-flow
+.PHONY: test test-active test-ci test-backend test-etl test-airflow test-evaluation run-evaluation prefect-server prefect-deploy prefect-deploy-batch prefect-deploy-all prefect-worker flow flow-batch reset reset-flow
 
 test:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest
@@ -19,6 +19,12 @@ test-etl:
 
 test-airflow:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest tests/airflow
+
+test-evaluation:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest tests/evaluation
+
+run-evaluation:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m evaluation.giskard.run_evaluation
 
 prefect-server:
 	uv run prefect server start

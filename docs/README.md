@@ -12,6 +12,7 @@ This directory contains practical guidance for building and evolving the project
 - `docs/Build_tasks/task1.md`: Task 1 build objective and deliverables.
 - `docs/Build_tasks/task1a.md`: Task 1A enrichment and orchestration extensions.
 - `docs/Build_tasks/task2.md`: Task 2 retrieval API scope and completion checklist.
+- `docs/task4.md`: Task 4 grounding evaluation scope using deterministic validators and Giskard harness.
 - `scripts/test_neo4j_loader.py`: Manual loader smoke test.
 
 ## Suggested Reading Order
@@ -21,5 +22,6 @@ This directory contains practical guidance for building and evolving the project
 3. `docs/openapi.yaml`
 4. `docs/Build_tasks/task1.md`
 5. `docs/Build_tasks/task2.md`
-6. `docs/testing.md`
-7. `docs/development.md`
+6. `docs/task4.md`
+7. `docs/testing.md`
+8. `docs/development.md`

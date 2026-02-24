@@ -1,0 +1,214 @@
+[
+  {
+    "question": "How is pyruvate produced in glycolysis?",
+    "source": "task4_seed"
+  },
+  {
+    "question": "Which compounds participate in reaction R00209?",
+    "source": "task4_seed"
+  },
+  {
+    "question": "Which reactions are associated with enzyme 1.2.1.104?",
+    "source": "task4_seed"
+  },
+  {
+    "question": "How is pyruvate produced?",
+    "source": "task3_notebook",
+    "category": "producers",
+    "expected_intent": "producers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "What reactions produce C00022?",
+    "source": "task3_notebook",
+    "category": "producers",
+    "expected_intent": "producers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "How is oxaloacetate synthesized?",
+    "source": "task3_notebook",
+    "category": "producers",
+    "expected_intent": "producers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "Which enzymes produce glucose?",
+    "source": "task3_notebook",
+    "category": "producers",
+    "expected_intent": "producers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "How is lactate generated?",
+    "source": "task3_notebook",
+    "category": "producers",
+    "expected_intent": "producers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "What consumes glucose?",
+    "source": "task3_notebook",
+    "category": "consumers",
+    "expected_intent": "consumers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "Which reactions use C00031?",
+    "source": "task3_notebook",
+    "category": "consumers",
+    "expected_intent": "consumers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "What degrades lactate?",
+    "source": "task3_notebook",
+    "category": "consumers",
+    "expected_intent": "consumers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "What pathways break down pyruvate?",
+    "source": "task3_notebook",
+    "category": "consumers",
+    "expected_intent": "consumers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "Describe enzymes that use glucose",
+    "source": "task3_notebook",
+    "category": "consumers",
+    "expected_intent": "consumers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "Which enzymes act on glucose?",
+    "source": "task3_notebook",
+    "category": "participants",
+    "expected_intent": "participants",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "List participants in R00200",
+    "source": "task3_notebook",
+    "category": "participants",
+    "expected_intent": "participants",
+    "expected_entity_type": "reaction",
+    "expect_grounding": true
+  },
+  {
+    "question": "What are the reactants in R01070?",
+    "source": "task3_notebook",
+    "category": "participants",
+    "expected_intent": "participants",
+    "expected_entity_type": "reaction",
+    "expect_grounding": true
+  },
+  {
+    "question": "enzyme ec 1.1.1.1",
+    "source": "task3_notebook",
+    "category": "participants",
+    "expected_intent": "participants",
+    "expected_entity_type": "enzyme",
+    "expect_grounding": true
+  },
+  {
+    "question": "participants in map00010",
+    "source": "task3_notebook",
+    "category": "participants",
+    "expected_intent": "participants",
+    "expected_entity_type": "pathway",
+    "expect_grounding": true
+  },
+  {
+    "question": "What is glycolysis pathway?",
+    "source": "task3_notebook",
+    "category": "summary",
+    "expected_intent": "summary",
+    "expected_entity_type": "pathway",
+    "expect_grounding": true
+  },
+  {
+    "question": "Tell me about C00022",
+    "source": "task3_notebook",
+    "category": "summary",
+    "expected_intent": "summary",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "Describe R00200",
+    "source": "task3_notebook",
+    "category": "summary",
+    "expected_intent": "summary",
+    "expected_entity_type": "reaction",
+    "expect_grounding": true
+  },
+  {
+    "question": "Overview of hsa00010",
+    "source": "task3_notebook",
+    "category": "summary",
+    "expected_intent": "summary",
+    "expected_entity_type": "pathway",
+    "expect_grounding": true
+  },
+  {
+    "question": "What is EC 2.7.1.1?",
+    "source": "task3_notebook",
+    "category": "summary",
+    "expected_intent": "summary",
+    "expected_entity_type": "enzyme",
+    "expect_grounding": true
+  },
+  {
+    "question": "about pyruvate",
+    "source": "task3_notebook",
+    "category": "unknown_edge",
+    "expected_intent": "summary",
+    "expected_entity_type": "unknown",
+    "expect_grounding": true
+  },
+  {
+    "question": "C00022",
+    "source": "task3_notebook",
+    "category": "unknown_edge",
+    "expected_intent": "summary",
+    "expected_entity_type": "compound",
+    "expect_grounding": true
+  },
+  {
+    "question": "Hi there",
+    "source": "task3_notebook",
+    "category": "unknown_edge",
+    "expected_intent": "unknown",
+    "expected_entity_type": "unknown",
+    "expect_grounding": false
+  },
+  {
+    "question": "random text with no biology",
+    "source": "task3_notebook",
+    "category": "unknown_edge",
+    "expected_intent": "unknown",
+    "expected_entity_type": "unknown",
+    "expect_grounding": false
+  },
+  {
+    "question": "   ",
+    "source": "task3_notebook",
+    "category": "unknown_edge",
+    "expected_intent": "unknown",
+    "expected_entity_type": "unknown",
+    "expect_grounding": false
+  }
+]
