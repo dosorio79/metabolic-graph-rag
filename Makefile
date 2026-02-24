@@ -1,7 +1,10 @@
 PYTHON := .venv/bin/python
 PYTHONPATH_ROOT := PYTHONPATH=.
+GSK_HOME_LOCAL := GSK_HOME=$(CURDIR)/.giskard-home
+GSK_ANALYTICS_OFF := GSK_DISABLE_ANALYTICS=1
+GSK_LOCAL_ENV := $(GSK_HOME_LOCAL) $(GSK_ANALYTICS_OFF)
 
-.PHONY: test test-active test-ci test-backend test-etl test-airflow test-evaluation run-evaluation prefect-server prefect-deploy prefect-deploy-batch prefect-deploy-all prefect-worker flow flow-batch reset reset-flow
+.PHONY: test test-active test-ci test-backend test-etl test-airflow test-evaluation run-evaluation run-evaluation-deterministic run-evaluation-llm giskard-ui-start giskard-ui-status giskard-ui-stop giskard-ui-logs giskard-worker-start giskard-worker-stop giskard-worker-logs giskard-publish-task4 prefect-server prefect-deploy prefect-deploy-batch prefect-deploy-all prefect-worker flow flow-batch reset reset-flow
 
 test:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest
@@ -25,6 +28,36 @@ test-evaluation:
 
 run-evaluation:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m evaluation.giskard.run_evaluation
+
+run-evaluation-deterministic:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m evaluation.giskard.run_evaluation
+
+run-evaluation-llm:
+	APP_TASK4_ENABLE_GISKARD_SCAN=1 $(PYTHONPATH_ROOT) $(PYTHON) -m evaluation.giskard.run_evaluation
+
+giskard-ui-start:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard hub start
+
+giskard-ui-status:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard hub status
+
+giskard-ui-stop:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard hub stop
+
+giskard-ui-logs:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard hub logs
+
+giskard-worker-start:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard worker start
+
+giskard-worker-stop:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard worker stop
+
+giskard-worker-logs:
+	$(GSK_LOCAL_ENV) .venv/bin/giskard worker logs
+
+giskard-publish-task4:
+	$(PYTHONPATH_ROOT) $(PYTHON) -m evaluation.giskard.publish_to_hub
 
 prefect-server:
 	uv run prefect server start

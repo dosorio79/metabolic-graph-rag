@@ -37,12 +37,32 @@ Run Task 4 evaluation runner:
 
 ```bash
 uv run python -m evaluation.giskard.run_evaluation
+# or
+make run-evaluation-deterministic
 ```
 
 Optional: enable the Giskard LLM-assisted scan (may incur LLM API cost):
 
 ```bash
 APP_TASK4_ENABLE_GISKARD_SCAN=1 uv run python -m evaluation.giskard.run_evaluation
+# or
+make run-evaluation-llm
+```
+
+Optional: start local Giskard Hub/Worker UI services:
+
+```bash
+make giskard-ui-start
+make giskard-worker-start
+make giskard-ui-status
+```
+
+Optional: publish Task 4 dataset/model artifacts into the local Giskard UI
+project (after creating a Hub API key in the UI):
+
+```bash
+export GSK_API_KEY=...
+make giskard-publish-task4
 ```
 
 Run archived Airflow tests explicitly:

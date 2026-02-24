@@ -44,6 +44,22 @@ evaluation/
 
 ---
 
+## Local Run Modes
+
+Task 4 supports two local execution modes:
+
+1. Deterministic grounding only (default, no Giskard LLM scan)
+2. Deterministic grounding + optional Giskard LLM-assisted scan
+
+Make targets:
+
+- `make run-evaluation-deterministic`
+- `make run-evaluation-llm`
+
+Both read `evaluation/dataset/questions.json` and write `evaluation/results/latest_results.json`.
+
+---
+
 ## Phase 4.1 — Model Wrapper
 
 Wrap RAG as a Giskard-compatible model.
@@ -64,9 +80,9 @@ Trace includes:
 - context
 
 Deliverables:
-- [ ] Giskard model wrapper implemented
-- [ ] RAG trace accessible to tests
-- [ ] Wrapper isolated from FastAPI
+- [x] Giskard model wrapper implemented
+- [x] RAG trace accessible to tests
+- [x] Wrapper isolated from FastAPI
 
 ---
 
@@ -92,9 +108,9 @@ Rules:
    If retrieval empty → answer must explicitly state insufficient context
 
 Deliverables:
-- [ ] Rule functions implemented
-- [ ] Rule functions unit tested
-- [ ] Clear pass/fail output structure
+- [x] Rule functions implemented
+- [x] Rule functions unit tested
+- [x] Clear pass/fail output structure
 
 ---
 
@@ -113,13 +129,51 @@ Optional:
 - Enable the LLM-assisted Giskard scan only when explicitly requested (may incur API cost)
 
 Deliverables:
-- [ ] Giskard test suite defined
-- [ ] Tests run locally
-- [ ] Failures clearly reported
+- [x] Giskard test suite defined
+- [x] Tests run locally
+- [x] Failures clearly reported
 
 Implementation note:
 - The repository runner keeps the `giskard.scan(...)` step optional behind
   `APP_TASK4_ENABLE_GISKARD_SCAN=1` to avoid accidental API spend during routine local runs.
+- Full LLM-assisted detector coverage requires installing `giskard[llm]` (heavier dependency set).
+
+### Local Giskard UI (Hub)
+
+Giskard can run a local UI for interactive inspection. In this repository, the
+Task 4 runner remains CLI/JSON-based, but you can start the local Hub and Worker
+from Make targets:
+
+- `make giskard-ui-start`
+- `make giskard-ui-status`
+- `make giskard-ui-logs`
+- `make giskard-ui-stop`
+- `make giskard-worker-start`
+- `make giskard-worker-logs`
+- `make giskard-worker-stop`
+
+Notes:
+- These commands use a repo-local Giskard home directory: `.giskard-home/`
+- Analytics is disabled in the Make targets (`GSK_DISABLE_ANALYTICS=1`)
+- The Hub/Worker commands typically require Docker available locally
+- The Task 4 runner writes `evaluation/results/latest_results.json` for review in
+  the IDE/CLI; the UI flow uses a separate publish step for dataset/model artifacts
+
+Suggested local UI workflow:
+
+1. Start the Hub: `make giskard-ui-start`
+2. Open the UI at `http://localhost:19000`
+3. Create/copy a Hub API key in the UI
+4. Export the key for CLI usage: `export GSK_API_KEY=...`
+5. Publish Task 4 artifacts (questions + model wrapper) to the UI project:
+   `make giskard-publish-task4`
+6. Start a worker (prompts for API key if `GSK_API_KEY` is not set):
+   `make giskard-worker-start`
+
+Optional environment variables for publishing:
+- `GSK_HUB_URL` (default `http://localhost:19000`)
+- `GSK_PROJECT_KEY` (default `metabolic-graph-rag-task4`)
+- `GSK_PROJECT_NAME` (default `Metabolic Graph RAG Task 4`)
 
 ---
 
@@ -144,9 +198,9 @@ Output structure:
 }
 
 Deliverables:
-- [ ] Evaluation runner implemented
-- [ ] Results stored
-- [ ] Summary metrics printed
+- [x] Evaluation runner implemented
+- [x] Results stored
+- [x] Summary metrics printed
 
 ---
 

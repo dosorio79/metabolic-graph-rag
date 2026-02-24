@@ -163,12 +163,32 @@ Run the Task 4 grounding evaluation runner (writes `evaluation/results/latest_re
 
 ```bash
 uv run python -m evaluation.giskard.run_evaluation
+# or
+make run-evaluation-deterministic
 ```
 
 Optional: enable the Giskard LLM-assisted scan (can incur API cost):
 
 ```bash
 APP_TASK4_ENABLE_GISKARD_SCAN=1 uv run python -m evaluation.giskard.run_evaluation
+# or
+make run-evaluation-llm
+```
+
+Optional: start local Giskard UI (Hub) / worker for interactive inspection:
+
+```bash
+make giskard-ui-start
+make giskard-worker-start
+make giskard-ui-status
+```
+
+Optional: publish Task 4 `questions.json` + RAG wrapper model to the local Giskard UI
+project (requires `GSK_API_KEY` from the UI):
+
+```bash
+export GSK_API_KEY=...
+make giskard-publish-task4
 ```
 
 Run archived Airflow tests separately (optional):
