@@ -1,0 +1,1586 @@
+{
+  "total_questions": 27,
+  "passed_questions": 10,
+  "failed_questions": 17,
+  "cases": [
+    {
+      "question": "How is pyruvate produced in glycolysis?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is pyruvate produced in glycolysis? | Context length: 1084",
+      "retrieved_reactions": [
+        "R00196",
+        "R00197",
+        "R00198",
+        "R00203",
+        "R00205",
+        "R00212",
+        "R00214",
+        "R00215",
+        "R00216",
+        "R00217",
+        "R00218",
+        "R00220",
+        "R00221",
+        "R00226",
+        "R00297",
+        "R00369",
+        "R00409",
+        "R00470",
+        "R00703",
+        "R00704",
+        "R00907",
+        "R01064",
+        "R01196",
+        "R01447",
+        "R04187",
+        "R05605",
+        "R08570",
+        "R10616",
+        "R10691",
+        "R11591",
+        "R12212",
+        "R13049",
+        "R13050",
+        "R13181"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Which compounds participate in reaction R00209?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which compounds participate in reaction R00209? | Context length: 592",
+      "retrieved_reactions": [
+        "R00209"
+      ],
+      "retrieved_compounds": [
+        "C00003",
+        "C00010",
+        "C00022",
+        "C00004",
+        "C00011",
+        "C00024",
+        "C00080"
+      ],
+      "retrieved_enzymes": [
+        "1.2.1.104"
+      ],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Which reactions are associated with enzyme 1.2.1.104?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which reactions are associated with enzyme 1.2.1.104? | Context length: 410",
+      "retrieved_reactions": [
+        "R00209"
+      ],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [
+        "1.2.1.104"
+      ],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "How is pyruvate produced?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is pyruvate produced? | Context length: 1084",
+      "retrieved_reactions": [
+        "R00196",
+        "R00197",
+        "R00198",
+        "R00203",
+        "R00205",
+        "R00212",
+        "R00214",
+        "R00215",
+        "R00216",
+        "R00217",
+        "R00218",
+        "R00220",
+        "R00221",
+        "R00226",
+        "R00297",
+        "R00369",
+        "R00409",
+        "R00470",
+        "R00703",
+        "R00704",
+        "R00907",
+        "R01064",
+        "R01196",
+        "R01447",
+        "R04187",
+        "R05605",
+        "R08570",
+        "R10616",
+        "R10691",
+        "R11591",
+        "R12212",
+        "R13049",
+        "R13050",
+        "R13181"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "What reactions produce C00022?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What reactions produce C00022? | Context length: 1082",
+      "retrieved_reactions": [
+        "R00196",
+        "R00197",
+        "R00198",
+        "R00203",
+        "R00205",
+        "R00212",
+        "R00214",
+        "R00215",
+        "R00216",
+        "R00217",
+        "R00218",
+        "R00220",
+        "R00221",
+        "R00226",
+        "R00297",
+        "R00369",
+        "R00409",
+        "R00470",
+        "R00703",
+        "R00704",
+        "R00907",
+        "R01064",
+        "R01196",
+        "R01447",
+        "R04187",
+        "R05605",
+        "R08570",
+        "R10616",
+        "R10691",
+        "R11591",
+        "R12212",
+        "R13049",
+        "R13050",
+        "R13181"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "How is oxaloacetate synthesized?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is oxaloacetate synthesized? | Context length: 926",
+      "retrieved_reactions": [
+        "R00339",
+        "R00342",
+        "R00343",
+        "R00344",
+        "R00351",
+        "R00352",
+        "R00353",
+        "R00361",
+        "R00477",
+        "R00930",
+        "R00931",
+        "R01257"
+      ],
+      "retrieved_compounds": [
+        "C00036"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Which enzymes produce glucose?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which enzymes produce glucose? | Context length: 862",
+      "retrieved_reactions": [
+        "R00010",
+        "R00028",
+        "R00303",
+        "R00306",
+        "R00308",
+        "R00801",
+        "R00837",
+        "R00838",
+        "R00839",
+        "R00952",
+        "R00960",
+        "R01101",
+        "R01555",
+        "R01718",
+        "R01790",
+        "R01791",
+        "R02727",
+        "R03527",
+        "R04194"
+      ],
+      "retrieved_compounds": [
+        "C00031"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "How is lactate generated?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is lactate generated? | Context length: 490",
+      "retrieved_reactions": [
+        "R01446",
+        "R01449",
+        "R10691",
+        "R11074"
+      ],
+      "retrieved_compounds": [
+        "C00186"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "What consumes glucose?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What consumes glucose? | Context length: 870",
+      "retrieved_reactions": [
+        "R00299",
+        "R00305",
+        "R00503",
+        "R02738",
+        "R05140",
+        "R06620",
+        "R07147",
+        "R08946",
+        "R11306"
+      ],
+      "retrieved_compounds": [
+        "C00031"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Which reactions use C00031?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which reactions use C00031? | Context length: 869",
+      "retrieved_reactions": [
+        "R00299",
+        "R00305",
+        "R00503",
+        "R02738",
+        "R05140",
+        "R06620",
+        "R07147",
+        "R08946",
+        "R11306"
+      ],
+      "retrieved_compounds": [
+        "C00031"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "What degrades lactate?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What degrades lactate? | Context length: 730",
+      "retrieved_reactions": [
+        "R00196",
+        "R00319",
+        "R00703",
+        "R00753",
+        "R01447",
+        "R01450",
+        "R13050"
+      ],
+      "retrieved_compounds": [
+        "C00186"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "What pathways break down pyruvate?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What pathways break down pyruvate? | Context length: 998",
+      "retrieved_reactions": [
+        "R00014",
+        "R00199",
+        "R00200",
+        "R00206",
+        "R00207",
+        "R00209",
+        "R00210",
+        "R00211",
+        "R00219",
+        "R00344",
+        "R00353",
+        "R00585",
+        "R00930",
+        "R02050",
+        "R02320",
+        "R03145",
+        "R10178",
+        "R10866",
+        "R11593"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Describe enzymes that use glucose",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Describe enzymes that use glucose | Context length: 870",
+      "retrieved_reactions": [
+        "R00299",
+        "R00305",
+        "R00503",
+        "R02738",
+        "R05140",
+        "R06620",
+        "R07147",
+        "R08946",
+        "R11306"
+      ],
+      "retrieved_compounds": [
+        "C00031"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Which enzymes act on glucose?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which enzymes act on glucose? | Context length: 1419",
+      "retrieved_reactions": [
+        "R00010",
+        "R00028",
+        "R00303",
+        "R00306",
+        "R00308",
+        "R00801",
+        "R00837",
+        "R00838",
+        "R00839",
+        "R00952",
+        "R00960",
+        "R01101",
+        "R01555",
+        "R01718",
+        "R01790",
+        "R01791",
+        "R02727",
+        "R03527",
+        "R04194",
+        "R00299",
+        "R00305",
+        "R00503",
+        "R02738",
+        "R05140",
+        "R06620",
+        "R07147",
+        "R08946",
+        "R11306"
+      ],
+      "retrieved_compounds": [
+        "C00031"
+      ],
+      "retrieved_enzymes": [
+        "1.1.1.119",
+        "1.1.1.359",
+        "1.1.1.360",
+        "1.1.5.2",
+        "1.1.5.9",
+        "2.4.1.10",
+        "2.4.1.20",
+        "2.4.1.22",
+        "2.4.1.245",
+        "2.4.1.64",
+        "2.4.1.8",
+        "2.4.1.9",
+        "2.7.1.1",
+        "2.7.1.199",
+        "2.7.1.2",
+        "2.7.1.41",
+        "3.1.3.58",
+        "3.1.3.9",
+        "3.2.1.10",
+        "3.2.1.122",
+        "3.2.1.20",
+        "3.2.1.21",
+        "3.2.1.22",
+        "3.2.1.26",
+        "3.2.1.28",
+        "3.2.1.3",
+        "3.2.1.39",
+        "3.2.1.48",
+        "3.2.1.58",
+        "3.2.1.74",
+        "3.2.1.86",
+        "3.2.1.93"
+      ],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "List participants in R00200",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: List participants in R00200 | Context length: 484",
+      "retrieved_reactions": [
+        "R00200"
+      ],
+      "retrieved_compounds": [
+        "C00002",
+        "C00022",
+        "C00008",
+        "C00074"
+      ],
+      "retrieved_enzymes": [
+        "2.7.1.40"
+      ],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "What are the reactants in R01070?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What are the reactants in R01070? | Context length: 181",
+      "retrieved_reactions": [],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "reaction_grounding",
+        "insufficient_context_behavior"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": false,
+          "details": "Ungrounded reaction IDs: R01070"
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Skipped: retrieval is empty."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": false,
+          "details": "Answer should explicitly state insufficient context when retrieval is empty."
+        }
+      ]
+    },
+    {
+      "question": "enzyme ec 1.1.1.1",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: enzyme ec 1.1.1.1 | Context length: 385",
+      "retrieved_reactions": [
+        "R00754",
+        "R08557",
+        "R08558"
+      ],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [
+        "1.1.1.1"
+      ],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "participants in map00010",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: participants in map00010 | Context length: 1288",
+      "retrieved_reactions": [
+        "R00014",
+        "R00199",
+        "R00200",
+        "R00206",
+        "R00209",
+        "R00229",
+        "R00235",
+        "R00341",
+        "R00431",
+        "R00658",
+        "R00703",
+        "R00710",
+        "R00711",
+        "R00726",
+        "R00746",
+        "R00754",
+        "R00755",
+        "R00756",
+        "R00762",
+        "R00764",
+        "R00947",
+        "R00959",
+        "R01015",
+        "R01058",
+        "R01061",
+        "R01063",
+        "R01068",
+        "R01196",
+        "R01512",
+        "R01516",
+        "R01518",
+        "R01600",
+        "R01602",
+        "R01662",
+        "R01786",
+        "R01788",
+        "R02145",
+        "R02187",
+        "R02189",
+        "R02569",
+        "R02738",
+        "R02739",
+        "R03270",
+        "R04394",
+        "R05132",
+        "R05133",
+        "R05134",
+        "R05198",
+        "R05805",
+        "R07159",
+        "R07618",
+        "R09085",
+        "R09086",
+        "R09127",
+        "R09479",
+        "R09532",
+        "R10860",
+        "R10866",
+        "R13199"
+      ],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "What is glycolysis pathway?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What is glycolysis pathway? | Context length: 1285",
+      "retrieved_reactions": [
+        "R00014",
+        "R00199",
+        "R00200",
+        "R00206",
+        "R00209",
+        "R00229",
+        "R00235",
+        "R00341",
+        "R00431",
+        "R00658",
+        "R00703",
+        "R00710",
+        "R00711",
+        "R00726",
+        "R00746",
+        "R00754",
+        "R00755",
+        "R00756",
+        "R00762",
+        "R00764",
+        "R00947",
+        "R00959",
+        "R01015",
+        "R01058",
+        "R01061",
+        "R01063",
+        "R01068",
+        "R01196",
+        "R01512",
+        "R01516",
+        "R01518",
+        "R01600",
+        "R01602",
+        "R01662",
+        "R01786",
+        "R01788",
+        "R02145",
+        "R02187",
+        "R02189",
+        "R02569",
+        "R02738",
+        "R02739",
+        "R03270",
+        "R04394",
+        "R05132",
+        "R05133",
+        "R05134",
+        "R05198",
+        "R05805",
+        "R07159",
+        "R07618",
+        "R09085",
+        "R09086",
+        "R09127",
+        "R09479",
+        "R09532",
+        "R10860",
+        "R10866",
+        "R13199"
+      ],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "retrieval_consistency"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": false,
+          "details": "Answer does not reference any retrieved reaction, compound, or enzyme."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Tell me about C00022",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Tell me about C00022 | Context length: 1232",
+      "retrieved_reactions": [
+        "R00196",
+        "R00197",
+        "R00198",
+        "R00203",
+        "R00205",
+        "R00212",
+        "R00214",
+        "R00215",
+        "R00216",
+        "R00217",
+        "R00218",
+        "R00220",
+        "R00221",
+        "R00226",
+        "R00297",
+        "R00369",
+        "R00409",
+        "R00470",
+        "R00703",
+        "R00704",
+        "R00907",
+        "R01064",
+        "R01196",
+        "R01447",
+        "R04187",
+        "R05605",
+        "R08570",
+        "R10616",
+        "R10691",
+        "R11591",
+        "R12212",
+        "R13049",
+        "R13050",
+        "R13181",
+        "R00014",
+        "R00199",
+        "R00200",
+        "R00206",
+        "R00207",
+        "R00209",
+        "R00210",
+        "R00211",
+        "R00219",
+        "R00344",
+        "R00353",
+        "R00585",
+        "R00930",
+        "R02050",
+        "R02320",
+        "R03145",
+        "R10178",
+        "R10866",
+        "R11593"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Describe R00200",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Describe R00200 | Context length: 479",
+      "retrieved_reactions": [
+        "R00200"
+      ],
+      "retrieved_compounds": [
+        "C00002",
+        "C00022",
+        "C00008",
+        "C00074"
+      ],
+      "retrieved_enzymes": [
+        "2.7.1.40"
+      ],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Overview of hsa00010",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Overview of hsa00010 | Context length: 179",
+      "retrieved_reactions": [],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "insufficient_context_behavior"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Skipped: retrieval is empty."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": false,
+          "details": "Answer should explicitly state insufficient context when retrieval is empty."
+        }
+      ]
+    },
+    {
+      "question": "What is EC 2.7.1.1?",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What is EC 2.7.1.1? | Context length: 582",
+      "retrieved_reactions": [
+        "R00299",
+        "R00760",
+        "R01326",
+        "R01600",
+        "R01786"
+      ],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [
+        "2.7.1.1"
+      ],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "about pyruvate",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: about pyruvate | Context length: 174",
+      "retrieved_reactions": [],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "insufficient_context_behavior"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Skipped: retrieval is empty."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": false,
+          "details": "Answer should explicitly state insufficient context when retrieval is empty."
+        }
+      ]
+    },
+    {
+      "question": "C00022",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: C00022 | Context length: 1229",
+      "retrieved_reactions": [
+        "R00196",
+        "R00197",
+        "R00198",
+        "R00203",
+        "R00205",
+        "R00212",
+        "R00214",
+        "R00215",
+        "R00216",
+        "R00217",
+        "R00218",
+        "R00220",
+        "R00221",
+        "R00226",
+        "R00297",
+        "R00369",
+        "R00409",
+        "R00470",
+        "R00703",
+        "R00704",
+        "R00907",
+        "R01064",
+        "R01196",
+        "R01447",
+        "R04187",
+        "R05605",
+        "R08570",
+        "R10616",
+        "R10691",
+        "R11591",
+        "R12212",
+        "R13049",
+        "R13050",
+        "R13181",
+        "R00014",
+        "R00199",
+        "R00200",
+        "R00206",
+        "R00207",
+        "R00209",
+        "R00210",
+        "R00211",
+        "R00219",
+        "R00344",
+        "R00353",
+        "R00585",
+        "R00930",
+        "R02050",
+        "R02320",
+        "R03145",
+        "R10178",
+        "R10866",
+        "R11593"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        }
+      ]
+    },
+    {
+      "question": "Hi there",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Hi there | Context length: 169",
+      "retrieved_reactions": [],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "insufficient_context_behavior"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Skipped: retrieval is empty."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": false,
+          "details": "Answer should explicitly state insufficient context when retrieval is empty."
+        }
+      ]
+    },
+    {
+      "question": "random text with no biology",
+      "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: random text with no biology | Context length: 169",
+      "retrieved_reactions": [],
+      "retrieved_compounds": [],
+      "retrieved_enzymes": [],
+      "grounding_passed": false,
+      "failed_tests": [
+        "insufficient_context_behavior"
+      ],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Skipped: retrieval is empty."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": false,
+          "details": "Answer should explicitly state insufficient context when retrieval is empty."
+        }
+      ]
+    }
+  ],
+  "giskard": {
+    "available": true,
+    "status": "skipped",
+    "reason": "set APP_TASK4_ENABLE_GISKARD_SCAN=1 to enable optional giskard.scan (may incur LLM API cost)"
+  }
+}

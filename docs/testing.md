@@ -4,6 +4,7 @@
 
 - `tests/backend/`: API routes, response schemas, query service helpers, OpenAPI contract checks.
 - `tests/etl/`: KEGG parsing and normalization behavior.
+- `tests/evaluation/`: deterministic answer-grounding validators and Task 4 wrapper contracts.
 - `tests/airflow/`: archived Airflow DAG coverage.
 
 ## Local Commands
@@ -24,6 +25,24 @@ Run ETL tests:
 
 ```bash
 uv run pytest tests/etl
+```
+
+Run Task 4 grounding tests:
+
+```bash
+uv run pytest tests/evaluation
+```
+
+Run Task 4 evaluation runner:
+
+```bash
+uv run python -m evaluation.giskard.run_evaluation
+```
+
+Optional: enable the Giskard LLM-assisted scan (may incur LLM API cost):
+
+```bash
+APP_TASK4_ENABLE_GISKARD_SCAN=1 uv run python -m evaluation.giskard.run_evaluation
 ```
 
 Run archived Airflow tests explicitly:

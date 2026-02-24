@@ -153,6 +153,24 @@ Run backend-focused tests only:
 uv run pytest tests/backend
 ```
 
+Run Task 4 deterministic grounding tests:
+
+```bash
+uv run pytest tests/evaluation
+```
+
+Run the Task 4 grounding evaluation runner (writes `evaluation/results/latest_results.json`):
+
+```bash
+uv run python -m evaluation.giskard.run_evaluation
+```
+
+Optional: enable the Giskard LLM-assisted scan (can incur API cost):
+
+```bash
+APP_TASK4_ENABLE_GISKARD_SCAN=1 uv run python -m evaluation.giskard.run_evaluation
+```
+
 Run archived Airflow tests separately (optional):
 
 ```bash
@@ -182,6 +200,8 @@ CI includes:
 - Graph retrieval endpoints are implemented in FastAPI.
 - Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
 - Task 3 RAG runtime modules are implemented under `backend/app/rag/` (query understanding, retriever, context builder, LLM client, pipeline).
+- Task 4 grounding evaluation scaffolding is implemented under `evaluation/` (dataset, deterministic validators, model wrapper, optional Giskard scan, and runner).
+- Giskard compatibility pins are included (`griffe<1`, `numpy<2`, `pandas<3`, `scipy<1.12`) for Python 3.12 runtime compatibility.
 
 ## License
 
