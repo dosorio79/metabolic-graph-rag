@@ -6,6 +6,12 @@
     {
       "question": "How is pyruvate produced in glycolysis?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is pyruvate produced in glycolysis? | Context length: 1084",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00196",
         "R00197",
@@ -81,6 +87,12 @@
     {
       "question": "Which compounds participate in reaction R00209?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which compounds participate in reaction R00209? | Context length: 592",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00209"
       ],
@@ -129,6 +141,12 @@
     {
       "question": "Which reactions are associated with enzyme 1.2.1.104?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which reactions are associated with enzyme 1.2.1.104? | Context length: 410",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00209"
       ],
@@ -169,6 +187,12 @@
     {
       "question": "How is pyruvate produced?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is pyruvate produced? | Context length: 1084",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00196",
         "R00197",
@@ -244,6 +268,12 @@
     {
       "question": "What reactions produce C00022?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What reactions produce C00022? | Context length: 1082",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00196",
         "R00197",
@@ -317,6 +347,12 @@
     {
       "question": "How is oxaloacetate synthesized?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is oxaloacetate synthesized? | Context length: 926",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00339",
         "R00342",
@@ -370,6 +406,12 @@
     {
       "question": "Which enzymes produce glucose?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which enzymes produce glucose? | Context length: 862",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00010",
         "R00028",
@@ -430,6 +472,12 @@
     {
       "question": "How is lactate generated?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: How is lactate generated? | Context length: 490",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R01446",
         "R01449",
@@ -475,6 +523,12 @@
     {
       "question": "What consumes glucose?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What consumes glucose? | Context length: 870",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00299",
         "R00305",
@@ -525,6 +579,12 @@
     {
       "question": "Which reactions use C00031?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which reactions use C00031? | Context length: 869",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00299",
         "R00305",
@@ -573,6 +633,12 @@
     {
       "question": "What degrades lactate?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What degrades lactate? | Context length: 730",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00196",
         "R00319",
@@ -621,6 +687,12 @@
     {
       "question": "What pathways break down pyruvate?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What pathways break down pyruvate? | Context length: 998",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00014",
         "R00199",
@@ -681,6 +753,12 @@
     {
       "question": "Describe enzymes that use glucose",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Describe enzymes that use glucose | Context length: 870",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00299",
         "R00305",
@@ -731,6 +809,12 @@
     {
       "question": "Which enzymes act on glucose?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Which enzymes act on glucose? | Context length: 1419",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00010",
         "R00028",
@@ -833,6 +917,12 @@
     {
       "question": "List participants in R00200",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: List participants in R00200 | Context length: 484",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00200"
       ],
@@ -878,6 +968,12 @@
     {
       "question": "What are the reactants in R01070?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What are the reactants in R01070? | Context length: 181",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [],
       "retrieved_compounds": [],
       "retrieved_enzymes": [],
@@ -917,6 +1013,12 @@
     {
       "question": "enzyme ec 1.1.1.1",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: enzyme ec 1.1.1.1 | Context length: 385",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00754",
         "R08557",
@@ -959,6 +1061,12 @@
     {
       "question": "participants in map00010",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: participants in map00010 | Context length: 1288",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00014",
         "R00199",
@@ -1057,6 +1165,12 @@
     {
       "question": "What is glycolysis pathway?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What is glycolysis pathway? | Context length: 1285",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00014",
         "R00199",
@@ -1155,6 +1269,12 @@
     {
       "question": "Tell me about C00022",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Tell me about C00022 | Context length: 1232",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00196",
         "R00197",
@@ -1247,6 +1367,12 @@
     {
       "question": "Describe R00200",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Describe R00200 | Context length: 479",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00200"
       ],
@@ -1292,6 +1418,12 @@
     {
       "question": "Overview of hsa00010",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Overview of hsa00010 | Context length: 179",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [],
       "retrieved_compounds": [],
       "retrieved_enzymes": [],
@@ -1330,6 +1462,12 @@
     {
       "question": "What is EC 2.7.1.1?",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: What is EC 2.7.1.1? | Context length: 582",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00299",
         "R00760",
@@ -1374,6 +1512,12 @@
     {
       "question": "about pyruvate",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: about pyruvate | Context length: 174",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [],
       "retrieved_compounds": [],
       "retrieved_enzymes": [],
@@ -1412,6 +1556,12 @@
     {
       "question": "C00022",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: C00022 | Context length: 1229",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [
         "R00196",
         "R00197",
@@ -1504,6 +1654,12 @@
     {
       "question": "Hi there",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: Hi there | Context length: 169",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [],
       "retrieved_compounds": [],
       "retrieved_enzymes": [],
@@ -1542,6 +1698,12 @@
     {
       "question": "random text with no biology",
       "answer": "LLM response unavailable. Reason: missing APP_LLM_API_KEY. Question: random text with no biology | Context length: 169",
+      "prompt_versions": {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1"
+      },
+      "system_prompt_version": "system.v1",
+      "user_prompt_version": "user.v1",
       "retrieved_reactions": [],
       "retrieved_compounds": [],
       "retrieved_enzymes": [],

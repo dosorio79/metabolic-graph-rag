@@ -58,6 +58,13 @@ Make targets:
 
 Both read `evaluation/dataset/questions.json` and write `evaluation/results/latest_results.json`.
 
+Prompt source/versioning:
+
+- Active RAG prompt templates live in `backend/app/rag/prompt_registry.py`
+- Prompt versions are first-class metadata (`system_prompt_version`, `user_prompt_version`)
+- Task 4 stores prompt versions in each evaluated case in `evaluation/results/latest_results.json`
+- Bump versions in `prompt_registry.py` when prompt wording changes to preserve regression traceability
+
 ---
 
 ## Phase 4.1 — Model Wrapper
@@ -74,6 +81,7 @@ def rag_predict_with_trace(question: str) -> dict
 
 Trace includes:
 - answer
+- prompt_versions (`system_prompt_version`, `user_prompt_version`)
 - retrieved_reactions
 - retrieved_compounds
 - retrieved_enzymes
@@ -191,6 +199,8 @@ Output structure:
 {
   question,
   answer,
+  system_prompt_version,
+  user_prompt_version,
   retrieved_reactions,
   retrieved_compounds,
   grounding_passed,

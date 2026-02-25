@@ -220,6 +220,7 @@ CI includes:
 - Graph retrieval endpoints are implemented in FastAPI.
 - Neo4j-backed response models are defined in `backend/app/schemas/graph.py`.
 - Task 3 RAG runtime modules are implemented under `backend/app/rag/` (query understanding, retriever, context builder, LLM client, pipeline).
+- Active RAG prompts and prompt versions are defined in `backend/app/rag/prompt_registry.py` (used by Task 4 evaluation output for regression tracking).
 - Task 4 grounding evaluation scaffolding is implemented under `evaluation/` (dataset, deterministic validators, model wrapper, optional Giskard scan, and runner).
 - Giskard compatibility pins are included (`griffe<1`, `numpy<2`, `pandas<3`, `scipy<1.12`) for Python 3.12 runtime compatibility.
 

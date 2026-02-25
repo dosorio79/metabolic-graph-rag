@@ -75,12 +75,22 @@ def test_rag_predict_with_trace_returns_expected_shape(monkeypatch):
         )
 
     monkeypatch.setattr(model_wrapper, "run_rag_pipeline", fake_run_rag_pipeline)
+    monkeypatch.setattr(
+        model_wrapper,
+        "get_prompt_versions",
+        lambda: {"system_prompt_version": "system.v1", "user_prompt_version": "user.v1"},
+    )
 
     result = model_wrapper.rag_predict_with_trace("How is pyruvate produced?")
 
     assert result["answer"] == "Grounded answer"
+    assert result["system_prompt_version"] == "system.v1"
+    assert result["user_prompt_version"] == "user.v1"
+    assert result["prompt_versions"] == {
+        "system_prompt_version": "system.v1",
+        "user_prompt_version": "user.v1",
+    }
     assert result["retrieved_reactions"] == ["R00010"]
     assert result["retrieved_compounds"] == ["C00022"]
     assert result["retrieved_enzymes"] == ["1.2.3.4"]
     assert result["context"] == "Context block"
-

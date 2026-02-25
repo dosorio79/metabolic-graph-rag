@@ -47,6 +47,9 @@ def run_grounding_test_cases(questions: list[str]) -> list[dict[str, Any]]:
             {
                 "question": question,
                 "answer": trace["answer"],
+                "prompt_versions": trace.get("prompt_versions", {}),
+                "system_prompt_version": trace.get("system_prompt_version"),
+                "user_prompt_version": trace.get("user_prompt_version"),
                 "retrieved_reactions": trace["retrieved_reactions"],
                 "retrieved_compounds": trace["retrieved_compounds"],
                 "retrieved_enzymes": trace["retrieved_enzymes"],

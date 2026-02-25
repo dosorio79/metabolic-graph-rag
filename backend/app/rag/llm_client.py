@@ -2,30 +2,17 @@
 
 from __future__ import annotations
 
-from functools import lru_cache
-from pathlib import Path
-
 from openai import OpenAI
 
 from backend.app.config import get_settings
-
-_PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
-
-
-@lru_cache(maxsize=4)
-def _load_prompt(filename: str) -> str:
-    """Load and cache prompt templates from the local prompts folder."""
-    # Prompt files are static at runtime; caching avoids repeated disk I/O.
-    return (_PROMPTS_DIR / filename).read_text(encoding="utf-8").strip()
+from backend.app.rag.prompt_registry import SYSTEM_PROMPT, USER_PROMPT, get_prompt_versions
 
 
 def _build_messages(question: str, context: str) -> list[dict[str, str]]:
     """Build OpenAI-style chat messages from prompt templates."""
-    system_prompt = _load_prompt("system.txt")
-    user_template = _load_prompt("user.txt")
-    user_prompt = user_template.format(context=context, question=question.strip())
+    user_prompt = USER_PROMPT.template.format(context=context, question=question.strip())
     return [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": SYSTEM_PROMPT.template},
         {"role": "user", "content": user_prompt},
     ]
 
