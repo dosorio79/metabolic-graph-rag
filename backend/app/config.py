@@ -18,6 +18,7 @@ class Settings:
 	neo4j_uri: str
 	neo4j_user: str
 	neo4j_password: str
+	cors_allowed_origins: tuple[str, ...]
 	api_host: str
 	api_port: int
 	log_level: str
@@ -58,11 +59,27 @@ def _get_float_env(*keys: str, default: float) -> float:
 	return default
 
 
+def _get_csv_env(*keys: str, default: tuple[str, ...]) -> tuple[str, ...]:
+	for key in keys:
+		raw = os.getenv(key)
+		if raw is None:
+			continue
+		values = tuple(item.strip() for item in raw.split(",") if item.strip())
+		if values:
+			return values
+	return default
+
+
 def get_settings() -> Settings:
 	return Settings(
 		neo4j_uri=os.getenv("APP_NEO4J_URI", os.getenv("NEO4J_URI", "bolt://localhost:7687")),
 		neo4j_user=os.getenv("APP_NEO4J_USER", os.getenv("NEO4J_USER", "neo4j")),
 		neo4j_password=os.getenv("APP_NEO4J_PASSWORD", os.getenv("NEO4J_PASSWORD", "neo4j")),
+		cors_allowed_origins=_get_csv_env(
+			"APP_CORS_ALLOWED_ORIGINS",
+			"CORS_ALLOWED_ORIGINS",
+			default=("http://localhost:8080", "http://127.0.0.1:8080"),
+		),
 		api_host=os.getenv("APP_API_HOST", os.getenv("API_HOST", "0.0.0.0")),
 		api_port=_get_int_env("APP_API_PORT", "API_PORT", default=8000),
 		log_level=os.getenv("APP_LOG_LEVEL", os.getenv("LOG_LEVEL", "info")).lower(),

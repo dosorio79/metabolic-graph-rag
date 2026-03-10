@@ -62,6 +62,7 @@ Optional:
 - `APP_RAG_CONTEXT_MAX_REACTIONS` (default: `8`)
 - `APP_RAG_CONTEXT_MAX_COMPOUNDS` (default: `8`)
 - `APP_RAG_CONTEXT_MAX_ENZYMES` (default: `12`)
+- `APP_CORS_ALLOWED_ORIGINS` (default: `http://localhost:8080,http://127.0.0.1:8080`)
 - `APP_LLM_API_BASE` (default: `https://api.openai.com/v1`)
 - `APP_LLM_API_KEY`
 - `APP_LLM_MODEL` (default: `gpt-4o-mini`)
@@ -122,6 +123,14 @@ curl http://localhost:8000/pathways/hsa00010
 ```
 
 Open interactive docs at `http://localhost:8000/docs`.
+
+### 7. Run frontend (Task 5 integration)
+
+```bash
+cd frontend
+npm ci
+VITE_API_BASE_URL=http://localhost:8000 npm run dev
+```
 
 ## API Endpoints
 

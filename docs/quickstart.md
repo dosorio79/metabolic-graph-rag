@@ -25,6 +25,7 @@ App/client settings:
 - `APP_NEO4J_URI` (example: `bolt://localhost:7687`)
 - `APP_NEO4J_USER` (example: `neo4j`)
 - `APP_NEO4J_PASSWORD`
+- `APP_CORS_ALLOWED_ORIGINS` (comma-separated, example: `http://localhost:8080,http://127.0.0.1:8080`)
 
 Optional RAG context limits:
 
@@ -128,6 +129,16 @@ uv run python -m backend.app.main
 ```
 
 Open Swagger UI at `http://localhost:8000/docs`.
+
+## Run frontend locally (Task 5)
+
+```bash
+cd frontend
+npm ci
+VITE_API_BASE_URL=http://localhost:8000 npm run dev
+```
+
+Default frontend dev URL is `http://localhost:8080`.
 
 ## Verify retrieval endpoints
 
