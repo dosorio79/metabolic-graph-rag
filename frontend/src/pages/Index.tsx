@@ -5,8 +5,14 @@ import GraphViewer from "@/components/GraphViewer";
 import EntityDetailPanel from "@/components/EntityDetailPanel";
 import ThemeToggle from "@/components/ThemeToggle";
 import ApiHealthIndicator from "@/components/ApiHealthIndicator";
-import { fetchEntityById, queryRag, type EntityDetail, type RAGResponse } from "@/services/api";
-import type { GraphNode, GraphEdge } from "@/services/mockApi";
+import {
+  fetchEntityById,
+  fetchReaction,
+  queryRag,
+  type EntityDetail,
+  type RAGResponse,
+} from "@/services/api";
+import { buildGraphFromRag, type GraphNode, type GraphEdge } from "@/services/graph";
 
 interface QueryResultView {
   answer: string;
@@ -56,12 +62,14 @@ const Index = () => {
     setQueryError(null);
     try {
       const response = await queryRag(query);
+      const graph = await buildGraphFromRag(response, {
+        fetchReactionDetail: fetchReaction,
+      });
       setResult({
         answer: response.answer,
         sources: toSourceChips(response),
-        // Step 3 will map live RAG retrieval payload into graph nodes/edges.
-        nodes: [],
-        edges: [],
+        nodes: graph.nodes,
+        edges: graph.edges,
       });
     } catch (err: unknown) {
       console.error("Query failed:", err);

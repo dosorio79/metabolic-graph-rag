@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import cytoscape, { Core } from "cytoscape";
-import type { GraphNode, GraphEdge } from "@/services/mockApi";
+import type { GraphNode, GraphEdge } from "@/services/graph";
 import { ZoomIn, ZoomOut, Maximize, RotateCcw, Search, X } from "lucide-react";
 
 const TYPE_LABELS: Record<GraphNode["type"], string> = {

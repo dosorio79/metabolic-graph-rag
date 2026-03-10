@@ -1,17 +1,6 @@
 // Mock FastAPI backend for metabolic pathway Graph RAG
 
-export interface GraphNode {
-  id: string;
-  label: string;
-  type: "metabolite" | "enzyme" | "pathway" | "reaction" | "gene";
-}
-
-export interface GraphEdge {
-  source: string;
-  target: string;
-  label: string;
-  relationship: string;
-}
+import type { GraphNode, GraphEdge } from "@/services/graph";
 
 export interface QueryResponse {
   answer: string;
