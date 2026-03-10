@@ -209,6 +209,9 @@ CI includes:
 - OpenAPI spec: `docs/openapi.yaml`
 - Task 1 brief: `docs/Build_tasks/task1.md`
 - Task 2 brief: `docs/Build_tasks/task2.md`
+- Task 3 brief: `docs/Build_tasks/task3.md`
+- Task 4 brief: `docs/Build_tasks/task4.md`
+- Task 5 brief: `docs/Build_tasks/task5.md`
 - Quickstart: `docs/quickstart.md`
 - Architecture: `docs/architecture.md`
 - Development workflow: `docs/development.md`

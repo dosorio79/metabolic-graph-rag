@@ -236,4 +236,4 @@ LLM-Stable
 
 This prepares the system for:
 
-Task 5 — Agentic Graph Reasoning
+Task 5 — Frontend Integration for Retrieval + RAG Testing
