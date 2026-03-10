@@ -5,12 +5,42 @@ import GraphViewer from "@/components/GraphViewer";
 import EntityDetailPanel from "@/components/EntityDetailPanel";
 import ThemeToggle from "@/components/ThemeToggle";
 import ApiHealthIndicator from "@/components/ApiHealthIndicator";
-import { queryGraphRAG, type QueryResponse } from "@/services/mockApi";
-import { fetchEntityById, type EntityDetail } from "@/services/api";
+import { fetchEntityById, queryRag, type EntityDetail, type RAGResponse } from "@/services/api";
+import type { GraphNode, GraphEdge } from "@/services/mockApi";
+
+interface QueryResultView {
+  answer: string;
+  sources: string[];
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+}
+
+function toSourceChips(response: RAGResponse): string[] {
+  const sourceIds = new Set<string>();
+
+  response.reactions.forEach((r) => sourceIds.add(`Reaction:${r.reaction_id}`));
+  response.compounds.forEach((c) => sourceIds.add(`Compound:${c.compound_id}`));
+  response.enzymes.forEach((ec) => sourceIds.add(`EC:${ec}`));
+  response.trace.pathway_ids.forEach((p) => sourceIds.add(`Pathway:${p}`));
+
+  if (sourceIds.size === 0 && response.interpretation.entity_id) {
+    sourceIds.add(`Entity:${response.interpretation.entity_id}`);
+  }
+
+  return Array.from(sourceIds);
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+}
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<QueryResponse | null>(null);
+  const [result, setResult] = useState<QueryResultView | null>(null);
+  const [queryError, setQueryError] = useState<string | null>(null);
   const [hasQueried, setHasQueried] = useState(false);
 
   // Entity detail panel state
@@ -23,11 +53,20 @@ const Index = () => {
     setHasQueried(true);
     setEntityDetail(null);
     setEntityError(null);
+    setQueryError(null);
     try {
-      const response = await queryGraphRAG(query);
-      setResult(response);
-    } catch (err) {
+      const response = await queryRag(query);
+      setResult({
+        answer: response.answer,
+        sources: toSourceChips(response),
+        // Step 3 will map live RAG retrieval payload into graph nodes/edges.
+        nodes: [],
+        edges: [],
+      });
+    } catch (err: unknown) {
       console.error("Query failed:", err);
+      setResult(null);
+      setQueryError(getErrorMessage(err, "Failed to query RAG API"));
     } finally {
       setIsLoading(false);
     }
@@ -40,8 +79,8 @@ const Index = () => {
     try {
       const detail = await fetchEntityById(id);
       setEntityDetail(detail);
-    } catch (err: any) {
-      setEntityError(err.message || "Failed to fetch entity details");
+    } catch (err: unknown) {
+      setEntityError(getErrorMessage(err, "Failed to fetch entity details"));
     } finally {
       setEntityLoading(false);
     }
@@ -88,6 +127,7 @@ const Index = () => {
               answer={result?.answer ?? ""}
               sources={result?.sources ?? []}
               isLoading={isLoading}
+              error={queryError}
             />
           </div>
 

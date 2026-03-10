@@ -20,4 +20,16 @@ describe("ResponsePanel", () => {
     expect(screen.getByText("Test answer about metabolism")).toBeInTheDocument();
     expect(screen.getByText("KEGG:123")).toBeInTheDocument();
   });
+
+  it("renders error message", () => {
+    render(
+      <ResponsePanel
+        answer=""
+        sources={[]}
+        isLoading={false}
+        error="Failed to query RAG API"
+      />
+    );
+    expect(screen.getByText("Failed to query RAG API")).toBeInTheDocument();
+  });
 });

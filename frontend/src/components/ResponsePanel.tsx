@@ -2,6 +2,7 @@ interface ResponsePanelProps {
   answer: string;
   sources: string[];
   isLoading: boolean;
+  error?: string | null;
 }
 
 const TypingIndicator = () => (
@@ -15,7 +16,7 @@ const TypingIndicator = () => (
   </div>
 );
 
-const ResponsePanel = ({ answer, sources, isLoading }: ResponsePanelProps) => {
+const ResponsePanel = ({ answer, sources, isLoading, error }: ResponsePanelProps) => {
   if (isLoading) {
     return (
       <div className="response-box flex h-full flex-col p-5">
@@ -23,6 +24,17 @@ const ResponsePanel = ({ answer, sources, isLoading }: ResponsePanelProps) => {
           Response
         </h2>
         <TypingIndicator />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="response-box flex h-full flex-col p-5">
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Response
+        </h2>
+        <p className="text-sm text-destructive">{error}</p>
       </div>
     );
   }
