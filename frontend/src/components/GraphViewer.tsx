@@ -267,6 +267,14 @@ const GraphViewer = ({ nodes, edges, onNodeClick, onNodeIdClick, detailPanel }: 
   }, [searchQuery, activeTypeFilters]);
 
   const isEmpty = nodes.length === 0;
+  const nodeCounts = (Object.keys(TYPE_LABELS) as GraphNode["type"][]).reduce(
+    (acc, type) => {
+      acc[type] = nodes.filter((node) => node.type === type).length;
+      return acc;
+    },
+    {} as Record<GraphNode["type"], number>,
+  );
+  const highlightedNodes = nodes.slice(0, 6);
 
   const handleZoomIn = () => {
     const cy = cyRef.current;
@@ -313,9 +321,50 @@ const GraphViewer = ({ nodes, edges, onNodeClick, onNodeIdClick, detailPanel }: 
       <div ref={containerRef} className="h-full w-full" />
       {!isEmpty && (
         <>
+          <div className="absolute left-3 top-14 z-10 max-w-[320px] rounded-lg border border-border bg-card/85 p-3 backdrop-blur-md shadow-lg">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Relevant Graph
+                </p>
+                <p className="mt-1 text-xs text-foreground">
+                  {nodes.length} nodes, {edges.length} edges from the current retrieval result.
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1.5 text-[10px] font-mono">
+              {(Object.keys(TYPE_LABELS) as GraphNode["type"][])
+                .filter((type) => nodeCounts[type] > 0)
+                .map((type) => (
+                  <span
+                    key={type}
+                    className="rounded-md border border-border bg-background/70 px-2 py-1 text-muted-foreground"
+                  >
+                    {TYPE_LABELS[type]} {nodeCounts[type]}
+                  </span>
+                ))}
+            </div>
+            <div className="mt-3">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Visible Nodes
+              </p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {highlightedNodes.map((node) => (
+                  <button
+                    key={node.id}
+                    type="button"
+                    onClick={() => onNodeIdClick?.(node.id)}
+                    className="rounded-md border border-border bg-background/70 px-2 py-1 text-[10px] font-mono text-foreground hover:bg-accent"
+                  >
+                    {node.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
           {/* Search & filter bar */}
           <div className="absolute top-3 left-3 right-14 flex items-center gap-2">
-            <div className="relative flex-1 max-w-[220px]">
+            <div className="relative ml-[332px] flex-1 max-w-[220px]">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
               <input
                 type="text"

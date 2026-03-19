@@ -1,6 +1,12 @@
+export interface ResponseSource {
+  id: string;
+  label: string;
+  href?: string;
+}
+
 interface ResponsePanelProps {
   answer: string;
-  sources: string[];
+  sources: ResponseSource[];
   isLoading: boolean;
   error?: string | null;
 }
@@ -66,17 +72,24 @@ const ResponsePanel = ({ answer, sources, isLoading, error }: ResponsePanelProps
       {sources.length > 0 && (
         <div className="mt-4 border-t border-border/50 pt-3 animate-fade-in" style={{ animationDelay: "0.15s", opacity: 0 }}>
           <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Sources
+            Evidence
           </h3>
+          <p className="mb-2 text-[11px] text-muted-foreground">
+            Open a KEGG entry for the retrieved entities that support this answer.
+          </p>
           <div className="flex flex-wrap gap-1.5">
-            {sources.map((s, i) => (
-              <span
-                key={s}
-                className="animate-scale-in rounded-md bg-accent/80 backdrop-blur-sm px-2.5 py-1 text-[11px] font-mono text-accent-foreground border border-accent-foreground/10 transition-all duration-200 hover:bg-accent hover:shadow-sm cursor-default"
+            {sources.map((source, i) => (
+              <a
+                key={source.id}
+                href={source.href}
+                target={source.href ? "_blank" : undefined}
+                rel={source.href ? "noreferrer" : undefined}
+                className="animate-scale-in rounded-md bg-accent/80 backdrop-blur-sm px-2.5 py-1 text-[11px] font-mono text-accent-foreground border border-accent-foreground/10 transition-all duration-200 hover:bg-accent hover:shadow-sm"
                 style={{ animationDelay: `${0.2 + i * 0.05}s`, opacity: 0 }}
+                aria-label={`Open source ${source.label}`}
               >
-                {s}
-              </span>
+                {source.label}
+              </a>
             ))}
           </div>
         </div>

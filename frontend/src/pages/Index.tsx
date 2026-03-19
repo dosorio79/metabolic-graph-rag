@@ -5,6 +5,7 @@ import GraphViewer from "@/components/GraphViewer";
 import EntityDetailPanel from "@/components/EntityDetailPanel";
 import ThemeToggle from "@/components/ThemeToggle";
 import ApiHealthIndicator from "@/components/ApiHealthIndicator";
+import type { ResponseSource } from "@/components/ResponsePanel";
 import {
   fetchEntityById,
   fetchReaction,
@@ -16,24 +17,64 @@ import { buildGraphFromRag, type GraphNode, type GraphEdge } from "@/services/gr
 
 interface QueryResultView {
   answer: string;
-  sources: string[];
+  sources: ResponseSource[];
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
 
-function toSourceChips(response: RAGResponse): string[] {
-  const sourceIds = new Set<string>();
+function toKeggEntryUrl(id: string): string {
+  return `https://www.kegg.jp/entry/${encodeURIComponent(id)}`;
+}
 
-  response.reactions.forEach((r) => sourceIds.add(`Reaction:${r.reaction_id}`));
-  response.compounds.forEach((c) => sourceIds.add(`Compound:${c.compound_id}`));
-  response.enzymes.forEach((ec) => sourceIds.add(`EC:${ec}`));
-  response.trace.pathway_ids.forEach((p) => sourceIds.add(`Pathway:${p}`));
+function toSourceChips(response: RAGResponse): ResponseSource[] {
+  const sources = new Map<string, ResponseSource>();
 
-  if (sourceIds.size === 0 && response.interpretation.entity_id) {
-    sourceIds.add(`Entity:${response.interpretation.entity_id}`);
+  response.reactions.forEach((reaction) => {
+    sources.set(reaction.reaction_id, {
+      id: `reaction:${reaction.reaction_id}`,
+      label: reaction.name
+        ? `Reaction ${reaction.reaction_id}: ${reaction.name}`
+        : `Reaction ${reaction.reaction_id}`,
+      href: toKeggEntryUrl(reaction.reaction_id),
+    });
+  });
+
+  response.compounds.forEach((compound) => {
+    sources.set(compound.compound_id, {
+      id: `compound:${compound.compound_id}`,
+      label: compound.name
+        ? `Compound ${compound.name}`
+        : `Compound ${compound.compound_id}`,
+      href: toKeggEntryUrl(compound.compound_id),
+    });
+  });
+
+  response.trace.pathway_ids.forEach((pathwayId) => {
+    sources.set(pathwayId, {
+      id: `pathway:${pathwayId}`,
+      label: `Pathway ${pathwayId}`,
+      href: toKeggEntryUrl(pathwayId),
+    });
+  });
+
+  response.enzymes.forEach((enzymeEc) => {
+    sources.set(enzymeEc, {
+      id: `enzyme:${enzymeEc}`,
+      label: `EC ${enzymeEc}`,
+      href: toKeggEntryUrl(enzymeEc),
+    });
+  });
+
+  if (sources.size === 0 && response.interpretation.entity_id) {
+    const entityId = response.interpretation.entity_id;
+    sources.set(entityId, {
+      id: `entity:${entityId}`,
+      label: response.interpretation.entity_name ?? entityId,
+      href: toKeggEntryUrl(entityId),
+    });
   }
 
-  return Array.from(sourceIds);
+  return Array.from(sources.values());
 }
 
 function getErrorMessage(error: unknown, fallback: string): string {

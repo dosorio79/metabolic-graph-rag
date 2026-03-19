@@ -110,7 +110,7 @@ describe("Index page", () => {
     d.resolve(mockRagResponse());
 
     expect(await screen.findByText("Pyruvate can be produced by R00010.")).toBeInTheDocument();
-    expect(screen.getByText("Reaction:R00010")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /open source reaction r00010: reaction 10/i })).toBeInTheDocument();
     await waitFor(() => {
       expect(queryRagMock).toHaveBeenCalledWith("How is pyruvate produced?");
     });

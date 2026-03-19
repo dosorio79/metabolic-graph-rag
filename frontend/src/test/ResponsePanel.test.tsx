@@ -15,10 +15,17 @@ describe("ResponsePanel", () => {
 
   it("renders answer text", () => {
     render(
-      <ResponsePanel answer="Test answer about metabolism" sources={["KEGG:123"]} isLoading={false} />
+      <ResponsePanel
+        answer="Test answer about metabolism"
+        sources={[{ id: "compound:C00022", label: "Compound Pyruvate", href: "https://www.kegg.jp/entry/C00022" }]}
+        isLoading={false}
+      />
     );
     expect(screen.getByText("Test answer about metabolism")).toBeInTheDocument();
-    expect(screen.getByText("KEGG:123")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /open source compound pyruvate/i })).toHaveAttribute(
+      "href",
+      "https://www.kegg.jp/entry/C00022",
+    );
   });
 
   it("renders error message", () => {
