@@ -105,7 +105,7 @@ paths:
           required: true
           schema:
             type: string
-            example: hsa00010
+            example: map00010
       responses:
         "200":
           description: Pathway found
@@ -248,7 +248,7 @@ components:
       properties:
         pathway_id:
           type: string
-          example: hsa00010
+          example: map00010
         name:
           type: string
           nullable: true

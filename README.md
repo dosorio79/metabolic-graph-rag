@@ -74,7 +74,7 @@ Optional:
 ### 3. Start Neo4j
 
 Use your preferred method (local Docker, compose, or managed instance).
-If using Docker compose in this repo (Neo4j only):
+If using Docker compose in this repo, it starts both `neo4j` and `api`:
 
 ```bash
 docker compose up -d
@@ -109,6 +109,10 @@ uv run prefect deployment run 'kegg_batch_pathway_ingestion/local-batch' --param
 
 ### 5. Start backend API
 
+If you already started `docker compose up -d`, the backend is already running on
+`http://localhost:8000`. To run the backend directly from your local Python
+environment instead:
+
 ```bash
 uv run python -m backend.app.main
 ```
@@ -119,7 +123,7 @@ uv run python -m backend.app.main
 curl http://localhost:8000/health
 curl http://localhost:8000/compounds/C00036
 curl http://localhost:8000/reactions/R00209
-curl http://localhost:8000/pathways/hsa00010
+curl http://localhost:8000/pathways/map00010
 ```
 
 Open interactive docs at `http://localhost:8000/docs`.
@@ -138,6 +142,7 @@ VITE_API_BASE_URL=http://localhost:8000 npm run dev
 - `GET /compounds/{compound_id}`: compound with consuming/producing reactions.
 - `GET /reactions/{reaction_id}`: reaction details, substrates/products, enzymes.
 - `GET /pathways/{pathway_id}`: pathway metadata, reactions, and summary counts.
+- `POST /rag/query`: graph-grounded RAG answer with retrieval trace metadata.
 
 ## Testing
 

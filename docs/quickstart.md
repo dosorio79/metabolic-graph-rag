@@ -53,8 +53,8 @@ Set Airflow admin credentials (used by the Airflow Docker image on first boot):
 docker compose up -d
 ```
 
-This compose file starts Neo4j only. Airflow is archived under
-`orchestration/airflow/` if you need it.
+This compose file starts both Neo4j and the FastAPI backend. Airflow is
+archived under `orchestration/airflow/` if you need it.
 
 To start Airflow (optional):
 
@@ -94,7 +94,7 @@ make prefect-deploy-all
 Run single-flow ingestion:
 
 ```bash
-uv run prefect deployment run 'kegg_pathway_ingestion/local' --params '{"pathway_id":"hsa00010"}'
+uv run prefect deployment run 'kegg_pathway_ingestion/local' --params '{"pathway_id":"map00010"}'
 ```
 
 Run batch ingestion:
@@ -124,6 +124,10 @@ MATCH (n) RETURN labels(n), count(*) LIMIT 10;
 
 ## Run backend API
 
+If you already started `docker compose up -d`, the backend is already running on
+`http://localhost:8000`. To run the backend directly from your local Python
+environment instead:
+
 ```bash
 uv run python -m backend.app.main
 ```
@@ -146,7 +150,7 @@ Default frontend dev URL is `http://localhost:8080`.
 curl http://localhost:8000/health
 curl http://localhost:8000/compounds/C00036
 curl http://localhost:8000/reactions/R00209
-curl http://localhost:8000/pathways/hsa00010
+curl http://localhost:8000/pathways/map00010
 ```
 
 Expected behavior:

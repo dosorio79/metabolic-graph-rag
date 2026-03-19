@@ -11,7 +11,7 @@ settings = get_settings()
 
 app = FastAPI(
     title="Metabolic Graph RAG API",
-    version="0.1.0",
+    version="0.4.1",
 )
 
 app.add_middleware(

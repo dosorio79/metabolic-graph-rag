@@ -6,6 +6,14 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 ## [Unreleased]
 
+### Added
+- Added a repository `.env.example` covering Docker, backend, RAG, and archived Airflow defaults.
+
+### Changed
+- Aligned the FastAPI app version with the packaged/documented release version `0.4.1`.
+- Updated README and quickstart docs to reflect that `docker compose up -d` starts both `neo4j` and `api`.
+- Updated public pathway examples from `hsa00010` to `map00010` to match the current local ingestion workflow and sample dataset.
+
 ## [0.4.1] - 2026-02-19
 
 ### Fixed

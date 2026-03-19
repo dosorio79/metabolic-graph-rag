@@ -20,6 +20,8 @@ services:
     container_name: metabolic-api
     depends_on:
       - neo4j
+    env_file:
+      - .env
     environment:
       APP_NEO4J_URI: bolt://neo4j:7687
       APP_NEO4J_USER: ${APP_NEO4J_USER}
