@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { queryGraphRAG } from "@/services/mockApi";
 
-describe("mockApi", () => {
+describe("mockApi (legacy fixture only)", () => {
   it("returns glycolysis response for glycolysis query", async () => {
     const result = await queryGraphRAG("Tell me about glycolysis");
     expect(result.answer).toContain("Glycolysis");

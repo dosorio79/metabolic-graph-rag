@@ -85,7 +85,8 @@ function delay(ms: number): Promise<void> {
  * and returns a text response + Neo4j graph data.
  */
 export async function queryGraphRAG(query: string): Promise<QueryResponse> {
-  await delay(800 + Math.random() * 700);
+  const simulatedLatencyMs = import.meta.env.MODE === "test" ? 0 : 800 + Math.random() * 700;
+  await delay(simulatedLatencyMs);
 
   const lowerQuery = query.toLowerCase();
 
