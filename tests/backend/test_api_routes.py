@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from fastapi.testclient import TestClient
+import pytest
 
-from backend.app.main import app
 from backend.app.schemas.rag import RAGInterpretation, RAGResponse, RAGTrace
 
 
-client = TestClient(app)
+pytestmark = pytest.mark.anyio
 
 
-def test_compound_route_strips_id_and_returns_200(monkeypatch):
+async def test_compound_route_strips_id_and_returns_200(api_client, monkeypatch):
     captured: dict[str, str] = {}
 
     def fake_fetch(compound_id: str):
@@ -23,7 +22,7 @@ def test_compound_route_strips_id_and_returns_200(monkeypatch):
 
     monkeypatch.setattr("backend.app.api.routes.compounds.fetch_compound", fake_fetch)
 
-    response = client.get("/compounds/ C00036 ")
+    response = await api_client.get("/compounds/ C00036 ")
 
     assert response.status_code == 200
     assert captured["compound_id"] == "C00036"
@@ -32,16 +31,16 @@ def test_compound_route_strips_id_and_returns_200(monkeypatch):
     assert payload["name"] == "Oxaloacetate"
 
 
-def test_compound_route_returns_404(monkeypatch):
+async def test_compound_route_returns_404(api_client, monkeypatch):
     monkeypatch.setattr("backend.app.api.routes.compounds.fetch_compound", lambda _cid: None)
 
-    response = client.get("/compounds/C404")
+    response = await api_client.get("/compounds/C404")
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Compound not found"}
 
 
-def test_compound_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch):
+async def test_compound_route_whitespace_id_returns_404_and_passes_empty_id(api_client, monkeypatch):
     captured: dict[str, str] = {}
 
     def fake_fetch(compound_id: str):
@@ -50,14 +49,14 @@ def test_compound_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatc
 
     monkeypatch.setattr("backend.app.api.routes.compounds.fetch_compound", fake_fetch)
 
-    response = client.get("/compounds/%20%20")
+    response = await api_client.get("/compounds/%20%20")
 
     assert response.status_code == 404
     assert captured["compound_id"] == ""
     assert response.json() == {"detail": "Compound not found"}
 
 
-def test_reaction_route_returns_200(monkeypatch):
+async def test_reaction_route_returns_200(api_client, monkeypatch):
     monkeypatch.setattr(
         "backend.app.api.routes.reactions.fetch_reaction",
         lambda _rid: {
@@ -72,7 +71,7 @@ def test_reaction_route_returns_200(monkeypatch):
         },
     )
 
-    response = client.get("/reactions/R00209")
+    response = await api_client.get("/reactions/R00209")
 
     assert response.status_code == 200
     payload = response.json()
@@ -81,16 +80,16 @@ def test_reaction_route_returns_200(monkeypatch):
     assert payload["substrates"][0]["coef"] == 1.0
 
 
-def test_reaction_route_returns_404(monkeypatch):
+async def test_reaction_route_returns_404(api_client, monkeypatch):
     monkeypatch.setattr("backend.app.api.routes.reactions.fetch_reaction", lambda _rid: None)
 
-    response = client.get("/reactions/R404")
+    response = await api_client.get("/reactions/R404")
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Reaction not found"}
 
 
-def test_reaction_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch):
+async def test_reaction_route_whitespace_id_returns_404_and_passes_empty_id(api_client, monkeypatch):
     captured: dict[str, str] = {}
 
     def fake_fetch(reaction_id: str):
@@ -99,14 +98,14 @@ def test_reaction_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatc
 
     monkeypatch.setattr("backend.app.api.routes.reactions.fetch_reaction", fake_fetch)
 
-    response = client.get("/reactions/%20%20")
+    response = await api_client.get("/reactions/%20%20")
 
     assert response.status_code == 404
     assert captured["reaction_id"] == ""
     assert response.json() == {"detail": "Reaction not found"}
 
 
-def test_pathway_route_returns_200(monkeypatch):
+async def test_pathway_route_returns_200(api_client, monkeypatch):
     monkeypatch.setattr(
         "backend.app.api.routes.pathways.fetch_pathway",
         lambda _pid: {
@@ -119,7 +118,7 @@ def test_pathway_route_returns_200(monkeypatch):
         },
     )
 
-    response = client.get("/pathways/hsa00010")
+    response = await api_client.get("/pathways/hsa00010")
 
     assert response.status_code == 200
     payload = response.json()
@@ -127,16 +126,16 @@ def test_pathway_route_returns_200(monkeypatch):
     assert payload["reaction_count"] == 1
 
 
-def test_pathway_route_returns_404(monkeypatch):
+async def test_pathway_route_returns_404(api_client, monkeypatch):
     monkeypatch.setattr("backend.app.api.routes.pathways.fetch_pathway", lambda _pid: None)
 
-    response = client.get("/pathways/missing")
+    response = await api_client.get("/pathways/missing")
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Pathway not found"}
 
 
-def test_pathway_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch):
+async def test_pathway_route_whitespace_id_returns_404_and_passes_empty_id(api_client, monkeypatch):
     captured: dict[str, str] = {}
 
     def fake_fetch(pathway_id: str):
@@ -145,17 +144,17 @@ def test_pathway_route_whitespace_id_returns_404_and_passes_empty_id(monkeypatch
 
     monkeypatch.setattr("backend.app.api.routes.pathways.fetch_pathway", fake_fetch)
 
-    response = client.get("/pathways/%20%20")
+    response = await api_client.get("/pathways/%20%20")
 
     assert response.status_code == 404
     assert captured["pathway_id"] == ""
     assert response.json() == {"detail": "Pathway not found"}
 
 
-def test_health_route_ok(monkeypatch):
+async def test_health_route_ok(api_client, monkeypatch):
     monkeypatch.setattr("backend.app.api.routes.health.ping", lambda: None)
 
-    response = client.get("/health")
+    response = await api_client.get("/health")
 
     assert response.status_code == 200
     assert response.json() == {
@@ -164,13 +163,13 @@ def test_health_route_ok(monkeypatch):
     }
 
 
-def test_health_route_error(monkeypatch):
+async def test_health_route_error(api_client, monkeypatch):
     def fake_ping() -> None:
         raise RuntimeError("db down")
 
     monkeypatch.setattr("backend.app.api.routes.health.ping", fake_ping)
 
-    response = client.get("/health")
+    response = await api_client.get("/health")
 
     assert response.status_code == 200
     assert response.json() == {
@@ -179,7 +178,7 @@ def test_health_route_error(monkeypatch):
     }
 
 
-def test_rag_query_route_returns_200(monkeypatch):
+async def test_rag_query_route_returns_200(api_client, monkeypatch):
     captured: dict[str, str] = {}
 
     def fake_run_rag_pipeline(request):
@@ -202,7 +201,7 @@ def test_rag_query_route_returns_200(monkeypatch):
 
     monkeypatch.setattr("backend.app.api.routes.rag.run_rag_pipeline", fake_run_rag_pipeline)
 
-    response = client.post("/rag/query", json={"question": " How is pyruvate produced? "})
+    response = await api_client.post("/rag/query", json={"question": " How is pyruvate produced? "})
 
     assert response.status_code == 200
     assert captured["question"] == "How is pyruvate produced?"
@@ -212,7 +211,7 @@ def test_rag_query_route_returns_200(monkeypatch):
     assert payload["reactions"][0]["reaction_id"] == "R1"
 
 
-def test_rag_query_route_rejects_empty_question():
-    response = client.post("/rag/query", json={"question": "   "})
+async def test_rag_query_route_rejects_empty_question(api_client):
+    response = await api_client.post("/rag/query", json={"question": "   "})
 
     assert response.status_code == 422

@@ -1,15 +1,12 @@
 from __future__ import annotations
 
-from fastapi.testclient import TestClient
+import pytest
 
-from backend.app.main import app
-
-
-client = TestClient(app)
+pytestmark = pytest.mark.anyio
 
 
-def test_openapi_contains_required_paths_and_schemas():
-    response = client.get("/openapi.json")
+async def test_openapi_contains_required_paths_and_schemas(api_client):
+    response = await api_client.get("/openapi.json")
 
     assert response.status_code == 200
     doc = response.json()
@@ -29,8 +26,8 @@ def test_openapi_contains_required_paths_and_schemas():
     assert "RAGResponse" in schemas
 
 
-def test_openapi_reaction_response_has_required_fields():
-    response = client.get("/openapi.json")
+async def test_openapi_reaction_response_has_required_fields(api_client):
+    response = await api_client.get("/openapi.json")
     assert response.status_code == 200
 
     reaction_schema = response.json()["components"]["schemas"]["ReactionResponse"]
