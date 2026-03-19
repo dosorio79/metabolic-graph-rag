@@ -36,6 +36,11 @@ class RAGCompoundSummary(BaseModel):
     name: str | None = None
 
 
+class RAGPathwaySummary(BaseModel):
+    pathway_id: str
+    name: str | None = None
+
+
 class RAGInterpretation(BaseModel):
     entity_type: RAGEntityType
     entity_id: str | None = None
@@ -56,6 +61,7 @@ class RAGRetrieval(BaseModel):
     resolved_entity_id: str | None = None
     reactions: list[RAGReactionSummary] = Field(default_factory=list)
     compounds: list[RAGCompoundSummary] = Field(default_factory=list)
+    pathways: list[RAGPathwaySummary] = Field(default_factory=list)
     enzymes: list[str] = Field(default_factory=list)
     trace: RAGTrace = Field(default_factory=RAGTrace)
 

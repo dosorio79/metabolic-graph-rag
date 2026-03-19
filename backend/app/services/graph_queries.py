@@ -223,3 +223,25 @@ def lookup_pathway_id_by_name(pathway_name: str) -> str | None:
 			return record["id"]
 	finally:
 		driver.close()
+
+
+def fetch_pathways_for_reactions(reaction_ids: list[str]) -> list[dict[str, str | None]]:
+	query = """
+	UNWIND $reaction_ids AS reaction_id
+	MATCH (p:Pathway)-[:HAS_REACTION]->(r:Reaction {id: reaction_id})
+	WITH DISTINCT p
+	ORDER BY p.id
+	RETURN collect({pathway_id: p.id, name: p.name}) AS pathways
+	"""
+	if not reaction_ids:
+		return []
+	driver = create_driver()
+	try:
+		with driver.session() as session:
+			record = session.run(query, reaction_ids=reaction_ids).single()
+			if not record:
+				return []
+			payload = record.data().get("pathways", [])
+			return normalize_response_names(payload)
+	finally:
+		driver.close()

@@ -4,6 +4,7 @@ from backend.app.rag.context_builder import build_context
 from backend.app.schemas.rag import (
     RAGCompoundSummary,
     RAGInterpretation,
+    RAGPathwaySummary,
     RAGReactionSummary,
     RAGRetrieval,
     RAGTrace,
@@ -22,8 +23,14 @@ def test_build_context_includes_key_sections():
         resolved_entity_id="C00022",
         reactions=[RAGReactionSummary(reaction_id="R1", name="rxn1")],
         compounds=[RAGCompoundSummary(compound_id="C00022", name="pyruvate")],
+        pathways=[RAGPathwaySummary(pathway_id="map00010", name="Glycolysis / Gluconeogenesis")],
         enzymes=["1.2.3.4"],
-        trace=RAGTrace(reaction_ids=["R1"], compound_ids=["C00022"], enzyme_ecs=["1.2.3.4"]),
+        trace=RAGTrace(
+            reaction_ids=["R1"],
+            compound_ids=["C00022"],
+            pathway_ids=["map00010"],
+            enzyme_ecs=["1.2.3.4"],
+        ),
     )
 
     context = build_context(retrieval)
@@ -33,10 +40,12 @@ def test_build_context_includes_key_sections():
     assert "Counts:" in context
     assert "Reactions:" in context
     assert "Compounds:" in context
+    assert "Pathways:" in context
     assert "Enzymes (EC):" in context
     assert "Trace IDs:" in context
     assert "- R1 (rxn1)" in context
     assert "- C00022 (pyruvate)" in context
+    assert "- map00010 (Glycolysis / Gluconeogenesis)" in context
     assert "- 1.2.3.4" in context
 
 

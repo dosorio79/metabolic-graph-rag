@@ -11,6 +11,7 @@ from typing import Any, Callable
 from backend.app.schemas.rag import (
     RAGCompoundSummary,
     RAGInterpretation,
+    RAGPathwaySummary,
     RAGReactionSummary,
     RAGRetrieval,
     RAGTrace,
@@ -52,6 +53,21 @@ def _collect_enzymes_from_reactions(reactions: list[RAGReactionSummary]) -> list
             if ec:
                 enzymes.add(ec)
     return sorted(enzymes)
+
+
+def _collect_pathways_from_reactions(reactions: list[RAGReactionSummary]) -> list[RAGPathwaySummary]:
+    """Expand reaction summaries into unique pathway identifiers and names."""
+    reaction_ids = [reaction.reaction_id for reaction in reactions if reaction.reaction_id]
+    payloads = graph_queries.fetch_pathways_for_reactions(reaction_ids)
+    pathways: list[RAGPathwaySummary] = []
+    seen: set[str] = set()
+    for item in payloads:
+        pathway_id = item.get("pathway_id")
+        if not pathway_id or pathway_id in seen:
+            continue
+        seen.add(pathway_id)
+        pathways.append(RAGPathwaySummary(pathway_id=pathway_id, name=item.get("name")))
+    return pathways
 
 
 def _resolve_entity_id(interpretation: RAGInterpretation) -> str | None:
@@ -115,6 +131,7 @@ def _handle_compound(interpretation: RAGInterpretation, resolved_entity_id: str)
         RAGCompoundSummary(compound_id=compound["compound_id"], name=compound.get("name"))
     ]
     result.reactions = _select_compound_reactions(compound, interpretation.intent)
+    result.pathways = _collect_pathways_from_reactions(result.reactions)
     if interpretation.intent == "participants":
         # Enzyme expansion is opt-in for participant-style questions.
         result.enzymes = _collect_enzymes_from_reactions(result.reactions)
@@ -134,6 +151,7 @@ def _handle_reaction(interpretation: RAGInterpretation, resolved_entity_id: str)
         for item in (reaction.get("substrates", []) + reaction.get("products", []))
         if item.get("compound_id")
     ]
+    result.pathways = _collect_pathways_from_reactions(result.reactions)
     result.enzymes = [ec for ec in reaction.get("enzymes", []) if ec]
     return result
 
@@ -144,6 +162,7 @@ def _handle_pathway(interpretation: RAGInterpretation, resolved_entity_id: str) 
     pathway = graph_queries.fetch_pathway(resolved_entity_id)
     if not pathway:
         return result
+    result.pathways = [RAGPathwaySummary(pathway_id=pathway["pathway_id"], name=pathway.get("name"))]
     result.reactions = _dedupe_reactions(pathway.get("reactions", []))
     return result
 
@@ -155,6 +174,7 @@ def _handle_pathway_with_payload(
 ) -> RetrieverOutput:
     """Build pathway retrieval payload from pre-fetched pathway data."""
     result = _empty_retrieval(interpretation, resolved_entity_id)
+    result.pathways = [RAGPathwaySummary(pathway_id=pathway["pathway_id"], name=pathway.get("name"))]
     result.reactions = _dedupe_reactions(pathway.get("reactions", []))
     return result
 
@@ -167,6 +187,7 @@ def _handle_enzyme(interpretation: RAGInterpretation, resolved_entity_id: str) -
         return result
     result.enzymes = [resolved_entity_id]
     result.reactions = _dedupe_reactions(enzyme.get("reactions", []))
+    result.pathways = _collect_pathways_from_reactions(result.reactions)
     return result
 
 
@@ -175,6 +196,7 @@ def _build_trace(
     resolved_entity_id: str | None,
     reactions: list[RAGReactionSummary],
     compounds: list[RAGCompoundSummary],
+    pathways: list[RAGPathwaySummary],
     enzymes: list[str],
 ) -> RAGTrace:
     """Build trace metadata from normalized retrieval lists."""
@@ -182,9 +204,10 @@ def _build_trace(
     trace = RAGTrace(
         reaction_ids=[item.reaction_id for item in reactions if item.reaction_id],
         compound_ids=[item.compound_id for item in compounds if item.compound_id],
+        pathway_ids=[item.pathway_id for item in pathways if item.pathway_id],
         enzyme_ecs=enzymes,
     )
-    if interpretation.entity_type == "pathway" and resolved_entity_id:
+    if interpretation.entity_type == "pathway" and resolved_entity_id and not trace.pathway_ids:
         trace.pathway_ids = [resolved_entity_id]
     return trace
 
@@ -232,6 +255,7 @@ def retrieve_graph_context(interpretation: RAGInterpretation) -> RetrieverOutput
         resolved_entity_id=resolved_entity_id,
         reactions=result.reactions,
         compounds=result.compounds,
+        pathways=result.pathways,
         enzymes=result.enzymes,
     )
     result.trace = trace

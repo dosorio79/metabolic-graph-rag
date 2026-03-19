@@ -70,3 +70,6 @@ def test_generate_answer_calls_openai_sdk(monkeypatch):
     assert captures["create_kwargs"]["max_tokens"] == 200
     assert captures["create_kwargs"]["messages"][0]["role"] == "system"
     assert captures["create_kwargs"]["messages"][1]["role"] == "user"
+    assert "Do not claim insufficient context" in captures["create_kwargs"]["messages"][0]["content"]
+    assert "Every answer must cite at least one reaction ID" in captures["create_kwargs"]["messages"][0]["content"]
+    assert "If reactions are present and relevant" in captures["create_kwargs"]["messages"][1]["content"]

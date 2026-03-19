@@ -36,6 +36,14 @@ def _format_compounds(retrieved: RAGRetrieval) -> list[str]:
     return lines
 
 
+def _format_pathways(retrieved: RAGRetrieval) -> list[str]:
+    lines: list[str] = []
+    for pathway in retrieved.pathways:
+        pathway_name = f" ({pathway.name})" if pathway.name else ""
+        lines.append(f"- {pathway.pathway_id}{pathway_name}")
+    return lines
+
+
 def _format_enzymes(retrieved: RAGRetrieval) -> list[str]:
     # EC identifiers are already concise, so formatting is straightforward.
     lines = [f"- {ec}" for ec in retrieved.enzymes[:MAX_ENZYMES]]
@@ -71,6 +79,9 @@ def build_context(retrieved: RAGRetrieval) -> str:
     if retrieved.compounds:
         lines.extend(["", "Compounds:"])
         lines.extend(_format_compounds(retrieved))
+    if retrieved.pathways:
+        lines.extend(["", "Pathways:"])
+        lines.extend(_format_pathways(retrieved))
     if retrieved.enzymes:
         lines.extend(["", "Enzymes (EC):"])
         lines.extend(_format_enzymes(retrieved))

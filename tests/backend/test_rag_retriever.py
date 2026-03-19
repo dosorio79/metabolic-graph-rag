@@ -16,6 +16,11 @@ def test_retrieve_graph_context_compound_producers(monkeypatch):
             "consuming_reactions": [{"reaction_id": "R2", "name": "rxn2"}],
         },
     )
+    monkeypatch.setattr(
+        retriever.graph_queries,
+        "fetch_pathways_for_reactions",
+        lambda _: [{"pathway_id": "map00010", "name": "Glycolysis / Gluconeogenesis"}],
+    )
 
     result = retriever.retrieve_graph_context(
         RAGInterpretation(entity_type="compound", entity_name="pyruvate", intent="producers", confidence=0.9)
@@ -24,9 +29,11 @@ def test_retrieve_graph_context_compound_producers(monkeypatch):
     assert result.resolved_entity_id == "C00022"
     assert [item.reaction_id for item in result.reactions] == ["R1"]
     assert [item.compound_id for item in result.compounds] == ["C00022"]
+    assert [item.pathway_id for item in result.pathways] == ["map00010"]
     assert result.enzymes == []
     assert result.trace.reaction_ids == ["R1"]
     assert result.trace.compound_ids == ["C00022"]
+    assert result.trace.pathway_ids == ["map00010"]
 
 
 def test_retrieve_graph_context_compound_participants_collects_enzymes(monkeypatch):
@@ -45,13 +52,20 @@ def test_retrieve_graph_context_compound_participants_collects_enzymes(monkeypat
         "R20": {"reaction_id": "R20", "enzymes": ["2.2.2.2", "3.3.3.3"]},
     }
     monkeypatch.setattr(retriever.graph_queries, "fetch_reaction", lambda reaction_id: reaction_payloads[reaction_id])
+    monkeypatch.setattr(
+        retriever.graph_queries,
+        "fetch_pathways_for_reactions",
+        lambda _: [{"pathway_id": "map00010", "name": "Glycolysis / Gluconeogenesis"}],
+    )
 
     result = retriever.retrieve_graph_context(
         RAGInterpretation(entity_type="compound", entity_id="C00031", intent="participants", confidence=0.8)
     )
 
     assert [item.reaction_id for item in result.reactions] == ["R10", "R20"]
+    assert [item.pathway_id for item in result.pathways] == ["map00010"]
     assert result.enzymes == ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
+    assert result.trace.pathway_ids == ["map00010"]
     assert result.trace.enzyme_ecs == ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
 
 
@@ -67,6 +81,11 @@ def test_retrieve_graph_context_reaction(monkeypatch):
             "enzymes": ["1.2.3.4"],
         },
     )
+    monkeypatch.setattr(
+        retriever.graph_queries,
+        "fetch_pathways_for_reactions",
+        lambda _: [{"pathway_id": "map00020", "name": "Citrate cycle (TCA cycle)"}],
+    )
 
     result = retriever.retrieve_graph_context(
         RAGInterpretation(entity_type="reaction", entity_id="R00209", intent="participants", confidence=0.9)
@@ -74,7 +93,9 @@ def test_retrieve_graph_context_reaction(monkeypatch):
 
     assert [item.reaction_id for item in result.reactions] == ["R00209"]
     assert [item.compound_id for item in result.compounds] == ["C1", "C2"]
+    assert [item.pathway_id for item in result.pathways] == ["map00020"]
     assert result.enzymes == ["1.2.3.4"]
+    assert result.trace.pathway_ids == ["map00020"]
 
 
 def test_retrieve_graph_context_enzyme(monkeypatch):
@@ -86,6 +107,11 @@ def test_retrieve_graph_context_enzyme(monkeypatch):
             "reactions": [{"reaction_id": "R100", "name": "rxn100"}],
         },
     )
+    monkeypatch.setattr(
+        retriever.graph_queries,
+        "fetch_pathways_for_reactions",
+        lambda _: [{"pathway_id": "map00020", "name": "Citrate cycle (TCA cycle)"}],
+    )
 
     result = retriever.retrieve_graph_context(
         RAGInterpretation(entity_type="enzyme", entity_id="1.2.1.104", intent="summary", confidence=0.8)
@@ -93,6 +119,8 @@ def test_retrieve_graph_context_enzyme(monkeypatch):
 
     assert result.enzymes == ["1.2.1.104"]
     assert [item.reaction_id for item in result.reactions] == ["R100"]
+    assert [item.pathway_id for item in result.pathways] == ["map00020"]
+    assert result.trace.pathway_ids == ["map00020"]
     assert result.trace.enzyme_ecs == ["1.2.1.104"]
 
 
@@ -125,4 +153,5 @@ def test_retrieve_graph_context_pathway_alias_map_to_hsa(monkeypatch):
 
     assert result.resolved_entity_id == "hsa00010"
     assert [item.reaction_id for item in result.reactions] == ["R00001"]
+    assert [item.pathway_id for item in result.pathways] == ["hsa00010"]
     assert result.trace.pathway_ids == ["hsa00010"]
