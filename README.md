@@ -221,11 +221,8 @@ CI includes:
 - Project docs index: `docs/README.md`
 - Changelog: `CHANGELOG.md`
 - OpenAPI spec: `docs/openapi.yaml`
-- Task 1 brief: `docs/Build_tasks/task1.md`
-- Task 2 brief: `docs/Build_tasks/task2.md`
-- Task 3 brief: `docs/Build_tasks/task3.md`
-- Task 4 brief: `docs/Build_tasks/task4.md`
-- Task 5 brief: `docs/Build_tasks/task5.md`
+- Tutorial path: `docs/tutorial/README.md`
+- Historical build diary: `docs/Build_tasks/README.md`
 - Quickstart: `docs/quickstart.md`
 - Architecture: `docs/architecture.md`
 - Development workflow: `docs/development.md`

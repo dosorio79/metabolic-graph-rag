@@ -10,6 +10,10 @@ User Query -> Frontend -> FastAPI -> Neo4j/RAG -> Frontend Visualization
 This task turns the UI from a mock demo into a practical test harness for
 manual QA and faster iteration.
 
+It also establishes the graph view as a user-facing learning surface: users
+should be able to see the relevant metabolic subgraph, inspect pathway context,
+and explore connected entities instead of receiving only a text answer.
+
 ---
 
 ## Why Task 5 Is Needed
@@ -35,6 +39,7 @@ Result: the most important user flow is not exercising real backend retrieval/RA
 4. Add robust loading/error/empty states for integration failures.
 5. Add frontend tests for API client + query flow.
 6. Add one integration smoke path that validates frontend/backend wiring.
+7. Preserve the graph as an explicit visible part of the product, not only as an internal support artifact.
 
 ### Out of scope
 
@@ -81,7 +86,7 @@ Replace mock usage in `frontend/src/pages/Index.tsx`.
 Deliverables:
 - [ ] Remove dependency on `queryGraphRAG` from `mockApi.ts` in main query path.
 - [ ] Wire `handleQuery` to real `queryRag`.
-- [ ] Render backend answer and source/entity IDs from RAG payload.
+- [ ] Render backend answer and usable evidence links from RAG payload.
 - [ ] Add clear user-visible error state when RAG call fails.
 
 ---
@@ -106,6 +111,7 @@ Deliverables:
 - [ ] Graph renders from real RAG results (no mock data dependency).
 - [ ] Node click continues to open detail panel via existing entity endpoints.
 - [ ] Empty retrieval cases show explicit no-context/no-results state.
+- [ ] The relevant graph remains visible and explorable so users can learn from the retrieved pathway structure.
 
 ---
 
@@ -174,6 +180,7 @@ Task 5 is complete when:
 - Local frontend-backend communication works reliably (no CORS/proxy blockers).
 - Automated frontend tests cover query success + failure paths.
 - Team can use UI as a practical regression test surface for Task 2/3/4 outputs.
+- The graph is preserved as an explicit user-facing exploration surface, not reduced to hidden supporting state.
 
 ---
 
@@ -190,7 +197,9 @@ Task 5 is complete when:
 
 ## Next Stage Preview
 
-Task 6 — Agentic Graph Reasoning
+Task 6 — Answer Quality and Grounding Refinement
 
-With frontend integration completed, Task 6 can focus on agent loops, tool
-selection, and multi-step reasoning with UI-visible traces.
+With frontend integration completed, the next build step is to improve answer
+quality itself: tighten prompting, require explicit reaction citations, derive
+pathway names from retrieved graph context, and make those changes measurable
+through tests and evaluation.
