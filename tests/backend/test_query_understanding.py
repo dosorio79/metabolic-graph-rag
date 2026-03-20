@@ -45,6 +45,10 @@ from backend.app.rag.utils import format_classification_debug
             "What is glycolysis pathway?",
             {"intent": "summary", "entity_type": "pathway", "entity_name": "glycolysis"},
         ),
+        (
+            "Tell me about acetyl-CoA",
+            {"intent": "summary", "entity_type": "compound", "entity_name": "acetyl-coa"},
+        ),
     ],
 )
 def test_classify_question_core_cases(question, expected):

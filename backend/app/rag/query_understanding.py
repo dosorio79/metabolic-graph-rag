@@ -175,6 +175,10 @@ def _fallback_entity_type(
         return "reaction"
     if intent in {"producers", "consumers"} and entity_name:
         return "compound"
+    if intent == "summary" and entity_name and hinted_type == "unknown":
+        # Bare "tell me about X" questions most often target compounds unless
+        # the user provides an explicit pathway/reaction/enzyme hint or ID.
+        return "compound"
     if hinted_type != "unknown":
         return hinted_type
     return "unknown"

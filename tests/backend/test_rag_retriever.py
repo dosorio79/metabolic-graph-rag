@@ -134,6 +134,34 @@ def test_retrieve_graph_context_unknown_returns_empty():
     assert result.enzymes == []
 
 
+def test_retrieve_graph_context_summary_compound_name_uses_lookup(monkeypatch):
+    monkeypatch.setattr(retriever.graph_queries, "lookup_compound_id_by_name", lambda _: "C00024")
+    monkeypatch.setattr(
+        retriever.graph_queries,
+        "fetch_compound",
+        lambda _: {
+            "compound_id": "C00024",
+            "name": "Acetyl-CoA",
+            "producing_reactions": [{"reaction_id": "R1", "name": "rxn1"}],
+            "consuming_reactions": [{"reaction_id": "R2", "name": "rxn2"}],
+        },
+    )
+    monkeypatch.setattr(
+        retriever.graph_queries,
+        "fetch_pathways_for_reactions",
+        lambda _: [{"pathway_id": "map00020", "name": "Citrate cycle (TCA cycle)"}],
+    )
+
+    result = retriever.retrieve_graph_context(
+        RAGInterpretation(entity_type="compound", entity_name="acetyl-coa", intent="summary", confidence=0.8)
+    )
+
+    assert result.resolved_entity_id == "C00024"
+    assert [item.compound_id for item in result.compounds] == ["C00024"]
+    assert [item.reaction_id for item in result.reactions] == ["R1", "R2"]
+    assert result.trace.compound_ids == ["C00024"]
+
+
 def test_retrieve_graph_context_pathway_alias_map_to_hsa(monkeypatch):
     def fake_fetch_pathway(pathway_id: str):
         if pathway_id == "map00010":
