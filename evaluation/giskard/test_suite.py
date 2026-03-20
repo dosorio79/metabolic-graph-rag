@@ -1,4 +1,4 @@
-"""Task 4 grounding test suite with optional Giskard orchestration."""
+"""Task 4/6 grounding test suite with optional Giskard orchestration."""
 
 from __future__ import annotations
 
@@ -25,39 +25,105 @@ def _scan_enabled() -> bool:
     return os.getenv("APP_TASK4_ENABLE_GISKARD_SCAN", "").strip().lower() in {"1", "true", "yes", "on"}
 
 
-def load_questions(dataset_path: Path) -> list[str]:
-    """Load evaluation questions from a JSON file."""
+def load_cases(dataset_path: Path) -> list[dict[str, Any]]:
+    """Load evaluation cases from a JSON file.
+
+    The dataset is intentionally permissive:
+    - existing Task 4 entries that only define `question` remain valid
+    - Task 6 entries may include richer expectation metadata consumed later
+    """
     payload = json.loads(dataset_path.read_text(encoding="utf-8"))
     if not isinstance(payload, list):
         raise ValueError("Dataset payload must be a JSON list.")
-    questions: list[str] = []
-    for item in payload:
-        if isinstance(item, dict) and isinstance(item.get("question"), str) and item["question"].strip():
-            questions.append(item["question"].strip())
-    return questions
-
-
-def run_grounding_test_cases(questions: list[str]) -> list[dict[str, Any]]:
-    """Run deterministic grounding validators for all questions."""
     cases: list[dict[str, Any]] = []
-    for question in questions:
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+        question = item.get("question")
+        if not isinstance(question, str) or not question.strip():
+            continue
+        case = dict(item)
+        case["question"] = question.strip()
+        cases.append(case)
+    return cases
+
+
+def load_questions(dataset_path: Path) -> list[str]:
+    """Return question text only for callers that only need the raw prompts."""
+    return [case["question"] for case in load_cases(dataset_path)]
+
+
+def run_grounding_test_cases(dataset_cases: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Run deterministic grounding validators for all evaluation cases."""
+    cases: list[dict[str, Any]] = []
+    for case in dataset_cases:
+        question = case["question"]
         trace = rag_predict_with_trace(question)
-        grounded = run_grounding_rules(trace)
+        expectations = {key: value for key, value in case.items() if key not in {"question", "source", "category"}}
+        grounded = run_grounding_rules(trace, expectations=expectations)
         cases.append(
             {
+                "category": case.get("category"),
                 "question": question,
+                "source": case.get("source"),
+                "expectations": expectations,
                 "answer": trace["answer"],
                 "prompt_versions": trace.get("prompt_versions", {}),
                 "system_prompt_version": trace.get("system_prompt_version"),
                 "user_prompt_version": trace.get("user_prompt_version"),
+                "interpretation": trace.get("interpretation", {}),
                 "retrieved_reactions": trace["retrieved_reactions"],
                 "retrieved_compounds": trace["retrieved_compounds"],
                 "retrieved_enzymes": trace["retrieved_enzymes"],
+                "trace_pathway_ids": trace.get("trace_pathway_ids", []),
+                "retrieval_empty": trace.get("retrieval_empty", False),
                 "grounding_passed": grounded["grounding_passed"],
                 "failed_tests": grounded["failed_tests"],
                 "rule_results": grounded["results"],
             }
         )
+    return cases
+
+
+def _append_case_rule(case: dict[str, Any], *, rule: str, passed: bool, details: str) -> None:
+    """Append a synthetic case-level rule result and update aggregate status."""
+    case["rule_results"].append({"rule": rule, "passed": passed, "details": details})
+    if not passed and rule not in case["failed_tests"]:
+        case["failed_tests"].append(rule)
+        case["grounding_passed"] = False
+
+
+def apply_pairwise_expectation_rules(cases: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Apply cross-case regression checks such as name-vs-ID parity."""
+    by_question = {case["question"]: case for case in cases}
+    for case in cases:
+        expectations = case.get("expectations", {})
+
+        equivalent_question = expectations.get("resolution_equivalent_to")
+        if equivalent_question:
+            peer = by_question.get(equivalent_question)
+            if peer is None:
+                _append_case_rule(
+                    case,
+                    rule="resolution_equivalence",
+                    passed=True,
+                    details=f"Skipped: paired case `{equivalent_question}` not present in this run.",
+                )
+            else:
+                same_empty_state = bool(case.get("retrieval_empty")) == bool(peer.get("retrieval_empty"))
+                shared_compounds = sorted(set(case.get("retrieved_compounds", [])) & set(peer.get("retrieved_compounds", [])))
+                passed = same_empty_state and bool(shared_compounds)
+                if passed:
+                    details = f"Resolution parity holds with `{equivalent_question}` via compounds: {', '.join(shared_compounds)}."
+                elif case.get("retrieval_empty") != peer.get("retrieval_empty"):
+                    details = (
+                        f"Resolution parity failed with `{equivalent_question}`: one query resolved graph context and the other did not."
+                    )
+                else:
+                    details = (
+                        f"Resolution parity failed with `{equivalent_question}`: no shared retrieved compounds were found."
+                    )
+                _append_case_rule(case, rule="resolution_equivalence", passed=passed, details=details)
     return cases
 
 
@@ -106,8 +172,9 @@ def _run_optional_giskard_scan(questions: list[str]) -> dict[str, Any]:
 
 def run_test_suite(dataset_path: Path) -> dict[str, Any]:
     """Execute deterministic grounding tests and optional Giskard scan."""
-    questions = load_questions(dataset_path)
-    cases = run_grounding_test_cases(questions)
+    dataset_cases = load_cases(dataset_path)
+    questions = [case["question"] for case in dataset_cases]
+    cases = apply_pairwise_expectation_rules(run_grounding_test_cases(dataset_cases))
     passed = sum(1 for item in cases if item["grounding_passed"])
     failed = len(cases) - passed
     return {

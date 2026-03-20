@@ -3,8 +3,10 @@ PYTHONPATH_ROOT := PYTHONPATH=.
 GSK_HOME_LOCAL := GSK_HOME=$(CURDIR)/.giskard-home
 GSK_ANALYTICS_OFF := GSK_DISABLE_ANALYTICS=1
 GSK_LOCAL_ENV := $(GSK_HOME_LOCAL) $(GSK_ANALYTICS_OFF)
+FRONTEND_DIR := frontend
+API_BASE_URL ?= http://localhost:8000
 
-.PHONY: test test-active test-ci test-backend test-etl test-airflow test-evaluation run-evaluation run-evaluation-deterministic run-evaluation-llm giskard-ui-start giskard-ui-status giskard-ui-stop giskard-ui-logs giskard-worker-start giskard-worker-stop giskard-worker-logs giskard-publish-task4 prefect-server prefect-deploy prefect-deploy-batch prefect-deploy-all prefect-worker flow flow-batch reset reset-flow
+.PHONY: test test-active test-ci test-backend test-etl test-airflow test-evaluation run-api run-frontend run-stack run-evaluation run-evaluation-deterministic run-evaluation-llm giskard-ui-start giskard-ui-status giskard-ui-stop giskard-ui-logs giskard-worker-start giskard-worker-stop giskard-worker-logs giskard-publish-task4 prefect-server prefect-deploy prefect-deploy-batch prefect-deploy-all prefect-worker flow flow-batch reset reset-flow
 
 test:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest
@@ -25,6 +27,15 @@ test-airflow:
 
 test-evaluation:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m pytest tests/evaluation
+
+run-api:
+	docker compose up -d api
+
+run-frontend:
+	cd $(FRONTEND_DIR) && VITE_API_BASE_URL=$(API_BASE_URL) npm run dev
+
+run-stack:
+	docker compose up -d neo4j api
 
 run-evaluation:
 	$(PYTHONPATH_ROOT) $(PYTHON) -m evaluation.giskard.run_evaluation

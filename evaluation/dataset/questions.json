@@ -14,18 +14,25 @@
   {
     "question": "How is pyruvate produced?",
     "source": "task3_notebook",
-    "category": "producers",
+    "category": "producer_consumer_alignment",
     "expected_intent": "producers",
     "expected_entity_type": "compound",
-    "expect_grounding": true
+    "expect_grounding": true,
+    "expect_non_empty_retrieval": true,
+    "expect_no_insufficient_context": true,
+    "expect_reaction_citation": true
   },
   {
     "question": "What reactions produce C00022?",
     "source": "task3_notebook",
-    "category": "producers",
+    "category": "producer_consumer_alignment",
     "expected_intent": "producers",
     "expected_entity_type": "compound",
-    "expect_grounding": true
+    "expect_grounding": true,
+    "expect_non_empty_retrieval": true,
+    "expect_no_insufficient_context": true,
+    "expect_reaction_citation": true,
+    "paired_with": "How is pyruvate produced?"
   },
   {
     "question": "How is oxaloacetate synthesized?",
@@ -134,10 +141,14 @@
   {
     "question": "What is glycolysis pathway?",
     "source": "task3_notebook",
-    "category": "summary",
+    "category": "pathway_summary_grounding",
     "expected_intent": "summary",
     "expected_entity_type": "pathway",
-    "expect_grounding": true
+    "expect_grounding": true,
+    "expect_non_empty_retrieval": true,
+    "expect_no_insufficient_context": true,
+    "expect_reaction_citation": true,
+    "expect_pathway_reference_in_answer": true
   },
   {
     "question": "Tell me about C00022",
@@ -146,6 +157,28 @@
     "expected_intent": "summary",
     "expected_entity_type": "compound",
     "expect_grounding": true
+  },
+  {
+    "question": "Tell me about acetyl-CoA",
+    "source": "task6_regression",
+    "category": "name_resolution_parity",
+    "expected_intent": "summary",
+    "expected_entity_type": "compound",
+    "expect_grounding": true,
+    "expect_non_empty_retrieval": true,
+    "expect_no_insufficient_context": true,
+    "resolution_equivalent_to": "Tell me about C00024"
+  },
+  {
+    "question": "Tell me about C00024",
+    "source": "task6_regression",
+    "category": "name_resolution_parity",
+    "expected_intent": "summary",
+    "expected_entity_type": "compound",
+    "expect_grounding": true,
+    "expect_non_empty_retrieval": true,
+    "expect_no_insufficient_context": true,
+    "resolution_equivalent_to": "Tell me about acetyl-CoA"
   },
   {
     "question": "Describe R00200",
