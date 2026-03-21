@@ -1,6 +1,6 @@
 {
-  "total_questions": 29,
-  "passed_questions": 29,
+  "total_questions": 30,
+  "passed_questions": 30,
   "failed_questions": 0,
   "cases": [
     {
@@ -8,7 +8,7 @@
       "question": "How is pyruvate produced in glycolysis?",
       "source": "task4_seed",
       "expectations": {},
-      "answer": "Pyruvate is produced in glycolysis through a series of reactions that convert glucose into pyruvate. The relevant reactions include R00203, which involves the conversion of pyruvaldehyde to pyruvate with the reduction of NAD+, and R00212, which can also contribute to the formation of pyruvate through the action of acetyl-CoA:formate C-acetyltransferase. Overall, pyruvate is a key end product of the glycolytic pathway (map00010), with 34 reactions associated with its production.",
+      "answer": "Pyruvate is produced in glycolysis through a series of enzymatic reactions that convert glucose into pyruvate. Although specific reactions leading directly to pyruvate are not detailed in the provided context, the pathway map for glycolysis (map00010) indicates that pyruvate is a key end product of this metabolic pathway. The context lists 34 reactions associated with pyruvate production, including reactions such as R00212 (acetyl-CoA:formate C-acetyltransferase) and R00203 (pyruvaldehyde:NAD+ oxidoreductase; 2-oxopropanal:NAD+ oxidoreductase), which are involved in the conversion of intermediates to pyruvate.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -141,7 +141,7 @@
       "question": "Which compounds participate in reaction R00209?",
       "source": "task4_seed",
       "expectations": {},
-      "answer": "In reaction R00209, which involves the enzyme pyruvate:NAD+ 2-oxidoreductase (CoA-acetylating), the participating compounds are pyruvate (C00022), NAD+ (C00003), CoA (C00010), NADH (C00004), CO2 (C00011), acetyl-CoA (C00024), and H+ (C00080). This reaction facilitates the conversion of pyruvate into acetyl-CoA while reducing NAD+ to NADH and releasing CO2.",
+      "answer": "In reaction R00209, which involves the pyruvate:NAD+ 2-oxidoreductase (CoA-acetylating) enzyme (pyruvate dehydrogenase complex), the participating compounds are pyruvate (C00022), NAD+ (C00003), CoA (C00010), NADH (C00004), CO2 (C00011), acetyl-CoA (C00024), and H+ (C00080). This reaction facilitates the conversion of pyruvate into acetyl-CoA while reducing NAD+ to NADH and releasing CO2.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -241,7 +241,7 @@
       "question": "Which reactions are associated with enzyme 1.2.1.104?",
       "source": "task4_seed",
       "expectations": {},
-      "answer": "The enzyme with EC number 1.2.1.104 is associated with the reaction R00209, which involves the conversion of pyruvate and NAD+ into acetyl-CoA and NADH through the action of the pyruvate dehydrogenase complex. This reaction is part of the metabolic pathways including glycolysis/gluconeogenesis, the citrate cycle (TCA cycle), and pyruvate metabolism.",
+      "answer": "The enzyme with EC number 1.2.1.104 is associated with the reaction R00209, which involves the conversion of pyruvate and NAD+ into acetyl-CoA and NADH, facilitated by the pyruvate dehydrogenase complex. This reaction is part of the metabolic pathways including glycolysis/gluconeogenesis, the TCA cycle, and pyruvate metabolism.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -340,7 +340,7 @@
         "expect_no_insufficient_context": true,
         "expect_reaction_citation": true
       },
-      "answer": "Pyruvate is produced through various biochemical reactions, including those listed in the context. Notably, reaction R00203 involves the oxidation of pyruvaldehyde to pyruvate using NAD+, which directly contributes to pyruvate production. Additionally, reactions such as R00196 and R00197, which involve the conversion of lactate to pyruvate, also play a role in its formation. Overall, these reactions highlight the metabolic pathways leading to the production of pyruvate.",
+      "answer": "Pyruvate is produced through various biochemical reactions, including the conversion of glucose during glycolysis. Notable reactions that contribute to pyruvate production include R00203, which involves the oxidation of pyruvaldehyde with NAD+, and R00212, which involves the conversion of acetyl-CoA and formate to produce pyruvate. Additionally, pyruvate is a key intermediate in the glycolysis pathway (map00010) and is also involved in the pyruvate metabolism pathway (map00620).",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -481,7 +481,7 @@
         "expect_reaction_citation": true,
         "paired_with": "How is pyruvate produced?"
       },
-      "answer": "C00022, or pyruvate, is produced through several reactions in the metabolic context provided. Notable producing reactions include R00203, which involves the oxidation of pyruvaldehyde with NAD+, and R00212, where acetyl-CoA is converted to pyruvate via a C-acetyltransferase reaction. Additionally, reactions R00196 and R00197 involve the conversion of lactate to pyruvate through oxidoreductase activity. These reactions contribute to the overall production of pyruvate within pathways such as glycolysis and pyruvate metabolism.",
+      "answer": "C00022 (Pyruvate) is produced through several reactions, including:\n\n- R00203, which involves the oxidation of pyruvaldehyde or 2-oxopropanal with NAD+.\n- R00212, which is a C-acetyltransferase reaction involving acetyl-CoA and formate.\n- R00214 and R00215, both of which are NAD+ oxidoreductase reactions that decarboxylate (S)-malate and (R)-malate, respectively.\n\nThese reactions contribute to the production of pyruvate within the context of various metabolic pathways, including glycolysis and pyruvate metabolism.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -610,6 +610,147 @@
       ]
     },
     {
+      "category": "producer_consumer_alignment",
+      "question": "What reactions generate pyruvate?",
+      "source": "task6_regression",
+      "expectations": {
+        "expected_intent": "producers",
+        "expected_entity_type": "compound",
+        "expect_grounding": true,
+        "expect_non_empty_retrieval": true,
+        "expect_no_insufficient_context": true,
+        "expect_reaction_citation": true,
+        "paired_with": "How is pyruvate produced?"
+      },
+      "answer": "Pyruvate is generated through several reactions, including the conversion of 2-oxopropanal via the reaction R00203 (pyruvaldehyde:NAD+ oxidoreductase; 2-oxopropanal:NAD+ oxidoreductase) and the decarboxylation of malate in reactions R00214 and R00215 ((S)-malate:NAD+ oxidoreductase (decarboxylating) and (R)-malate:NAD+ oxidoreductase (decarboxylating), respectively. Additionally, acetyl-CoA can be converted to pyruvate through reaction R00212 (acetyl-CoA:formate C-acetyltransferase). These reactions collectively contribute to the production of pyruvate in various metabolic pathways, including glycolysis and pyruvate metabolism.",
+      "prompt_versions": {
+        "system_prompt_version": "system.v2",
+        "user_prompt_version": "user.v2"
+      },
+      "system_prompt_version": "system.v2",
+      "user_prompt_version": "user.v2",
+      "interpretation": {
+        "entity_type": "compound",
+        "entity_id": null,
+        "entity_name": "pyruvate",
+        "intent": "producers",
+        "confidence": 0.6499999999999999
+      },
+      "retrieved_reactions": [
+        "R00196",
+        "R00197",
+        "R00198",
+        "R00203",
+        "R00205",
+        "R00212",
+        "R00214",
+        "R00215",
+        "R00216",
+        "R00217",
+        "R00218",
+        "R00220",
+        "R00221",
+        "R00226",
+        "R00297",
+        "R00369",
+        "R00409",
+        "R00470",
+        "R00703",
+        "R00704",
+        "R00907",
+        "R01064",
+        "R01196",
+        "R01447",
+        "R04187",
+        "R05605",
+        "R08570",
+        "R10616",
+        "R10691",
+        "R11591",
+        "R12212",
+        "R13049",
+        "R13050",
+        "R13181"
+      ],
+      "retrieved_compounds": [
+        "C00022"
+      ],
+      "retrieved_enzymes": [],
+      "trace_pathway_ids": [
+        "map00010",
+        "map00020",
+        "map00030",
+        "map00051",
+        "map00052",
+        "map00260",
+        "map00280",
+        "map00620",
+        "map00630",
+        "map00640",
+        "map00650"
+      ],
+      "retrieval_empty": false,
+      "grounding_passed": true,
+      "failed_tests": [],
+      "rule_results": [
+        {
+          "rule": "reaction_grounding",
+          "passed": true,
+          "details": "All reaction IDs are grounded."
+        },
+        {
+          "rule": "compound_grounding",
+          "passed": true,
+          "details": "All compound IDs are grounded."
+        },
+        {
+          "rule": "enzyme_grounding",
+          "passed": true,
+          "details": "All enzyme EC numbers are grounded."
+        },
+        {
+          "rule": "retrieval_consistency",
+          "passed": true,
+          "details": "Answer references at least one retrieved entity."
+        },
+        {
+          "rule": "insufficient_context_behavior",
+          "passed": true,
+          "details": "Skipped: retrieval is non-empty."
+        },
+        {
+          "rule": "expected_intent",
+          "passed": true,
+          "details": "Interpretation intent matches expected value `producers`."
+        },
+        {
+          "rule": "expected_entity_type",
+          "passed": true,
+          "details": "Interpretation entity type matches expected value `compound`."
+        },
+        {
+          "rule": "non_empty_retrieval",
+          "passed": true,
+          "details": "Retrieval is non-empty."
+        },
+        {
+          "rule": "no_false_insufficient_context",
+          "passed": true,
+          "details": "Answer does not claim insufficient context."
+        },
+        {
+          "rule": "reaction_citation_expectation",
+          "passed": true,
+          "details": "Answer cites at least one reaction ID."
+        },
+        {
+          "rule": "pathway_reference_in_answer",
+          "passed": true,
+          "details": "Skipped: pathway reference not required."
+        }
+      ]
+    },
+    {
       "category": "producers",
       "question": "How is oxaloacetate synthesized?",
       "source": "task3_notebook",
@@ -618,7 +759,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "Oxaloacetate (C00036) is synthesized through several reactions. Notably, it can be produced via the reaction catalyzed by (R,R)-tartrate hydro-lyase (oxaloacetate-forming) (R00339). Additionally, the conversion of (S)-malate to oxaloacetate occurs through the actions of (S)-malate:NAD+ oxidoreductase (R00342) and (S)-malate:NADP+ oxidoreductase (R00343). These reactions contribute to the synthesis of oxaloacetate in metabolic pathways such as the TCA cycle (map00020) and pyruvate metabolism (map00620).",
+      "answer": "Oxaloacetate (C00036) is synthesized through several reactions. Notably, it can be produced from (S)-malate via the reactions catalyzed by (S)-malate:NAD+ oxidoreductase (R00342) and (S)-malate:NADP+ oxidoreductase (R00343). Additionally, oxaloacetate is formed in the reaction catalyzed by pyruvate:carbon-dioxide ligase (ADP-forming) (R00344). These reactions contribute to the synthesis of oxaloacetate within the metabolic pathways, including the TCA cycle (map00020) and pyruvate metabolism (map00620).",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -726,7 +867,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "Glucose (C00031) is produced through several hydrolytic reactions involving disaccharides and polysaccharides. The relevant reactions include:\n\n- R00010 (alpha,alpha-trehalose glucohydrolase), which hydrolyzes trehalose to produce glucose.\n- R00028 (maltose glucohydrolase), which hydrolyzes maltose to yield glucose.\n- R00801 (sucrose glucohydrolase), which breaks down sucrose into glucose and fructose.\n\nThese reactions collectively contribute to the production of glucose from various carbohydrate sources.",
+      "answer": "Glucose (C00031) is produced through several enzymatic reactions that hydrolyze larger carbohydrates. Notable reactions include R00010 (alpha,alpha-trehalose glucohydrolase), R00028 (maltose glucohydrolase), and R00801 (sucrose glucohydrolase), which all contribute to the breakdown of disaccharides and polysaccharides into glucose. These reactions collectively indicate the pathways through which glucose is generated from various carbohydrate sources.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -839,7 +980,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "Lactate ((S)-Lactate, C00186) is generated through several reactions. One pathway involves the conversion of (S)-lactaldehyde to lactate via the enzyme (S)-lactaldehyde:NAD+ oxidoreductase (R01446). Additionally, lactate can be produced through the action of lactoyl-CoA:propanoate CoA-transferase (R01449). Other reactions, R10691 and R11074, may also contribute to lactate generation but lack specific enzyme details in the context provided.",
+      "answer": "Lactate ((S)-Lactate, C00186) is generated through several reactions. Notably, reaction R01446 involves the conversion of (S)-lactaldehyde to lactate via an oxidoreductase that utilizes NAD+. Additionally, lactate can be produced in the context of propanoate metabolism, as indicated by reaction R01449, which involves lactoyl-CoA and propanoate CoA-transferase. Other reactions, R10691 and R11074, may also contribute to lactate production, although specific details on their mechanisms are not provided. Overall, these reactions illustrate the pathways through which lactate is synthesized.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -938,7 +1079,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "Glucose (C00031) is consumed in several reactions, including:\n\n1. R00299 (ATP:D-glucose 6-phosphotransferase) - where glucose is phosphorylated.\n2. R00305 (D-glucose:quinone 1-oxidoreductase) - which involves the oxidation of glucose.\n3. R07147 (D-glucose:NADP+ 1-oxidoreductase) - where glucose is oxidized in the presence of NADP+.\n\nThese reactions indicate the metabolic utilization of glucose in various pathways, including glycolysis and the pentose phosphate pathway.",
+      "answer": "Glucose (C00031) is consumed in several reactions, including:\n\n1. R00299 (ATP:D-glucose 6-phosphotransferase) - where glucose is phosphorylated.\n2. R00305 (D-glucose:quinone 1-oxidoreductase) - which involves the oxidation of glucose.\n3. R07147 (D-glucose:NADP+ 1-oxidoreductase) - where glucose is oxidized while reducing NADP+.\n\nThese reactions indicate the utilization of glucose in various metabolic processes, including glycolysis and other pathways.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1043,7 +1184,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "C00031 (D-Glucose) is utilized in several reactions. The relevant reactions that consume D-Glucose include:\n\n- R00299 (ATP:D-glucose 6-phosphotransferase)\n- R00305 (D-glucose:quinone 1-oxidoreductase)\n- R00503 (UDP-alpha-D-galactose:D-glucose 4-beta-D-galactosyltransferase)\n- R02738 (protein-N(pi)-phosphohistidine:D-glucose 6-phosphotransferase)\n- R05140 (sucrose:2,6-beta-D-fructan 6-beta-D-fructosyltransferase)\n- R06620 (D-glucose:ubiquinone oxidoreductase)\n- R07147 (D-glucose:NADP+ 1-oxidoreductase)\n- R08946 (ADP-glucose: D-glucose 1-alpha-D-glucosyltransferase)\n\nThese reactions demonstrate the various metabolic roles of D-Glucose in different biochemical processes.",
+      "answer": "D-Glucose (C00031) is involved in several reactions as a consumer. The relevant reactions include:\n\n- R00299 (ATP:D-glucose 6-phosphotransferase)\n- R00305 (D-glucose:quinone 1-oxidoreductase)\n- R00503 (UDP-alpha-D-galactose:D-glucose 4-beta-D-galactosyltransferase)\n- R02738 (protein-N(pi)-phosphohistidine:D-glucose 6-phosphotransferase)\n- R05140 (sucrose:2,6-beta-D-fructan 6-beta-D-fructosyltransferase)\n- R06620 (D-glucose:ubiquinone oxidoreductase)\n- R07147 (D-glucose:NADP+ 1-oxidoreductase)\n- R08946 (ADP-glucose: D-glucose 1-alpha-D-glucosyltransferase)\n\nThese reactions demonstrate the various roles of D-glucose in metabolic processes.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1148,7 +1289,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "Lactate ((S)-Lactate, C00186) is degraded through several reactions. Notable consuming reactions include R00196, where (S)-lactate is oxidized by ferricytochrome-c, and R00319, which involves the decarboxylation of (S)-lactate with oxygen. Additionally, R00703 describes the oxidation of (S)-lactate by NAD+, and R01447 involves the oxidation of (S)-lactate to oxaloacetate. These reactions illustrate the metabolic pathways that utilize lactate as a substrate, contributing to its degradation.",
+      "answer": "Lactate ((S)-Lactate, C00186) is degraded through several reactions. Notably, it is involved in the following consuming reactions: \n\n1. R00196, where (S)-lactate acts as a substrate for ferricytochrome-c 2-oxidoreductase.\n2. R00319, where (S)-lactate is oxidized by oxygen in a decarboxylating reaction.\n3. R00703, where (S)-lactate is oxidized by NAD+.\n\nThese reactions illustrate the metabolic processes that degrade lactate, contributing to its consumption in pathways such as glycolysis and pyruvate metabolism.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1249,7 +1390,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "Pyruvate is broken down through several pathways, as indicated in the context. The relevant pathways include:\n\n1. **Citrate cycle (TCA cycle)** - This pathway involves the conversion of pyruvate into acetyl-CoA, which enters the TCA cycle.\n2. **Pyruvate metabolism** - This pathway encompasses various reactions that utilize pyruvate, including its conversion to acetyl-CoA via the pyruvate dehydrogenase complex (R00209).\n3. **Glycine, serine and threonine metabolism** - Pyruvate can also be involved in the metabolism of these amino acids.\n4. **Valine, leucine and isoleucine degradation** - Pyruvate plays a role in the breakdown of these branched-chain amino acids.\n\nThe reactions associated with these pathways include R00209 (pyruvate:NAD+ 2-oxidoreductase) and others that facilitate the conversion and utilization of pyruvate in metabolic processes.",
+      "answer": "Pyruvate is broken down in several pathways, including the TCA cycle and pyruvate metabolism. In the TCA cycle (map00020), pyruvate is converted to acetyl-CoA through reactions such as R00209 (pyruvate:NAD+ 2-oxidoreductase (CoA-acetylating)). Additionally, in pyruvate metabolism (map00620), various reactions utilize pyruvate, including R00014 (pyruvate:thiamin diphosphate acetaldehydetransferase (decarboxylating)) and R00207 (pyruvate:oxygen 2-oxidoreductase (phosphorylating)). These pathways collectively facilitate the breakdown of pyruvate into other metabolites.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1367,7 +1508,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "The context lists several reactions that utilize glucose (C00031) as a substrate. Notably, the enzyme ATP:D-glucose 6-phosphotransferase (R00299) phosphorylates glucose, while D-glucose:quinone 1-oxidoreductase (R00305) facilitates its oxidation. Additionally, UDP-alpha-D-galactose:D-glucose 4-beta-D-galactosyltransferase (R00503) transfers galactose to glucose. Other enzymes include protein-N(pi)-phosphohistidine:D-glucose 6-phosphotransferase (R02738), which also phosphorylates glucose, and D-glucose:NADP+ 1-oxidoreductase (R07147), which participates in its oxidation. These reactions illustrate the diverse enzymatic roles glucose plays in metabolic processes.",
+      "answer": "The context lists several reactions that utilize glucose (C00031) as a substrate, although no specific enzymes are mentioned. The reactions include:\n\n1. R00299 (ATP:D-glucose 6-phosphotransferase) - transfers a phosphate group from ATP to glucose.\n2. R00305 (D-glucose:quinone 1-oxidoreductase) - involves the oxidation of glucose.\n3. R00503 (UDP-alpha-D-galactose:D-glucose 4-beta-D-galactosyltransferase) - transfers a galactosyl group to glucose.\n4. R02738 (protein-N(pi)-phosphohistidine:D-glucose 6-phosphotransferase) - phosphorylates glucose using a phosphohistidine protein.\n5. R06620 (D-glucose:ubiquinone oxidoreductase) - oxidizes glucose with ubiquinone as an electron acceptor.\n6. R07147 (D-glucose:NADP+ 1-oxidoreductase) - reduces NADP+ while oxidizing glucose.\n7. R08946 (ADP-glucose: D-glucose 1-alpha-D-glucosyltransferase) - transfers a glucosyl group from ADP-glucose to glucose.\n\nThese reactions illustrate the various enzymatic processes that utilize glucose in metabolic pathways such as glycolysis and galactose metabolism.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1472,7 +1613,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "The enzymes that act on glucose include those involved in the reactions R00303 (D-glucose-6-phosphate phosphohydrolase), R00010 (alpha,alpha-trehalose glucohydrolase), R00028 (maltose glucohydrolase), and R00801 (sucrose glucohydrolase). These enzymes facilitate the hydrolysis and phosphorylation of glucose and its derivatives, contributing to its metabolism in pathways such as glycolysis and gluconeogenesis.",
+      "answer": "The enzymes that act on glucose include those involved in the hydrolysis and phosphorylation of glucose and its derivatives. Notable reactions include:\n\n- R00303 (D-glucose-6-phosphate phosphohydrolase), which catalyzes the conversion of D-glucose-6-phosphate to D-glucose.\n- R00010 (alpha,alpha-trehalose glucohydrolase) and R00801 (sucrose glucohydrolase), which hydrolyze disaccharides to release glucose.\n\nThese enzymes facilitate the breakdown of polysaccharides and disaccharides into glucose, highlighting their role in glucose metabolism.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1629,7 +1770,7 @@
         "expected_entity_type": "reaction",
         "expect_grounding": true
       },
-      "answer": "The participants in reaction R00200 (ATP:pyruvate 2-O-phosphotransferase) include the following compounds: ATP (C00002), pyruvate (C00022), ADP (C00008), and phosphoenolpyruvate (C00074). This reaction involves the transfer of a phosphate group from ATP to pyruvate, resulting in the formation of ADP and phosphoenolpyruvate.",
+      "answer": "The participants in reaction R00200 (ATP:pyruvate 2-O-phosphotransferase) include the following compounds: ATP (C00002), pyruvate (C00022), ADP (C00008), and phosphoenolpyruvate (C00074). This reaction involves the transfer of a phosphate group from ATP to pyruvate, resulting in the production of ADP and phosphoenolpyruvate.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1729,7 +1870,7 @@
         "expected_entity_type": "reaction",
         "expect_grounding": true
       },
-      "answer": "Insufficient context: missing information on the reactants in reaction R01070.",
+      "answer": "Insufficient context: missing information about the reactants in reaction R01070.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1817,7 +1958,7 @@
         "expected_entity_type": "enzyme",
         "expect_grounding": true
       },
-      "answer": "Enzyme EC 1.1.1.1 is associated with three reactions: R00754 (ethanol:NAD+ oxidoreductase), R08557, and R08558. These reactions are involved in metabolic processes, specifically within the pathways of glycolysis/gluconeogenesis (map00010), glycine, serine and threonine metabolism (map00260), and pyruvate metabolism (map00620). The specific role of this enzyme in these pathways can be inferred from its participation in the listed reactions.",
+      "answer": "Enzyme EC 1.1.1.1 is associated with three reactions: R00754 (ethanol:NAD+ oxidoreductase), R08557, and R08558. These reactions participate in metabolic pathways including glycolysis and gluconeogenesis (map00010), glycine, serine, and threonine metabolism (map00260), and pyruvate metabolism (map00620). The specific role of this enzyme in these pathways involves the oxidation-reduction processes, as indicated by its classification.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -1915,7 +2056,7 @@
         "expected_entity_type": "pathway",
         "expect_grounding": true
       },
-      "answer": "The participants in the pathway map00010 (Glycolysis / Gluconeogenesis) include various substrates and products involved in the 59 reactions listed. Key reactions include R00014 (pyruvate:thiamin diphosphate acetaldehydetransferase), R00199 (ATP:pyruvate, water phosphotransferase), and R00209 (pyruvate:NAD+ 2-oxidoreductase (CoA-acetylating)). These reactions indicate the involvement of compounds such as pyruvate and ATP, which are central to the metabolic processes within this pathway.",
+      "answer": "The participants in the pathway map00010 (Glycolysis / Gluconeogenesis) include various reactions that involve the conversion of pyruvate and its derivatives. Key reactions include R00014, which involves the decarboxylation of pyruvate, and R00209, which describes the conversion of pyruvate to acetyl-CoA via the pyruvate dehydrogenase complex. Other significant reactions include R00199, R00200, and R00206, which involve the phosphorylation of pyruvate. Overall, the pathway comprises 59 reactions that facilitate the metabolism of glucose and its derivatives.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2069,7 +2210,7 @@
         "expect_reaction_citation": true,
         "expect_pathway_reference_in_answer": true
       },
-      "answer": "Glycolysis is a metabolic pathway that consists of 59 reactions, as indicated by the context. It involves the conversion of glucose into pyruvate, generating ATP and NADH in the process. Key reactions include R00199 (ATP:pyruvate, water phosphotransferase), which highlights ATP production, and R00209 (pyruvate:NAD+ 2-oxidoreductase), which is part of the pyruvate dehydrogenase complex. The pathway also includes various other reactions that facilitate the breakdown of glucose and the formation of intermediates. Overall, glycolysis is crucial for energy production in cells.",
+      "answer": "Glycolysis is a metabolic pathway that consists of 59 reactions, as indicated by the context. It involves the conversion of glucose into pyruvate, generating ATP and NADH in the process. Key reactions include R00199 (ATP:pyruvate, water phosphotransferase), which produces ATP from ADP and pyruvate, and R00209 (pyruvate:NAD+ 2-oxidoreductase), which involves the conversion of pyruvate and NAD+ to acetyl-CoA and NADH. The pathway is part of the broader glycolysis/gluconeogenesis metabolic framework (map00010).",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2206,7 +2347,7 @@
         {
           "rule": "pathway_reference_in_answer",
           "passed": true,
-          "details": "Answer references grounded pathway marker(s): glycolysis."
+          "details": "Answer references grounded pathway marker(s): map00010, glycolysis."
         }
       ]
     },
@@ -2219,7 +2360,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "C00022, known as Pyruvate, is involved in a total of 53 reactions as indicated in the context. Key reactions include R00196 and R00197, which involve the conversion of (S)-lactate and (R)-lactate to their respective oxidized forms using ferricytochrome c. Additionally, R00203 highlights the role of pyruvate in the oxidation of pyruvaldehyde and 2-oxopropanal with NAD+. Pyruvate is also a significant compound in various metabolic pathways, including glycolysis/gluconeogenesis (map00010) and pyruvate metabolism (map00620), among others.",
+      "answer": "C00022, known as pyruvate, is involved in 53 reactions as indicated in the context. Key reactions include R00196 and R00197, which involve the conversion of (S)-lactate and (R)-lactate to ferricytochrome-c, and R00203, which describes the oxidation of pyruvaldehyde and 2-oxopropanal using NAD+. Pyruvate is a central metabolite in various pathways, including glycolysis and pyruvate metabolism (map00010 and map00620). The compound serves as a critical intermediate in energy production and biosynthetic processes.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2378,7 +2519,7 @@
         "expect_no_insufficient_context": true,
         "resolution_equivalent_to": "Tell me about C00024"
       },
-      "answer": "Acetyl-CoA (C00024) is a central metabolite involved in various metabolic pathways, with a total of 38 reactions associated with its metabolism. Key reactions producing acetyl-CoA include R00209 (pyruvate:NAD+ 2-oxidoreductase, part of the pyruvate dehydrogenase complex), R00210 (pyruvate:NADP+ 2-oxidoreductase), and R00229 (acetate:CoA ligase (ADP-forming)). Acetyl-CoA plays a significant role in pathways such as glycolysis/gluconeogenesis (map00010), the TCA cycle (map00020), and pyruvate metabolism (map00620), among others. These reactions highlight its importance in energy production and biosynthetic processes.",
+      "answer": "Acetyl-CoA (C00024) is a central metabolite involved in various metabolic pathways, with a total of 38 reactions associated with its metabolism. Key producing reactions include R00209, R00210, and R00211, which involve the conversion of pyruvate to acetyl-CoA via the pyruvate dehydrogenase complex, utilizing NAD+ or NADP+ as electron acceptors. Additionally, R00229 and R00235 describe the activation of acetate to form acetyl-CoA through ligase reactions. Acetyl-CoA participates in multiple pathways, including glycolysis/gluconeogenesis (map00010) and the TCA cycle (map00020), highlighting its role in energy metabolism and biosynthetic processes.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2524,7 +2665,7 @@
         "expect_no_insufficient_context": true,
         "resolution_equivalent_to": "Tell me about acetyl-CoA"
       },
-      "answer": "C00024, known as Acetyl-CoA, is involved in various metabolic pathways, including glycolysis/gluconeogenesis, the TCA cycle, and pyruvate metabolism. It participates in multiple reactions, such as R00209 (pyruvate:NAD+ 2-oxidoreductase), R00210 (pyruvate:NADP+ 2-oxidoreductase), and R00229 (acetate:CoA ligase (ADP-forming)), which highlight its role in energy production and biosynthetic processes. Acetyl-CoA is a key intermediate that connects carbohydrate, fat, and protein metabolism, facilitating the conversion of pyruvate into acetyl-CoA and its subsequent utilization in various biosynthetic pathways.",
+      "answer": "C00024, known as Acetyl-CoA, is involved in multiple metabolic pathways, including glycolysis, the TCA cycle, and various amino acid metabolism pathways. It participates in 38 reactions, including key processes such as:\n\n- R00209: Pyruvate is converted to Acetyl-CoA via the pyruvate dehydrogenase complex, utilizing NAD+.\n- R00229: Acetate is activated to Acetyl-CoA through a ligase reaction, which can be ADP-forming.\n- R00236: Acetyl adenylate is converted to Acetyl-CoA through an acetyltransferase reaction.\n\nThese reactions highlight Acetyl-CoA's central role in energy metabolism and biosynthetic pathways.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2667,7 +2808,7 @@
         "expected_entity_type": "reaction",
         "expect_grounding": true
       },
-      "answer": "R00200 refers to the reaction catalyzed by ATP:pyruvate 2-O-phosphotransferase (EC 2.7.1.40). In this reaction, ATP (C00002) donates a phosphate group to pyruvate (C00022), resulting in the formation of phosphoenolpyruvate (C00074) and ADP (C00008). This reaction is part of the glycolysis and gluconeogenesis pathways (map00010) and pyruvate metabolism (map00620). The reaction ID R00200 encapsulates the transfer of a phosphate group, highlighting its role in energy metabolism.",
+      "answer": "R00200 refers to the reaction catalyzed by the enzyme ATP:pyruvate 2-O-phosphotransferase (EC 2.7.1.40). In this reaction, ATP (C00002) donates a phosphate group to pyruvate (C00022), resulting in the formation of phosphoenolpyruvate (C00074) and ADP (C00008). This reaction is part of the glycolysis and gluconeogenesis pathways (map00010) and is involved in pyruvate metabolism (map00620). The reaction ID for this process is R00200.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2767,7 +2908,7 @@
         "expected_entity_type": "pathway",
         "expect_grounding": true
       },
-      "answer": "Insufficient context: no reactions, compounds, or enzymes are provided for pathway hsa00010.",
+      "answer": "Insufficient context: No reactions, compounds, or enzymes are provided for pathway hsa00010.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2855,7 +2996,7 @@
         "expected_entity_type": "enzyme",
         "expect_grounding": true
       },
-      "answer": "EC 2.7.1.1 refers to a class of enzymes known as hexokinases, which catalyze the transfer of a phosphate group from ATP to various hexoses. The context lists five reactions associated with this enzyme, including:\n\n- R00299 (ATP:D-glucose 6-phosphotransferase)\n- R00760 (ATP:D-fructose 6-phosphotransferase)\n- R01326 (ATP:D-mannose 6-phosphotransferase)\n- R01600 (ATP:beta-D-glucose 6-phosphotransferase)\n- R01786 (ATP:alpha-D-glucose 6-phosphotransferase)\n\nThese reactions indicate the enzyme's role in phosphorylating glucose, fructose, and mannose, contributing to pathways such as glycolysis (map00010) and fructose and mannose metabolism (map00051).",
+      "answer": "EC 2.7.1.1 refers to a class of enzymes known as hexokinases, which catalyze the transfer of a phosphate group from ATP to various hexoses. The context lists five reactions associated with this enzyme: R00299 (ATP:D-glucose 6-phosphotransferase), R00760 (ATP:D-fructose 6-phosphotransferase), R01326 (ATP:D-mannose 6-phosphotransferase), R01600 (ATP:beta-D-glucose 6-phosphotransferase), and R01786 (ATP:alpha-D-glucose 6-phosphotransferase). These reactions indicate the enzyme's role in phosphorylating glucose, fructose, and mannose, contributing to pathways such as glycolysis and gluconeogenesis (map00010) and fructose and mannose metabolism (map00051).",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -2956,7 +3097,7 @@
         "expected_entity_type": "unknown",
         "expect_grounding": true
       },
-      "answer": "Insufficient context: no reactions, compounds, or enzymes related to pyruvate are provided.",
+      "answer": "Insufficient context: No reactions, compounds, or enzymes related to pyruvate are provided.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"
@@ -3044,7 +3185,7 @@
         "expected_entity_type": "compound",
         "expect_grounding": true
       },
-      "answer": "C00022 refers to Pyruvate, which is involved in 53 reactions as indicated in the context. Notable reactions include R00203, which involves the conversion of pyruvaldehyde to pyruvate with NAD+, and R00212, which describes the transfer of an acetyl group from acetyl-CoA to formate, producing pyruvate. Pyruvate is a key intermediate in multiple metabolic pathways, including glycolysis and pyruvate metabolism (map00010, map00620).",
+      "answer": "C00022 refers to Pyruvate, which is involved in various metabolic pathways as indicated by the presence of 53 reactions. Notable reactions involving Pyruvate include R00203, which describes the oxidation of pyruvaldehyde with NAD+, and R00212, which involves the transfer of an acetyl group from acetyl-CoA to formate. Pyruvate is also a key intermediate in pathways such as glycolysis and the TCA cycle, as indicated by pathway IDs map00010 and map00020.",
       "prompt_versions": {
         "system_prompt_version": "system.v2",
         "user_prompt_version": "user.v2"

@@ -17,7 +17,8 @@ import { buildGraphFromRag, type GraphNode, type GraphEdge } from "@/services/gr
 
 interface QueryResultView {
   answer: string;
-  sources: ResponseSource[];
+  supportingSources: ResponseSource[];
+  contextSources: ResponseSource[];
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
@@ -26,10 +27,10 @@ function toKeggEntryUrl(id: string): string {
   return `https://www.kegg.jp/entry/${encodeURIComponent(id)}`;
 }
 
-function toSourceChips(response: RAGResponse): ResponseSource[] {
+function toSupportingSourceChips(response: RAGResponse): ResponseSource[] {
   const sources = new Map<string, ResponseSource>();
 
-  response.reactions.forEach((reaction) => {
+  response.evidence.reactions.forEach((reaction) => {
     sources.set(reaction.reaction_id, {
       id: `reaction:${reaction.reaction_id}`,
       label: reaction.name
@@ -39,7 +40,7 @@ function toSourceChips(response: RAGResponse): ResponseSource[] {
     });
   });
 
-  response.compounds.forEach((compound) => {
+  response.evidence.compounds.forEach((compound) => {
     sources.set(compound.compound_id, {
       id: `compound:${compound.compound_id}`,
       label: compound.name
@@ -49,15 +50,17 @@ function toSourceChips(response: RAGResponse): ResponseSource[] {
     });
   });
 
-  response.trace.pathway_ids.forEach((pathwayId) => {
-    sources.set(pathwayId, {
-      id: `pathway:${pathwayId}`,
-      label: `Pathway ${pathwayId}`,
-      href: toKeggEntryUrl(pathwayId),
+  response.evidence.pathways.forEach((pathway) => {
+    sources.set(pathway.pathway_id, {
+      id: `pathway:${pathway.pathway_id}`,
+      label: pathway.name
+        ? `Pathway ${pathway.pathway_id}: ${pathway.name}`
+        : `Pathway ${pathway.pathway_id}`,
+      href: toKeggEntryUrl(pathway.pathway_id),
     });
   });
 
-  response.enzymes.forEach((enzymeEc) => {
+  response.evidence.enzymes.forEach((enzymeEc) => {
     sources.set(enzymeEc, {
       id: `enzyme:${enzymeEc}`,
       label: `EC ${enzymeEc}`,
@@ -72,6 +75,73 @@ function toSourceChips(response: RAGResponse): ResponseSource[] {
       label: response.interpretation.entity_name ?? entityId,
       href: toKeggEntryUrl(entityId),
     });
+  }
+
+  return Array.from(sources.values());
+}
+
+function toContextSourceChips(response: RAGResponse, supportingSources: ResponseSource[]): ResponseSource[] {
+  const supportingIds = new Set(supportingSources.map((source) => source.id));
+  const sources = new Map<string, ResponseSource>();
+
+  response.reactions.forEach((reaction) => {
+    const id = `reaction:${reaction.reaction_id}`;
+    if (!supportingIds.has(id)) {
+      sources.set(id, {
+        id,
+        label: reaction.name
+          ? `Reaction ${reaction.reaction_id}: ${reaction.name}`
+          : `Reaction ${reaction.reaction_id}`,
+        href: toKeggEntryUrl(reaction.reaction_id),
+      });
+    }
+  });
+
+  response.compounds.forEach((compound) => {
+    const id = `compound:${compound.compound_id}`;
+    if (!supportingIds.has(id)) {
+      sources.set(id, {
+        id,
+        label: compound.name
+          ? `Compound ${compound.name}`
+          : `Compound ${compound.compound_id}`,
+        href: toKeggEntryUrl(compound.compound_id),
+      });
+    }
+  });
+
+  response.trace.pathway_ids.forEach((pathwayId) => {
+    const id = `pathway:${pathwayId}`;
+    if (!supportingIds.has(id)) {
+      sources.set(id, {
+        id,
+        label: `Pathway ${pathwayId}`,
+        href: toKeggEntryUrl(pathwayId),
+      });
+    }
+  });
+
+  response.enzymes.forEach((enzymeEc) => {
+    const id = `enzyme:${enzymeEc}`;
+    if (!supportingIds.has(id)) {
+      sources.set(id, {
+        id,
+        label: `EC ${enzymeEc}`,
+        href: toKeggEntryUrl(enzymeEc),
+      });
+    }
+  });
+
+  if (sources.size === 0 && response.interpretation.entity_id) {
+    const entityId = response.interpretation.entity_id;
+    const id = `entity:${entityId}`;
+    if (!supportingIds.has(id)) {
+      sources.set(id, {
+        id,
+        label: response.interpretation.entity_name ?? entityId,
+        href: toKeggEntryUrl(entityId),
+      });
+    }
   }
 
   return Array.from(sources.values());
@@ -106,9 +176,11 @@ const Index = () => {
       const graph = await buildGraphFromRag(response, {
         fetchReactionDetail: fetchReaction,
       });
+      const supportingSources = toSupportingSourceChips(response);
       setResult({
         answer: response.answer,
-        sources: toSourceChips(response),
+        supportingSources,
+        contextSources: toContextSourceChips(response, supportingSources),
         nodes: graph.nodes,
         edges: graph.edges,
       });
@@ -174,7 +246,8 @@ const Index = () => {
           <div className={`lg:col-span-2 ${hasQueried ? "animate-fade-in" : ""}`} style={hasQueried ? { animationDelay: "0.1s", opacity: 0 } : undefined}>
             <ResponsePanel
               answer={result?.answer ?? ""}
-              sources={result?.sources ?? []}
+              supportingSources={result?.supportingSources ?? []}
+              contextSources={result?.contextSources ?? []}
               isLoading={isLoading}
               error={queryError}
             />

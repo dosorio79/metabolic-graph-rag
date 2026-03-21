@@ -44,6 +44,18 @@ export interface RAGCompoundSummary {
   name?: string | null;
 }
 
+export interface RAGPathwaySummary {
+  pathway_id: string;
+  name?: string | null;
+}
+
+export interface RAGEvidence {
+  reactions: ReactionSummary[];
+  compounds: RAGCompoundSummary[];
+  pathways: RAGPathwaySummary[];
+  enzymes: string[];
+}
+
 export interface RAGResponse {
   answer: string;
   interpretation: RAGInterpretation;
@@ -51,6 +63,7 @@ export interface RAGResponse {
   reactions: ReactionSummary[];
   compounds: RAGCompoundSummary[];
   enzymes: string[];
+  evidence: RAGEvidence;
   trace: RAGTrace;
 }
 

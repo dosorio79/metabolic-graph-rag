@@ -35,6 +35,18 @@
     "paired_with": "How is pyruvate produced?"
   },
   {
+    "question": "What reactions generate pyruvate?",
+    "source": "task6_regression",
+    "category": "producer_consumer_alignment",
+    "expected_intent": "producers",
+    "expected_entity_type": "compound",
+    "expect_grounding": true,
+    "expect_non_empty_retrieval": true,
+    "expect_no_insufficient_context": true,
+    "expect_reaction_citation": true,
+    "paired_with": "How is pyruvate produced?"
+  },
+  {
     "question": "How is oxaloacetate synthesized?",
     "source": "task3_notebook",
     "category": "producers",

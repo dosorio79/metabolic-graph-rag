@@ -66,6 +66,13 @@ class RAGRetrieval(BaseModel):
     trace: RAGTrace = Field(default_factory=RAGTrace)
 
 
+class RAGEvidence(BaseModel):
+    reactions: list[RAGReactionSummary] = Field(default_factory=list)
+    compounds: list[RAGCompoundSummary] = Field(default_factory=list)
+    pathways: list[RAGPathwaySummary] = Field(default_factory=list)
+    enzymes: list[str] = Field(default_factory=list)
+
+
 class RAGRequest(BaseModel):
     question: str
 
@@ -85,4 +92,5 @@ class RAGResponse(BaseModel):
     reactions: list[RAGReactionSummary] = Field(default_factory=list)
     compounds: list[RAGCompoundSummary] = Field(default_factory=list)
     enzymes: list[str] = Field(default_factory=list)
+    evidence: RAGEvidence = Field(default_factory=RAGEvidence)
     trace: RAGTrace = Field(default_factory=RAGTrace)

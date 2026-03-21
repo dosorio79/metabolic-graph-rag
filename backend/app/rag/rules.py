@@ -14,6 +14,8 @@ RULES = QueryRules(
             "how is",
             "produced",
             "produce",
+            "generates",
+            "generate",
             "generated",
             "made from",
             "synthesized",

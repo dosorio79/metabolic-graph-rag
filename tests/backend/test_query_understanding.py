@@ -14,6 +14,10 @@ from backend.app.rag.utils import format_classification_debug
             {"intent": "producers", "entity_type": "compound", "entity_name": "pyruvate"},
         ),
         (
+            "What reactions generate pyruvate?",
+            {"intent": "producers", "entity_type": "compound", "entity_name": "pyruvate"},
+        ),
+        (
             "What reactions consume oxaloacetate?",
             {"intent": "consumers", "entity_type": "compound", "entity_name": "oxaloacetate"},
         ),

@@ -267,6 +267,18 @@ Task 6 is complete when:
 
 ---
 
+## Follow-up Note
+
+- Evaluation runs currently surface repeated Neo4j warnings that some
+  `Reaction` nodes do not provide the `equation` property expected by the
+  backend reaction query path.
+- This does not block Task 6.1 completion, but it should be handled in a later
+  backend/graph consistency pass by aligning ETL-loaded reaction properties with
+  query expectations or by making the query path explicitly tolerate missing
+  `equation` values without noisy warnings.
+
+---
+
 ## System State After Task 6
 
 Graph RAG becomes:

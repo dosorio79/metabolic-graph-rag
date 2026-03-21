@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from backend.app.schemas.rag import RAGInterpretation, RAGResponse, RAGTrace
+from backend.app.schemas.rag import RAGEvidence, RAGInterpretation, RAGResponse, RAGTrace
 
 
 pytestmark = pytest.mark.anyio
@@ -196,6 +196,12 @@ async def test_rag_query_route_returns_200(api_client, monkeypatch):
             reactions=[{"reaction_id": "R1", "name": "Reaction 1"}],
             compounds=[{"compound_id": "C00022", "name": "Pyruvate"}],
             enzymes=["1.2.3.4"],
+            evidence=RAGEvidence(
+                reactions=[{"reaction_id": "R1", "name": "Reaction 1"}],
+                compounds=[{"compound_id": "C00022", "name": "Pyruvate"}],
+                pathways=[],
+                enzymes=["1.2.3.4"],
+            ),
             trace=RAGTrace(reaction_ids=["R1"], compound_ids=["C00022"], enzyme_ecs=["1.2.3.4"]),
         )
 
@@ -209,6 +215,7 @@ async def test_rag_query_route_returns_200(api_client, monkeypatch):
     assert payload["answer"] == "Pyruvate is produced by reaction R1."
     assert payload["interpretation"]["entity_type"] == "compound"
     assert payload["reactions"][0]["reaction_id"] == "R1"
+    assert payload["evidence"]["reactions"][0]["reaction_id"] == "R1"
 
 
 async def test_rag_query_route_rejects_empty_question(api_client):
